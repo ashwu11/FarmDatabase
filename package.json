@@ -1,0 +1,26 @@
+{
+  "name": "project_a4t4d_i8x2k_n4c7l",
+  "version": "1.0.0",
+  "description": "The goal of this project is to provide a tool for farm managers to oversee farm operations. This includes information about workers, inventory, machinery, animals, and sales. It is intended to allow managers to monitor profits from the farm and ensure that the farm is running smoothly.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.students.cs.ubc.ca/CPSC304-2024W-T2/project_a4t4d_i8x2k_n4c7l.git"
+  },
+  "license": "ISC",
+  "contributors": [
+    "Hannah Baek",
+    "Ashley Wu",
+    "Matt Skelton"
+  ],
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
