@@ -12,11 +12,7 @@
     "Ashley Wu",
     "Matt Skelton"
   ],
-  "type": "module",
   "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "express": "^4.21.2",
     "oracledb": "^5.2.0"
