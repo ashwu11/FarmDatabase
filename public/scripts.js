@@ -28,13 +28,97 @@ async function checkDbConnection() {
     statusElem.style.display = 'inline';
 
     response.text()
-    .then((text) => {
-        statusElem.textContent = text;
-    })
-    .catch((error) => {
-        statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        .then((text) => {
+            statusElem.textContent = text;
+        })
+        .catch((error) => {
+            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        });
+}
+
+// FARM MANAGEMENT **********************************************************************************************************
+
+// This function resets or initializes the Customer table.
+async function resetCustomerTable() {
+    const response = await fetch("/initiate-customer-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Customer table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Customer table!");
+    }
+}
+
+
+
+// Fetches data from the Customer table and displays it.
+async function fetchAndDisplayCustomers() {
+    const tableElement = document.getElementById('customerTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-customer-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const customerTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    customerTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
     });
 }
+
+// Inserts new records into the Customer table.
+async function insertCustomerTable(event) {
+    event.preventDefault();
+
+    const emailValue = document.getElementById('insertEmail').value;
+    const nameValue = document.getElementById('insertCustomerName').value;
+    const phoneNumberValue = document.getElementById('insertPhoneNumber').value;
+
+    console.log("Inserting:", { emailValue, nameValue, phoneNumberValue });
+
+    const response = await fetch('/insert-customer-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: emailValue,
+            name: nameValue,
+            phoneNumber: phoneNumberValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        await fetchAndDisplayCustomers();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+
+// FARM MANAGEMENT END **********************************************************************************************************
+
+// SAMPLE PROJECT STARTS HERE
 
 // Fetches data from the demotable and displays it.
 async function fetchAndDisplayUsers() {
@@ -158,17 +242,20 @@ async function countDemotable() {
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
+window.onload = function () {
     checkDbConnection();
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    document.getElementById("resetCustomerTable").addEventListener("click", resetCustomerTable);
+    document.getElementById("insertCustomerTable").addEventListener("submit", insertCustomerTable);
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
+    fetchAndDisplayCustomers();
 }

@@ -76,6 +76,57 @@ async function testOracleConnection() {
     });
 }
 
+// FARM MANAGEMENT **********************************************************************************************************
+
+async function initiateCustomerTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Customer`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Customer (
+                cEmail VARCHAR(),
+                cName VARCHAR(),
+                cPhoneNumber VARCHAR(),
+                PRIMARY KEY (cEmail)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchCustomerTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Customer');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertCustomerTable(email, name, phoneNumber) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Customer (cEmail, cName, cPhoneNumber) VALUES (:email, :name, :phoneNumber)`,
+            [email, name, phoneNumber],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// FARM MANAGEMENT END **********************************************************************************************************
+
+// SAMPLE PROJECT STARTS HERE
+
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT * FROM DEMOTABLE');
@@ -89,7 +140,7 @@ async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
+        } catch (err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
@@ -145,8 +196,11 @@ async function countDemotable() {
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
-    initiateDemotable, 
-    insertDemotable, 
-    updateNameDemotable, 
-    countDemotable
+    initiateDemotable,
+    insertDemotable,
+    updateNameDemotable,
+    countDemotable,
+    initiateCustomerTable,
+    fetchCustomerTableFromDb,
+    insertCustomerTable
 };

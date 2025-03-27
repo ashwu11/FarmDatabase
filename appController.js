@@ -15,9 +15,38 @@ router.get('/check-db-connection', async (req, res) => {
     }
 });
 
+// FARM MANAGEMENT **********************************************************************************************************
+
+router.post("/initiate-customer-table", async (req, res) => {
+    const initiateResult = await appService.initiateCustomerTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/get-customer-table', async (req, res) => {
+    const tableContent = await appService.fetchCustomerTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.post("/insert-customer-table", async (req, res) => {
+    const { email, name, phoneNumber } = req.body;
+    const insertResult = await appService.insertCustomerTable(email, name, phoneNumber);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+// FARM MANAGEMENT END **********************************************************************************************************
+
+
 router.get('/demotable', async (req, res) => {
     const tableContent = await appService.fetchDemotableFromDb();
-    res.json({data: tableContent});
+    res.json({ data: tableContent });
 });
 
 router.post("/initiate-demotable", async (req, res) => {
@@ -52,13 +81,13 @@ router.post("/update-name-demotable", async (req, res) => {
 router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     if (tableCount >= 0) {
-        res.json({ 
-            success: true,  
+        res.json({
+            success: true,
             count: tableCount
         });
     } else {
-        res.status(500).json({ 
-            success: false, 
+        res.status(500).json({
+            success: false,
             count: tableCount
         });
     }
