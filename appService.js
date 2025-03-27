@@ -220,6 +220,85 @@ async function insertShiftTable(FarmerID, sDate) {
     });
 }
 
+// REQUIREMENT: Join
+async function findShiftFarmerInformation(sDate) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT F.FarmerID, F.fName, F.fPhoneNumber FROM Shift S, Farmer F WHERE S.FarmerID = F.FarmerID AND sDate = TO_DATE(:sDate, 'YYYY-MM-DD')`,
+            { sDate: sDate }
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+// Transaction
+async function initiateTransactionTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Transaction`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Transaction (
+                TransactionNumber INTEGER,
+		        cEmail VARCHAR(200) NOT NULL,
+		        tDate DATE,
+		        Total DECIMAL(10, 2),
+		        PRIMARY KEY (TransactionNumber),
+		        FOREIGN KEY (cEmail) REFERENCES Customer
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchTransactionTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Transaction');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertTransactionTable(TransactionNumber, cEmail, tDate, Total) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Transaction (TransactionNumber, cEmail, tDate, Total) VALUES (:TransactionNumber, :cEmail, TO_DATE(:tDate, 'YYYY-MM-DD'), :Total)`,
+            {
+                TransactionNumber: TransactionNumber,
+                cEmail: cEmail,
+                tDate: tDate,
+                Total: Total
+            },
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+//REQUIREMENT: Projection
+async function projectTransactionColumns(columns) {
+    return await withOracleDB(async (connection) => {
+        const allowedCols = ["TransactionNumber", "cEmail", "tDate", "Total"];
+        const validCols = columns.filter(col => allowedCols.includes(col));
+        const colStr = validCols.join(", ");
+
+        const result = await connection.execute(`SELECT ${colStr} FROM Transaction`);
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 
 
@@ -308,5 +387,10 @@ module.exports = {
     insertFarmerTable,
     initiateShiftTable,
     fetchShiftTableFromDb,
-    insertShiftTable
+    insertShiftTable,
+    findShiftFarmerInformation,
+    initiateTransactionTable,
+    fetchTransactionTableFromDb,
+    insertTransactionTable,
+    projectTransactionColumns
 };

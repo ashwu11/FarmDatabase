@@ -92,6 +92,42 @@ router.post("/insert-shift-table", async (req, res) => {
     }
 });
 
+router.post('/get-shift-farmer-info', async (req, res) => {
+    const { sDate } = req.body;
+    const tableContent = await appService.findShiftFarmerInformation(sDate);
+    res.json({ data: tableContent });
+});
+
+//Transaction
+router.post("/initiate-transactions-table", async (req, res) => {
+    const initiateResult = await appService.initiateTransactionTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/get-transactions-table', async (req, res) => {
+    const tableContent = await appService.fetchTransactionTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.post("/insert-transactions-table", async (req, res) => {
+    const { TransactionNumber, cEmail, tDate, Total } = req.body;
+    const insertResult = await appService.insertTransactionTable(TransactionNumber, cEmail, tDate, Total);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post('/project-transactions', async (req, res) => {
+    const { columns } = req.body;
+    const projected = await appService.projectTransactionColumns(columns);
+    res.json({ data: projected });
+});
 
 // FARM MANAGEMENT END **********************************************************************************************************
 

@@ -109,7 +109,7 @@ async function insertCustomerTable(event) {
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
-        await fetchAndDisplayCustomers();
+        fetchTableData();
     } else {
         messageElement.textContent = "Error inserting data!";
     }
@@ -221,14 +221,14 @@ async function fetchAndDisplayShifts() {
     });
 
     const responseData = await response.json();
-    const customerTableContent = responseData.data;
+    const shiftTableContent = responseData.data;
 
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
 
-    customerTableContent.forEach(user => {
+    shiftTableContent.forEach(user => {
         const row = tableBody.insertRow();
         user.forEach((field, index) => {
             const cell = row.insertCell(index);
@@ -275,6 +275,173 @@ async function insertShiftTable(event) {
         messageElement.textContent = "Error inserting data!";
     }
 }
+
+async function fetchAndDisplayShiftAndFarmerInfoByDate(date) {
+    const tableBody = document.querySelector('#farmerInfoTable tbody');
+
+    const response = await fetch('/get-shift-farmer-info', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sDate: date })
+    });
+
+    const result = await response.json();
+    const data = result.data;
+
+    tableBody.innerHTML = '';
+
+    data.forEach(row => {
+        const tr = tableBody.insertRow();
+        row.forEach(cellValue => {
+            const td = tr.insertCell();
+            td.textContent = cellValue;
+        });
+    });
+}
+
+
+function filterShiftByDate() {
+    const date = document.getElementById('filterShiftDate').value;
+    if (date) {
+        fetchAndDisplayShiftAndFarmerInfoByDate(date);
+    }
+}
+
+// Transactions
+
+// This function resets or initializes the Transactions table.
+async function resetTransactionsTable() {
+    const response = await fetch("/initiate-transactions-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Transactions table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Transactions table!");
+    }
+}
+
+// Fetches data from the Transactions table and displays it.
+async function fetchAndDisplayTransactions() {
+    const tableElement = document.getElementById('transactionTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-transactions-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const transactionTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    transactionTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+        });
+    });
+}
+
+// Inserts new records into the Transactions table.
+async function insertTransactionsTable(event) {
+    event.preventDefault();
+
+    const transactionNumberValue = document.getElementById('insertTransactionNumber').value;
+    const cEmailValue = document.getElementById('insertTransactionCustomerEmail').value;
+    const tDateValue = document.getElementById('insertTransactionDate').value;
+    const TotalValue = document.getElementById('insertTransactionTotal').value;
+
+    console.log("Inserting:", { transactionNumberValue, cEmailValue, tDateValue, TotalValue });
+
+    const response = await fetch('/insert-transactions-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            TransactionNumber: transactionNumberValue,
+            cEmail: cEmailValue,
+            tDate: tDateValue,
+            Total: TotalValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+async function fetchAndDisplayProjectedTransactions() {
+    const checkboxes = document.querySelectorAll('input[name="columns"]:checked');
+    const selectedColumns = Array.from(checkboxes).map(cb => cb.value);
+
+    const response = await fetch('/project-transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ columns: selectedColumns })
+    });
+
+    const data = (await response.json()).data;
+
+    const table = document.getElementById('transactionTable');
+    const thead = table.querySelector('thead');
+    const tbody = table.querySelector('tbody');
+
+    thead.innerHTML = '';
+    const headerRow = thead.insertRow();
+
+    const columnDisplayNames = {
+        TransactionNumber: "Transaction Number",
+        cEmail: "Customer Email",
+        tDate: "Date",
+        Total: "Total Sale Amount"
+    };
+
+    selectedColumns.forEach(col => {
+        const th = document.createElement('th');
+        th.textContent = columnDisplayNames[col] || col;
+        headerRow.appendChild(th);
+    });
+
+    tbody.innerHTML = '';
+    data.forEach(row => {
+        const tr = tbody.insertRow();
+
+        row.forEach((cell, index) => {
+            const td = tr.insertCell();
+            const colName = selectedColumns[index];
+            if (colName === "tDate") {
+                const rawDate = new Date(cell);
+                td.textContent = rawDate.toISOString().split('T')[0];
+            } else {
+                td.textContent = cell;
+            }
+        });
+    });
+}
+
 
 
 
@@ -420,6 +587,14 @@ window.onload = function () {
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
+
+    document.getElementById("filterShiftDate").addEventListener("change", filterShiftByDate);
+
+    document.getElementById("resetTransactionsTable").addEventListener("click", resetTransactionsTable);
+    document.getElementById("insertTransactionsTable").addEventListener("submit", insertTransactionsTable);
+
+
+
 };
 
 // General function to refresh the displayed table data. 
@@ -429,4 +604,6 @@ function fetchTableData() {
     fetchAndDisplayCustomers();
     fetchAndDisplayFarmers();
     fetchAndDisplayShifts();
+    fetchAndDisplayTransactions();
+
 }
