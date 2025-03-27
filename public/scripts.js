@@ -38,6 +38,8 @@ async function checkDbConnection() {
 
 // FARM MANAGEMENT **********************************************************************************************************
 
+//Customer
+
 // This function resets or initializes the Customer table.
 async function resetCustomerTable() {
     const response = await fetch("/initiate-customer-table", {
@@ -53,8 +55,6 @@ async function resetCustomerTable() {
         alert("Error initiating Customer table!");
     }
 }
-
-
 
 // Fetches data from the Customer table and displays it.
 async function fetchAndDisplayCustomers() {
@@ -86,9 +86,9 @@ async function fetchAndDisplayCustomers() {
 async function insertCustomerTable(event) {
     event.preventDefault();
 
-    const emailValue = document.getElementById('insertEmail').value;
+    const emailValue = document.getElementById('insertCustomerEmail').value;
     const nameValue = document.getElementById('insertCustomerName').value;
-    const phoneNumberValue = document.getElementById('insertPhoneNumber').value;
+    const phoneNumberValue = document.getElementById('insertCustomerPhoneNumber').value;
 
     console.log("Inserting:", { emailValue, nameValue, phoneNumberValue });
 
@@ -110,6 +110,83 @@ async function insertCustomerTable(event) {
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
         await fetchAndDisplayCustomers();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+//Farmer
+
+// This function resets or initializes the Farmer table.
+async function resetFarmerTable() {
+    const response = await fetch("/initiate-farmer-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Farmer table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Farmer table!");
+    }
+}
+
+// Fetches data from the Farmer table and displays it.
+async function fetchAndDisplayFarmers() {
+    const tableElement = document.getElementById('farmerTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-farmer-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const customerTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    customerTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// Inserts new records into the Farmer table.
+async function insertFarmerTable(event) {
+    event.preventDefault();
+
+    const idValue = document.getElementById('insertFarmerID').value;
+    const nameValue = document.getElementById('insertFarmerName').value;
+    const phoneNumberValue = document.getElementById('insertFarmerPhoneNumber').value;
+
+    console.log("Inserting:", { idValue, nameValue, phoneNumberValue });
+
+    const response = await fetch('/insert-farmer-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: idValue,
+            name: nameValue,
+            phoneNumber: phoneNumberValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
     } else {
         messageElement.textContent = "Error inserting data!";
     }
@@ -251,6 +328,8 @@ window.onload = function () {
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
     document.getElementById("resetCustomerTable").addEventListener("click", resetCustomerTable);
     document.getElementById("insertCustomerTable").addEventListener("submit", insertCustomerTable);
+    document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
+    document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
 };
 
 // General function to refresh the displayed table data. 
@@ -258,4 +337,5 @@ window.onload = function () {
 function fetchTableData() {
     fetchAndDisplayUsers();
     fetchAndDisplayCustomers();
+    fetchAndDisplayFarmers();
 }

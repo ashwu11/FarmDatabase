@@ -78,6 +78,7 @@ async function testOracleConnection() {
 
 // FARM MANAGEMENT **********************************************************************************************************
 
+//Customer 
 async function initiateCustomerTable() {
     return await withOracleDB(async (connection) => {
         try {
@@ -88,9 +89,9 @@ async function initiateCustomerTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Customer (
-                cEmail VARCHAR(),
-                cName VARCHAR(),
-                cPhoneNumber VARCHAR(),
+                cEmail VARCHAR(200),
+                cName VARCHAR(200),
+                cPhoneNumber VARCHAR(200),
                 PRIMARY KEY (cEmail)
             )
         `);
@@ -122,6 +123,55 @@ async function insertCustomerTable(email, name, phoneNumber) {
         return false;
     });
 }
+
+// Farmer
+async function initiateFarmerTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Farmer`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Farmer (
+                FarmerID INTEGER,
+		        fName VARCHAR(200), 
+		        fPhoneNumber VARCHAR(200),
+		        PRIMARY KEY (FarmerID)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchFarmerTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Farmer');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertFarmerTable(id, name, phoneNumber) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Farmer (FarmerID, fName, fPhoneNumber) VALUES (:id, :name, :phoneNumber)`,
+            [id, name, phoneNumber],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -202,5 +252,8 @@ module.exports = {
     countDemotable,
     initiateCustomerTable,
     fetchCustomerTableFromDb,
-    insertCustomerTable
+    insertCustomerTable,
+    initiateFarmerTable,
+    fetchFarmerTableFromDb,
+    insertFarmerTable
 };

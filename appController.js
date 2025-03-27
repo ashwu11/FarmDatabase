@@ -17,6 +17,7 @@ router.get('/check-db-connection', async (req, res) => {
 
 // FARM MANAGEMENT **********************************************************************************************************
 
+//Customer
 router.post("/initiate-customer-table", async (req, res) => {
     const initiateResult = await appService.initiateCustomerTable();
     if (initiateResult) {
@@ -34,6 +35,31 @@ router.get('/get-customer-table', async (req, res) => {
 router.post("/insert-customer-table", async (req, res) => {
     const { email, name, phoneNumber } = req.body;
     const insertResult = await appService.insertCustomerTable(email, name, phoneNumber);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+//Farmer
+router.post("/initiate-farmer-table", async (req, res) => {
+    const initiateResult = await appService.initiateFarmerTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/get-farmer-table', async (req, res) => {
+    const tableContent = await appService.fetchFarmerTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.post("/insert-farmer-table", async (req, res) => {
+    const { id, name, phoneNumber } = req.body;
+    const insertResult = await appService.insertFarmerTable(id, name, phoneNumber);
     if (insertResult) {
         res.json({ success: true });
     } else {
