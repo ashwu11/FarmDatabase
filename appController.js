@@ -67,6 +67,32 @@ router.post("/insert-farmer-table", async (req, res) => {
     }
 });
 
+//Shift
+router.post("/initiate-shift-table", async (req, res) => {
+    const initiateResult = await appService.initiateShiftTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/get-shift-table', async (req, res) => {
+    const tableContent = await appService.fetchShiftTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.post("/insert-shift-table", async (req, res) => {
+    const { FarmerID, sDate } = req.body;
+    const insertResult = await appService.insertShiftTable(FarmerID, sDate);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 

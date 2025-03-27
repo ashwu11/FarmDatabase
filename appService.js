@@ -170,6 +170,56 @@ async function insertFarmerTable(id, name, phoneNumber) {
     });
 }
 
+//Shift
+
+async function initiateShiftTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Shift`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Shift (
+                FarmerID INTEGER,
+		        sDate DATE,
+		        PRIMARY KEY (FarmerID, sDate),
+		        FOREIGN KEY (FarmerID) REFERENCES Farmer
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchShiftTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Shift');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertShiftTable(FarmerID, sDate) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Shift (FarmerID, sDate) VALUES (:FarmerID, TO_DATE(:sDate, 'YYYY-MM-DD'))`,
+            {
+                FarmerID: FarmerID,
+                sDate: sDate
+            },
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 
 
 
@@ -255,5 +305,8 @@ module.exports = {
     insertCustomerTable,
     initiateFarmerTable,
     fetchFarmerTableFromDb,
-    insertFarmerTable
+    insertFarmerTable,
+    initiateShiftTable,
+    fetchShiftTableFromDb,
+    insertShiftTable
 };

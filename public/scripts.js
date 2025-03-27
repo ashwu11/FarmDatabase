@@ -193,6 +193,91 @@ async function insertFarmerTable(event) {
 }
 
 
+// SHIFTS
+
+// This function resets or initializes the Shifts table.
+async function resetShiftTable() {
+    const response = await fetch("/initiate-shift-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Shift table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Shift table!");
+    }
+}
+
+// Fetches data from the Shift table and displays it.
+async function fetchAndDisplayShifts() {
+    const tableElement = document.getElementById('shiftTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-shift-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const customerTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    customerTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+
+            if (index === 1) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+
+        });
+    });
+}
+
+// Inserts new records into the Shift table.
+async function insertShiftTable(event) {
+    event.preventDefault();
+
+    const farmerIDValue = document.getElementById('insertShiftFarmerID').value;
+    const dateValue = document.getElementById('insertDate').value;
+
+    console.log("Inserting:", { farmerIDValue, dateValue });
+
+    const response = await fetch('/insert-shift-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            FarmerID: farmerIDValue,
+            sDate: dateValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -326,10 +411,15 @@ window.onload = function () {
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
+
     document.getElementById("resetCustomerTable").addEventListener("click", resetCustomerTable);
     document.getElementById("insertCustomerTable").addEventListener("submit", insertCustomerTable);
+
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
+
+    document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
+    document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
 };
 
 // General function to refresh the displayed table data. 
@@ -338,4 +428,5 @@ function fetchTableData() {
     fetchAndDisplayUsers();
     fetchAndDisplayCustomers();
     fetchAndDisplayFarmers();
+    fetchAndDisplayShifts();
 }
