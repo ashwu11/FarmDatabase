@@ -661,6 +661,9 @@ window.onload = function () {
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
 
+    document.getElementById("resetMachineryTable").addEventListener("click", resetMachineryTable);
+    document.getElementById("insertMachineryTable").addEventListener("submit", insertMachineryTable);
+
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
 
