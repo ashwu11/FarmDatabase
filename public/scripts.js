@@ -442,7 +442,23 @@ async function fetchAndDisplayProjectedTransactions() {
     });
 }
 
+// STORAGE BUILDING
 
+// This function resets or initializes the storageBuilding table
+async function resetStorageBuildingTable() {
+    const response = await fetch("/initiate-storage-building-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Storage Building table initiated successfully!";
+        fetchTableData(); // TODO
+    } else {
+        alert("Error initiating table!");
+    }
+}
 
 
 // FARM MANAGEMENT END **********************************************************************************************************

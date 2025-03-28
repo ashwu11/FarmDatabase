@@ -129,6 +129,16 @@ router.post('/project-transactions', async (req, res) => {
     res.json({ data: projected });
 });
 
+// STORAGE BUILDING
+router.post("/initiate-storage-building-table", async (req, res) => {
+    const initiateResult = await appService.initiateStorageBuildingTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 

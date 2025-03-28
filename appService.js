@@ -89,9 +89,9 @@ async function initiateCustomerTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Customer (
-                                      cEmail VARCHAR(200),
-                                      cName VARCHAR(200),
-                                      cPhoneNumber VARCHAR(200),
+                                      cEmail VARCHAR2(200),
+                                      cName VARCHAR2(200),
+                                      cPhoneNumber VARCHAR2(200),
                                       PRIMARY KEY (cEmail)
             )
         `);
@@ -136,8 +136,8 @@ async function initiateFarmerTable() {
         const result = await connection.execute(`
             CREATE TABLE Farmer (
                                     FarmerID INTEGER,
-                                    fName VARCHAR(200),
-                                    fPhoneNumber VARCHAR(200),
+                                    fName VARCHAR2(200),
+                                    fPhoneNumber VARCHAR2(200),
                                     PRIMARY KEY (FarmerID)
             )
         `);
@@ -267,12 +267,12 @@ async function fetchTransactionTableFromDb() {
     });
 }
 
-async function insertTransactionTable(TransactionNumber, cEmail, tDate, Total) {
+async function insertTransactionTable(transactionNumber, cEmail, tDate, Total) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO Transaction (TransactionNumber, cEmail, tDate, Total) VALUES (:TransactionNumber, :cEmail, TO_DATE(:tDate, 'YYYY-MM-DD'), :Total)`,
             {
-                TransactionNumber: TransactionNumber,
+                TransactionNumber: transactionNumber,
                 cEmail: cEmail,
                 tDate: tDate,
                 Total: Total
@@ -300,6 +300,26 @@ async function projectTransactionColumns(columns) {
     });
 }
 
+// STORAGE BUILDING
+async function initiateStorageBuildingTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE StorageBuilding`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE StorageBuilding (
+                                       id NUMBER PRIMARY KEY,
+                                       sbType VARCHAR2(20)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
 
 
 // FARM MANAGEMENT END **********************************************************************************************************
@@ -392,5 +412,6 @@ module.exports = {
     initiateTransactionTable,
     fetchTransactionTableFromDb,
     insertTransactionTable,
-    projectTransactionColumns
+    projectTransactionColumns,
+    initiateStorageBuildingTable
 };
