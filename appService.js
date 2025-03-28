@@ -82,12 +82,16 @@ async function testOracleConnection() {
 async function initiateCustomerTable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE Customer`);
+            await connection.execute(`DROP TABLE Customer PURGE`); // PURGE ensures complete removal
         } catch (err) {
-            console.log('Table might not exist, proceeding to create...');
+            if (err.errorNum === 942) { // ORA-00942: Table does not exist
+                console.log('Table does not exist, proceeding to create...');
+            } else {
+                throw err; // If it's another error, rethrow
+            }
         }
 
-        const result = await connection.execute(`
+        await connection.execute(`
             CREATE TABLE Customer (
                                       cEmail VARCHAR(200),
                                       cName VARCHAR(200),
@@ -96,10 +100,12 @@ async function initiateCustomerTable() {
             )
         `);
         return true;
-    }).catch(() => {
+    }).catch((err) => {
+        console.error('Error creating Customer table:', err);
         return false;
     });
 }
+
 
 async function fetchCustomerTableFromDb() {
     return await withOracleDB(async (connection) => {
