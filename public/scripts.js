@@ -682,6 +682,7 @@ function fetchTableData() {
     fetchAndDisplayUsers();
     fetchAndDisplayCustomers();
     fetchAndDisplayFarmers();
+    fetchAndDisplayMachines();
     fetchAndDisplayShifts();
     fetchAndDisplayTransactions();
 
