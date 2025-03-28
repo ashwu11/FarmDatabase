@@ -444,7 +444,7 @@ async function fetchAndDisplayProjectedTransactions() {
 
 // STORAGE BUILDING
 
-// Fetches data from StorageBuilding table and displays it
+// Fetches data from the StorageBuilding table and displays it
 async function fetchAndDisplayBuildings() {
     const tableElement = document.getElementById('storageBuildingTable');
     const tableBody = tableElement.querySelector('tbody');
@@ -469,7 +469,7 @@ async function fetchAndDisplayBuildings() {
     });
 }
 
-// This function resets or initializes the storageBuilding table
+// This function resets or initializes the StorageBuilding table
 async function resetStorageBuildingTable() {
     const response = await fetch("/initiate-storage-building-table", {
         method: 'POST'
@@ -477,11 +477,40 @@ async function resetStorageBuildingTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetStorageBuildingMsg');
         messageElement.textContent = "Storage Building table initiated successfully!";
         fetchTableData();
     } else {
         alert("Error initiating table!");
+    }
+}
+
+// Inserts new records into the StorageBuilding table
+async function insertStorageBuildingTable(event) {
+    event.preventDefault();
+
+    const buildingID = document.getElementById('insertBuildingID').value;
+    const buildingType = document.getElementById('insertBuildingType').value;
+
+    const response = await fetch('/insert-storage-building', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            buildingID: buildingID,
+            buildingType: buildingType
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertStorageBuildingMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
     }
 }
 
@@ -634,7 +663,7 @@ window.onload = function () {
     document.getElementById("resetTransactionsTable").addEventListener("click", resetTransactionsTable);
     document.getElementById("insertTransactionsTable").addEventListener("submit", insertTransactionsTable);
 
-
+    document.getElementById("resetStorageBuildingTable").addEventListener("click", resetStorageBuildingTable);
 
 };
 

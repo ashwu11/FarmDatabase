@@ -145,6 +145,16 @@ router.post("/initiate-storage-building-table", async (req, res) => {
     }
 });
 
+router.post("/insert-storage-building", async (req, res) => {
+    const { buildingID, buildingType } = req.body;
+    const insertResult = await appService.insertStorageBuilding(buildingID, buildingType);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 

@@ -321,13 +321,27 @@ async function initiateStorageBuildingTable() {
             console.log('Table might not exist, proceeding to create...');
         }
 
-        const result = await connection.execute(`
+        await connection.execute(`
             CREATE TABLE StorageBuilding (
                                        id NUMBER PRIMARY KEY,
                                        sbType VARCHAR2(20)
             )
         `);
         return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function insertStorageBuilding(id, sbType) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO StorageBuilding (id, sbType) VALUES (:id, :sbType)`,
+            [id, sbType],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
     });
@@ -426,5 +440,6 @@ module.exports = {
     insertTransactionTable,
     projectTransactionColumns,
     initiateStorageBuildingTable,
-    fetchStorageBuildingTableFromDb
+    fetchStorageBuildingTableFromDb,
+    insertStorageBuilding
 };

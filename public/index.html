@@ -184,6 +184,13 @@
 <!-- A placeholder to display messages related to the reset operation. -->
 <div id="resetTransactionsMsg"></div>
 
+<h2>Reset Storage Building Table</h2>
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+    MUST use reset</p>
+<button id="resetStorageBuildingTable"> reset </button> <br>
+<!-- A placeholder to display messages related to the reset operation. -->
+<div id="resetStorageBuildingMsg"></div>
+
 <br>
 <hr><br> <!-- ========================================================================= -->
 
@@ -243,6 +250,15 @@
     <button type="submit"> insert </button> <br>
 </form>
 <div id="insertTransactionMsg"></div>
+
+<h2> Insert values into Storage Building Table</h2>
+<form id="insertStorageBuilding">
+    Building ID: <input type="number" id="insertBuildingID" placeholder="Enter ID" required> <br><br>
+    Building Type: <input type="text" id="insertBuildingType" placeholder="Enter Type" maxlength="20"> <br><br>
+
+    <button type="submit"> insert </button> <br>
+</form>
+<div id="insertStorageBuildingMsg"></div>
 
 <br>
 <hr><br> <!-- ========================================================================= -->
