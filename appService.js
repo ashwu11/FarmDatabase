@@ -82,9 +82,18 @@ async function testOracleConnection() {
 async function initiateCustomerTable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE Customer CASCADE CONSTRAINTS PURGE`);
-        } catch (err) {
-            console.log('Customer table might not exist, proceeding to create...');
+            const sql = `
+                BEGIN
+                    EXECUTE IMMEDIATE 'DROP TABLE CUSTOMER CASCADE CONSTRAINTS PURGE';
+                EXCEPTION
+                    WHEN OTHERS THEN
+                        IF SQLCODE != -942 THEN RAISE; END IF;
+                END;
+            `;
+            await connection.execute(sql);
+            console.log("CUSTOMER table dropped successfully (or did not exist).");
+        } catch (error) {
+            console.error("Unexpected error dropping CUSTOMER table:", error.message);
         }
 
         const result = await connection.execute(`
