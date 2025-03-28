@@ -192,83 +192,6 @@ async function insertFarmerTable(event) {
     }
 }
 
-//Machinery
-
-// This function resets or initializes the Machinery table.
-async function resetMachineryTable() {
-    const response = await fetch("/initiate-machinery-table", {
-        method: 'POST'
-    });
-    const responseData = await response.json();
-
-    if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
-        messageElement.textContent = "Machinery table initiated successfully!";
-        fetchTableData();
-    } else {
-        alert("Error initiating Machinery table!");
-    }
-}
-
-// Fetches data from the Machinery table and displays it.
-async function fetchAndDisplayMachines() {
-    const tableElement = document.getElementById('machineryTable');
-    const tableBody = tableElement.querySelector('tbody');
-
-    const response = await fetch('/get-machinery-table', {
-        method: 'GET'
-    });
-
-    const responseData = await response.json();
-    const machineryTableContent = responseData.data;
-
-    // Always clear old, already fetched data before new fetching process.
-    if (tableBody) {
-        tableBody.innerHTML = '';
-    }
-
-    machineryTableContent.forEach(user => {
-        const row = tableBody.insertRow();
-        user.forEach((field, index) => {
-            const cell = row.insertCell(index);
-            cell.textContent = field;
-        });
-    });
-}
-
-// Inserts new records into the Machinery table.
-async function insertMachineryTable(event) {
-    event.preventDefault();
-
-    const idValue = document.getElementById('insertMachineID').value;
-    const typeValue = document.getElementById('insertType').value;
-    const conditionValue = document.getElementById('insertCondition').value;
-
-    console.log("Inserting:", { idValue, typeValue, conditionValue });
-
-    const response = await fetch('/insert-machinery-table', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: idValue,
-            type: typeValue,
-            condition: conditionValue
-        })
-    });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error inserting data!";
-    }
-}
-
 // SHIFTS
 
 // This function resets or initializes the Shifts table.
@@ -661,9 +584,6 @@ window.onload = function () {
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
 
-    document.getElementById("resetMachineryTable").addEventListener("click", resetMachineryTable);
-    document.getElementById("insertMachineryTable").addEventListener("submit", insertMachineryTable);
-
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
 
@@ -682,7 +602,6 @@ function fetchTableData() {
     fetchAndDisplayUsers();
     fetchAndDisplayCustomers();
     fetchAndDisplayFarmers();
-    fetchAndDisplayMachines();
     fetchAndDisplayShifts();
     fetchAndDisplayTransactions();
 
