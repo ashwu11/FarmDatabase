@@ -664,7 +664,7 @@ window.onload = function () {
     document.getElementById("insertTransactionsTable").addEventListener("submit", insertTransactionsTable);
 
     document.getElementById("resetStorageBuildingTable").addEventListener("click", resetStorageBuildingTable);
-
+    document.getElementById("insertStorageBuilding").addEventListener("submit", insertStorageBuildingTable);
 };
 
 // General function to refresh the displayed table data.
