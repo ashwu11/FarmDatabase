@@ -82,16 +82,12 @@ async function testOracleConnection() {
 async function initiateCustomerTable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE Customer PURGE`); // PURGE ensures complete removal
+            await connection.execute(`DROP TABLE Customer CASCADE CONSTRAINTS PURGE`);
         } catch (err) {
-            if (err.errorNum === 942) { // ORA-00942: Table does not exist
-                console.log('Table does not exist, proceeding to create...');
-            } else {
-                throw err; // If it's another error, rethrow
-            }
+            console.log('Customer table might not exist, proceeding to create...');
         }
 
-        await connection.execute(`
+        const result = await connection.execute(`
             CREATE TABLE Customer (
                                       cEmail VARCHAR(200),
                                       cName VARCHAR(200),
@@ -100,12 +96,10 @@ async function initiateCustomerTable() {
             )
         `);
         return true;
-    }).catch((err) => {
-        console.error('Error creating Customer table:', err);
+    }).catch(() => {
         return false;
     });
 }
-
 
 async function fetchCustomerTableFromDb() {
     return await withOracleDB(async (connection) => {
@@ -191,7 +185,7 @@ async function initiateShiftTable() {
                                    FarmerID INTEGER,
                                    sDate DATE,
                                    PRIMARY KEY (FarmerID, sDate),
-                                   FOREIGN KEY (FarmerID) REFERENCES Farmer
+                                   FOREIGN KEY (FarmerID) REFERENCES Farmer ON DELETE CASCADE
             )
         `);
         return true;
@@ -255,7 +249,7 @@ async function initiateTransactionTable() {
                                          tDate DATE,
                                          Total DECIMAL(10, 2),
                                          PRIMARY KEY (TransactionNumber),
-                                         FOREIGN KEY (cEmail) REFERENCES Customer
+                                         FOREIGN KEY (cEmail) REFERENCES Customer ON DELETE CASCADE
             )
         `);
         return true;
