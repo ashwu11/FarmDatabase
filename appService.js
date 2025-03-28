@@ -76,6 +76,236 @@ async function testOracleConnection() {
     });
 }
 
+// FARM MANAGEMENT **********************************************************************************************************
+
+//Customer 
+async function initiateCustomerTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Customer`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Customer (
+                cEmail VARCHAR(200),
+                cName VARCHAR(200),
+                cPhoneNumber VARCHAR(200),
+                PRIMARY KEY (cEmail)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchCustomerTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Customer');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertCustomerTable(email, name, phoneNumber) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Customer (cEmail, cName, cPhoneNumber) VALUES (:email, :name, :phoneNumber)`,
+            [email, name, phoneNumber],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// Farmer
+async function initiateFarmerTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Farmer`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Farmer (
+                FarmerID INTEGER,
+		        fName VARCHAR(200), 
+		        fPhoneNumber VARCHAR(200),
+		        PRIMARY KEY (FarmerID)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchFarmerTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Farmer');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertFarmerTable(id, name, phoneNumber) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Farmer (FarmerID, fName, fPhoneNumber) VALUES (:id, :name, :phoneNumber)`,
+            [id, name, phoneNumber],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+//Shift
+
+async function initiateShiftTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Shift`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Shift (
+                FarmerID INTEGER,
+		        sDate DATE,
+		        PRIMARY KEY (FarmerID, sDate),
+		        FOREIGN KEY (FarmerID) REFERENCES Farmer
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchShiftTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Shift');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertShiftTable(FarmerID, sDate) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Shift (FarmerID, sDate) VALUES (:FarmerID, TO_DATE(:sDate, 'YYYY-MM-DD'))`,
+            {
+                FarmerID: FarmerID,
+                sDate: sDate
+            },
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// REQUIREMENT: Join
+async function findShiftFarmerInformation(sDate) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT F.FarmerID, F.fName, F.fPhoneNumber FROM Shift S, Farmer F WHERE S.FarmerID = F.FarmerID AND sDate = TO_DATE(:sDate, 'YYYY-MM-DD')`,
+            { sDate: sDate }
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+// Transaction
+async function initiateTransactionTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Transaction`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Transaction (
+                TransactionNumber INTEGER,
+		        cEmail VARCHAR(200) NOT NULL,
+		        tDate DATE,
+		        Total DECIMAL(10, 2),
+		        PRIMARY KEY (TransactionNumber),
+		        FOREIGN KEY (cEmail) REFERENCES Customer
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchTransactionTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Transaction');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertTransactionTable(TransactionNumber, cEmail, tDate, Total) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Transaction (TransactionNumber, cEmail, tDate, Total) VALUES (:TransactionNumber, :cEmail, TO_DATE(:tDate, 'YYYY-MM-DD'), :Total)`,
+            {
+                TransactionNumber: TransactionNumber,
+                cEmail: cEmail,
+                tDate: tDate,
+                Total: Total
+            },
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+//REQUIREMENT: Projection
+async function projectTransactionColumns(columns) {
+    return await withOracleDB(async (connection) => {
+        const allowedCols = ["TransactionNumber", "cEmail", "tDate", "Total"];
+        const validCols = columns.filter(col => allowedCols.includes(col));
+        const colStr = validCols.join(", ");
+
+        const result = await connection.execute(`SELECT ${colStr} FROM Transaction`);
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+
+
+// FARM MANAGEMENT END **********************************************************************************************************
+
+// SAMPLE PROJECT STARTS HERE
+
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT * FROM DEMOTABLE');
@@ -89,7 +319,7 @@ async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
+        } catch (err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
@@ -145,8 +375,22 @@ async function countDemotable() {
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
-    initiateDemotable, 
-    insertDemotable, 
-    updateNameDemotable, 
-    countDemotable
+    initiateDemotable,
+    insertDemotable,
+    updateNameDemotable,
+    countDemotable,
+    initiateCustomerTable,
+    fetchCustomerTableFromDb,
+    insertCustomerTable,
+    initiateFarmerTable,
+    fetchFarmerTableFromDb,
+    insertFarmerTable,
+    initiateShiftTable,
+    fetchShiftTableFromDb,
+    insertShiftTable,
+    findShiftFarmerInformation,
+    initiateTransactionTable,
+    fetchTransactionTableFromDb,
+    insertTransactionTable,
+    projectTransactionColumns
 };

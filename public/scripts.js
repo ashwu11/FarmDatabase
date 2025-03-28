@@ -28,13 +28,426 @@ async function checkDbConnection() {
     statusElem.style.display = 'inline';
 
     response.text()
-    .then((text) => {
-        statusElem.textContent = text;
-    })
-    .catch((error) => {
-        statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        .then((text) => {
+            statusElem.textContent = text;
+        })
+        .catch((error) => {
+            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        });
+}
+
+// FARM MANAGEMENT **********************************************************************************************************
+
+//Customer
+
+// This function resets or initializes the Customer table.
+async function resetCustomerTable() {
+    const response = await fetch("/initiate-customer-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Customer table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Customer table!");
+    }
+}
+
+// Fetches data from the Customer table and displays it.
+async function fetchAndDisplayCustomers() {
+    const tableElement = document.getElementById('customerTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-customer-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const customerTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    customerTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
     });
 }
+
+// Inserts new records into the Customer table.
+async function insertCustomerTable(event) {
+    event.preventDefault();
+
+    const emailValue = document.getElementById('insertCustomerEmail').value;
+    const nameValue = document.getElementById('insertCustomerName').value;
+    const phoneNumberValue = document.getElementById('insertCustomerPhoneNumber').value;
+
+    console.log("Inserting:", { emailValue, nameValue, phoneNumberValue });
+
+    const response = await fetch('/insert-customer-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: emailValue,
+            name: nameValue,
+            phoneNumber: phoneNumberValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+//Farmer
+
+// This function resets or initializes the Farmer table.
+async function resetFarmerTable() {
+    const response = await fetch("/initiate-farmer-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Farmer table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Farmer table!");
+    }
+}
+
+// Fetches data from the Farmer table and displays it.
+async function fetchAndDisplayFarmers() {
+    const tableElement = document.getElementById('farmerTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-farmer-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const customerTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    customerTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// Inserts new records into the Farmer table.
+async function insertFarmerTable(event) {
+    event.preventDefault();
+
+    const idValue = document.getElementById('insertFarmerID').value;
+    const nameValue = document.getElementById('insertFarmerName').value;
+    const phoneNumberValue = document.getElementById('insertFarmerPhoneNumber').value;
+
+    console.log("Inserting:", { idValue, nameValue, phoneNumberValue });
+
+    const response = await fetch('/insert-farmer-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: idValue,
+            name: nameValue,
+            phoneNumber: phoneNumberValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+
+// SHIFTS
+
+// This function resets or initializes the Shifts table.
+async function resetShiftTable() {
+    const response = await fetch("/initiate-shift-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Shift table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Shift table!");
+    }
+}
+
+// Fetches data from the Shift table and displays it.
+async function fetchAndDisplayShifts() {
+    const tableElement = document.getElementById('shiftTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-shift-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const shiftTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    shiftTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+
+            if (index === 1) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+
+        });
+    });
+}
+
+// Inserts new records into the Shift table.
+async function insertShiftTable(event) {
+    event.preventDefault();
+
+    const farmerIDValue = document.getElementById('insertShiftFarmerID').value;
+    const dateValue = document.getElementById('insertDate').value;
+
+    console.log("Inserting:", { farmerIDValue, dateValue });
+
+    const response = await fetch('/insert-shift-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            FarmerID: farmerIDValue,
+            sDate: dateValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+async function fetchAndDisplayShiftAndFarmerInfoByDate(date) {
+    const tableBody = document.querySelector('#farmerInfoTable tbody');
+
+    const response = await fetch('/get-shift-farmer-info', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sDate: date })
+    });
+
+    const result = await response.json();
+    const data = result.data;
+
+    tableBody.innerHTML = '';
+
+    data.forEach(row => {
+        const tr = tableBody.insertRow();
+        row.forEach(cellValue => {
+            const td = tr.insertCell();
+            td.textContent = cellValue;
+        });
+    });
+}
+
+
+function filterShiftByDate() {
+    const date = document.getElementById('filterShiftDate').value;
+    if (date) {
+        fetchAndDisplayShiftAndFarmerInfoByDate(date);
+    }
+}
+
+// Transactions
+
+// This function resets or initializes the Transactions table.
+async function resetTransactionsTable() {
+    const response = await fetch("/initiate-transactions-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Transactions table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Transactions table!");
+    }
+}
+
+// Fetches data from the Transactions table and displays it.
+async function fetchAndDisplayTransactions() {
+    const tableElement = document.getElementById('transactionTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-transactions-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const transactionTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    transactionTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+        });
+    });
+}
+
+// Inserts new records into the Transactions table.
+async function insertTransactionsTable(event) {
+    event.preventDefault();
+
+    const transactionNumberValue = document.getElementById('insertTransactionNumber').value;
+    const cEmailValue = document.getElementById('insertTransactionCustomerEmail').value;
+    const tDateValue = document.getElementById('insertTransactionDate').value;
+    const TotalValue = document.getElementById('insertTransactionTotal').value;
+
+    console.log("Inserting:", { transactionNumberValue, cEmailValue, tDateValue, TotalValue });
+
+    const response = await fetch('/insert-transactions-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            TransactionNumber: transactionNumberValue,
+            cEmail: cEmailValue,
+            tDate: tDateValue,
+            Total: TotalValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
+async function fetchAndDisplayProjectedTransactions() {
+    const checkboxes = document.querySelectorAll('input[name="columns"]:checked');
+    const selectedColumns = Array.from(checkboxes).map(cb => cb.value);
+
+    const response = await fetch('/project-transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ columns: selectedColumns })
+    });
+
+    const data = (await response.json()).data;
+
+    const table = document.getElementById('transactionTable');
+    const thead = table.querySelector('thead');
+    const tbody = table.querySelector('tbody');
+
+    thead.innerHTML = '';
+    const headerRow = thead.insertRow();
+
+    const columnDisplayNames = {
+        TransactionNumber: "Transaction Number",
+        cEmail: "Customer Email",
+        tDate: "Date",
+        Total: "Total Sale Amount"
+    };
+
+    selectedColumns.forEach(col => {
+        const th = document.createElement('th');
+        th.textContent = columnDisplayNames[col] || col;
+        headerRow.appendChild(th);
+    });
+
+    tbody.innerHTML = '';
+    data.forEach(row => {
+        const tr = tbody.insertRow();
+
+        row.forEach((cell, index) => {
+            const td = tr.insertCell();
+            const colName = selectedColumns[index];
+            if (colName === "tDate") {
+                const rawDate = new Date(cell);
+                td.textContent = rawDate.toISOString().split('T')[0];
+            } else {
+                td.textContent = cell;
+            }
+        });
+    });
+}
+
+
+
+
+// FARM MANAGEMENT END **********************************************************************************************************
+
+// SAMPLE PROJECT STARTS HERE
 
 // Fetches data from the demotable and displays it.
 async function fetchAndDisplayUsers() {
@@ -158,17 +571,39 @@ async function countDemotable() {
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
+window.onload = function () {
     checkDbConnection();
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
+
+    document.getElementById("resetCustomerTable").addEventListener("click", resetCustomerTable);
+    document.getElementById("insertCustomerTable").addEventListener("submit", insertCustomerTable);
+
+    document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
+    document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
+
+    document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
+    document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
+
+    document.getElementById("filterShiftDate").addEventListener("change", filterShiftByDate);
+
+    document.getElementById("resetTransactionsTable").addEventListener("click", resetTransactionsTable);
+    document.getElementById("insertTransactionsTable").addEventListener("submit", insertTransactionsTable);
+
+
+
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
+    fetchAndDisplayCustomers();
+    fetchAndDisplayFarmers();
+    fetchAndDisplayShifts();
+    fetchAndDisplayTransactions();
+
 }
