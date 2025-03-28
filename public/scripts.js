@@ -48,7 +48,7 @@ async function resetCustomerTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetCustomerMsg');
         messageElement.textContent = "Customer table initiated successfully!";
         fetchTableData();
     } else {
@@ -105,7 +105,7 @@ async function insertCustomerTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertCustomerMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -125,7 +125,7 @@ async function resetFarmerTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetFarmerMsg');
         messageElement.textContent = "Farmer table initiated successfully!";
         fetchTableData();
     } else {
@@ -182,7 +182,7 @@ async function insertFarmerTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertFarmerMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -203,7 +203,7 @@ async function resetShiftTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetShiftMsg');
         messageElement.textContent = "Shift table initiated successfully!";
         fetchTableData();
     } else {
@@ -266,7 +266,7 @@ async function insertShiftTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertShiftMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -317,7 +317,7 @@ async function resetTransactionsTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetTransactionsMsg');
         messageElement.textContent = "Transactions table initiated successfully!";
         fetchTableData();
     } else {
@@ -383,7 +383,7 @@ async function insertTransactionsTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertTransactionMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -444,6 +444,31 @@ async function fetchAndDisplayProjectedTransactions() {
 
 // STORAGE BUILDING
 
+// Fetches data from StorageBuilding table and displays it
+async function fetchAndDisplayBuildings() {
+    const tableElement = document.getElementById('storageBuildingTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/storage-building-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const storageBuildingTableContent = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    storageBuildingTableContent.forEach(building => {
+        const row = tableBody.insertRow();
+        building.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
 // This function resets or initializes the storageBuilding table
 async function resetStorageBuildingTable() {
     const response = await fetch("/initiate-storage-building-table", {
@@ -454,7 +479,7 @@ async function resetStorageBuildingTable() {
     if (responseData.success) {
         const messageElement = document.getElementById('resetResultMsg');
         messageElement.textContent = "Storage Building table initiated successfully!";
-        fetchTableData(); // TODO
+        fetchTableData();
     } else {
         alert("Error initiating table!");
     }
@@ -621,5 +646,5 @@ function fetchTableData() {
     fetchAndDisplayFarmers();
     fetchAndDisplayShifts();
     fetchAndDisplayTransactions();
-
+    fetchAndDisplayBuildings();
 }

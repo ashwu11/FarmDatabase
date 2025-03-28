@@ -303,6 +303,16 @@ async function projectTransactionColumns(columns) {
 }
 
 // STORAGE BUILDING
+
+async function fetchStorageBuildingTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM StorageBuilding');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 async function initiateStorageBuildingTable() {
     return await withOracleDB(async (connection) => {
         try {
@@ -415,5 +425,6 @@ module.exports = {
     fetchTransactionTableFromDb,
     insertTransactionTable,
     projectTransactionColumns,
-    initiateStorageBuildingTable
+    initiateStorageBuildingTable,
+    fetchStorageBuildingTableFromDb
 };

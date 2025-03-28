@@ -130,6 +130,12 @@ router.post('/project-transactions', async (req, res) => {
 });
 
 // STORAGE BUILDING
+
+router.get('/storage-building-table', async (req, res) => {
+    const tableContent = await appService.fetchStorageBuildingTableFromDb();
+    res.json({ data: tableContent });
+});
+
 router.post("/initiate-storage-building-table", async (req, res) => {
     const initiateResult = await appService.initiateStorageBuildingTable();
     if (initiateResult) {
