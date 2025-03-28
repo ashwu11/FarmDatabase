@@ -185,7 +185,8 @@ async function initiateShiftTable() {
                                    FarmerID INTEGER,
                                    sDate DATE,
                                    PRIMARY KEY (FarmerID, sDate),
-                                   FOREIGN KEY (FarmerID) REFERENCES Farmer
+                                   FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
+                                   ON DELETE CASCADE
             )
         `);
         return true;
@@ -249,7 +250,8 @@ async function initiateTransactionTable() {
                                          tDate DATE,
                                          Total DECIMAL(10, 2),
                                          PRIMARY KEY (TransactionNumber),
-                                         FOREIGN KEY (cEmail) REFERENCES Customer
+                                         FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
+                                         ON DELETE SET NULL
             )
         `);
         return true;
