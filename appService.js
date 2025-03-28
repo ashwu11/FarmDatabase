@@ -170,6 +170,20 @@ async function insertFarmerTable(id, name, phoneNumber) {
     });
 }
 
+async function updateFarmerName(oldName, newName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE Farmer SET name=:newName where name=:oldName`,
+            [newName, oldName],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 //Shift
 
 async function initiateShiftTable() {
@@ -269,12 +283,12 @@ async function fetchTransactionTableFromDb() {
     });
 }
 
-async function insertTransactionTable(transactionNumber, cEmail, tDate, Total) {
+async function insertTransactionTable(TransactionNumber, cEmail, tDate, Total) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO Transaction (TransactionNumber, cEmail, tDate, Total) VALUES (:TransactionNumber, :cEmail, TO_DATE(:tDate, 'YYYY-MM-DD'), :Total)`,
             {
-                TransactionNumber: transactionNumber,
+                TransactionNumber: TransactionNumber,
                 cEmail: cEmail,
                 tDate: tDate,
                 Total: Total
@@ -301,6 +315,19 @@ async function projectTransactionColumns(columns) {
         return [];
     });
 }
+
+// REQUIREMENT: Aggregation with Group By
+async function sumTransactionsTable() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT SUM(Total) FROM Transaction GROUP BY cEmail'
+        );
+        return result.rows;
+    }).catch(() => {
+        return -1;
+    });
+}
+
 
 // STORAGE BUILDING
 
@@ -431,6 +458,7 @@ module.exports = {
     initiateFarmerTable,
     fetchFarmerTableFromDb,
     insertFarmerTable,
+    updateFarmerName,
     initiateShiftTable,
     fetchShiftTableFromDb,
     insertShiftTable,
@@ -439,6 +467,7 @@ module.exports = {
     fetchTransactionTableFromDb,
     insertTransactionTable,
     projectTransactionColumns,
+    sumTransactionsTable,
     initiateStorageBuildingTable,
     fetchStorageBuildingTableFromDb,
     insertStorageBuilding

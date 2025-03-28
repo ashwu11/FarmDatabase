@@ -67,6 +67,16 @@ router.post("/insert-farmer-table", async (req, res) => {
     }
 });
 
+router.post("/update-farmer-name", async (req, res) => {
+    const { oldName, newName } = req.body;
+    const updateResult = await appService.updateFarmerName(oldName, newName);
+    if (updateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 //Shift
 router.post("/initiate-shift-table", async (req, res) => {
     const initiateResult = await appService.initiateShiftTable();
@@ -127,6 +137,11 @@ router.post('/project-transactions', async (req, res) => {
     const { columns } = req.body;
     const projected = await appService.projectTransactionColumns(columns);
     res.json({ data: projected });
+});
+
+router.post("/sum-grouped-transactions", async (req, res) => {
+    const results = await appService.sumTransactionsTable();
+    res.json({ data: results });
 });
 
 // STORAGE BUILDING
