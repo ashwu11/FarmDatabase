@@ -89,10 +89,10 @@ async function initiateCustomerTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Customer (
-                cEmail VARCHAR(200),
-                cName VARCHAR(200),
-                cPhoneNumber VARCHAR(200),
-                PRIMARY KEY (cEmail)
+                                      cEmail VARCHAR(200),
+                                      cName VARCHAR(200),
+                                      cPhoneNumber VARCHAR(200),
+                                      PRIMARY KEY (cEmail)
             )
         `);
         return true;
@@ -135,10 +135,10 @@ async function initiateFarmerTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Farmer (
-                FarmerID INTEGER,
-		        fName VARCHAR(200), 
-		        fPhoneNumber VARCHAR(200),
-		        PRIMARY KEY (FarmerID)
+                                    FarmerID INTEGER,
+                                    fName VARCHAR(200),
+                                    fPhoneNumber VARCHAR(200),
+                                    PRIMARY KEY (FarmerID)
             )
         `);
         return true;
@@ -182,10 +182,10 @@ async function initiateShiftTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Shift (
-                FarmerID INTEGER,
-		        sDate DATE,
-		        PRIMARY KEY (FarmerID, sDate),
-		        FOREIGN KEY (FarmerID) REFERENCES Farmer
+                                   FarmerID INTEGER,
+                                   sDate DATE,
+                                   PRIMARY KEY (FarmerID, sDate),
+                                   FOREIGN KEY (FarmerID) REFERENCES Farmer
             )
         `);
         return true;
@@ -244,12 +244,12 @@ async function initiateTransactionTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Transaction (
-                TransactionNumber INTEGER,
-		        cEmail VARCHAR(200) NOT NULL,
-		        tDate DATE,
-		        Total DECIMAL(10, 2),
-		        PRIMARY KEY (TransactionNumber),
-		        FOREIGN KEY (cEmail) REFERENCES Customer
+                                         TransactionNumber INTEGER,
+                                         cEmail VARCHAR(200) NOT NULL,
+                                         tDate DATE,
+                                         Total DECIMAL(10, 2),
+                                         PRIMARY KEY (TransactionNumber),
+                                         FOREIGN KEY (cEmail) REFERENCES Customer
             )
         `);
         return true;
@@ -300,6 +300,8 @@ async function projectTransactionColumns(columns) {
     });
 }
 
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -323,8 +325,8 @@ async function initiateDemotable() {
 
         const result = await connection.execute(`
             CREATE TABLE DEMOTABLE (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
+                                       id NUMBER PRIMARY KEY,
+                                       name VARCHAR2(20)
             )
         `);
         return true;

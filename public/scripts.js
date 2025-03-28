@@ -143,14 +143,14 @@ async function fetchAndDisplayFarmers() {
     });
 
     const responseData = await response.json();
-    const farmerTableContent = responseData.data;
+    const customerTableContent = responseData.data;
 
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
 
-    farmerTableContent.forEach(user => {
+    customerTableContent.forEach(user => {
         const row = tableBody.insertRow();
         user.forEach((field, index) => {
             const cell = row.insertCell(index);
@@ -191,6 +191,7 @@ async function insertFarmerTable(event) {
         messageElement.textContent = "Error inserting data!";
     }
 }
+
 
 // SHIFTS
 
@@ -596,7 +597,7 @@ window.onload = function () {
 
 };
 
-// General function to refresh the displayed table data. 
+// General function to refresh the displayed table data.
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();

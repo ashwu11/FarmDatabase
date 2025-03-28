@@ -13,257 +13,257 @@
 </head>
 
 <body>
-    <!-- ===================================================================================== -->
-    <!-- Display the current status of the database connection. 
-         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
-         -->
-    <h1>Database Connection Status:
-        <!-- An in-line placeholder to display connection status. -->
-        <span id="dbStatus"> </span>
-        <!-- A loading GIF, will be hided once get the status. -->
-        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
-    </h1>
+<!-- ===================================================================================== -->
+<!-- Display the current status of the database connection.
+     !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+     -->
+<h1>Database Connection Status:
+    <!-- An in-line placeholder to display connection status. -->
+    <span id="dbStatus"> </span>
+    <!-- A loading GIF, will be hided once get the status. -->
+    <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+</h1>
 
-    <br>
-    <hr><br> <!-- ========================================================================= -->
+<br>
+<hr><br> <!-- ========================================================================= -->
 
-    <!-- Show 'Demotable'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Demotable</h2>
-    <table id="demotable" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<!-- Show 'Demotable'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
+<h2>Show Demotable</h2>
+<table id="demotable" border="1">
+    <thead>
+    <tr>
+        <!--Table head, need to be adjusted accordingly to align with your own.-->
+        <th>ID</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
-    <!-- Show 'Customer Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Customer Table</h2>
-    <table id="customerTable" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Email</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<!-- Show 'Customer Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
+<h2>Show Customer Table</h2>
+<table id="customerTable" border="1">
+    <thead>
+    <tr>
+        <!--Table head, need to be adjusted accordingly to align with your own.-->
+        <th>Email</th>
+        <th>Name</th>
+        <th>Phone Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
-    <h3>Select Columns to Display in Transaction Table</h3>
-    <form id="transactionProjectionForm">
-        <label><input type="checkbox" name="columns" value="TransactionNumber" checked> Transaction Number</label><br>
-        <label><input type="checkbox" name="columns" value="cEmail" checked> Customer Email</label><br>
-        <label><input type="checkbox" name="columns" value="tDate" checked> Date</label><br>
-        <label><input type="checkbox" name="columns" value="Total" checked> Total Sale Amount</label><br><br>
-        <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
-    </form>
+<h3>Select Columns to Display in Transaction Table</h3>
+<form id="transactionProjectionForm">
+    <label><input type="checkbox" name="columns" value="TransactionNumber" checked> Transaction Number</label><br>
+    <label><input type="checkbox" name="columns" value="cEmail" checked> Customer Email</label><br>
+    <label><input type="checkbox" name="columns" value="tDate" checked> Date</label><br>
+    <label><input type="checkbox" name="columns" value="Total" checked> Total Sale Amount</label><br><br>
+    <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
+</form>
 
-    <!-- Show 'Transaction Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Transaction Table</h2>
-    <table id="transactionTable" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Transaction Number</th>
-                <th>Customer Email</th>
-                <th>Date</th>
-                <th>Total Sale Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<!-- Show 'Transaction Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
+<h2>Show Transaction Table</h2>
+<table id="transactionTable" border="1">
+    <thead>
+    <tr>
+        <!--Table head, need to be adjusted accordingly to align with your own.-->
+        <th>Transaction Number</th>
+        <th>Customer Email</th>
+        <th>Date</th>
+        <th>Total Sale Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
-    <!-- Show 'Farmer Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Farmer Table</h2>
-    <table id="farmerTable" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Farmer ID</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<!-- Show 'Farmer Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
+<h2>Show Farmer Table</h2>
+<table id="farmerTable" border="1">
+    <thead>
+    <tr>
+        <!--Table head, need to be adjusted accordingly to align with your own.-->
+        <th>Farmer ID</th>
+        <th>Name</th>
+        <th>Phone Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
-    <!-- Show 'Shift Table'.
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Shift Table</h2>
-    <table id="shiftTable" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Farmer ID</th>
-                <th>Shift Date</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<!-- Show 'Shift Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
+<h2>Show Shift Table</h2>
+<table id="shiftTable" border="1">
+    <thead>
+    <tr>
+        <!--Table head, need to be adjusted accordingly to align with your own.-->
+        <th>Farmer ID</th>
+        <th>Shift Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
-    <h3>Filter Farmers by Shift Date</h3>
-    <div style="margin-bottom: 10px;">
-        <label for="filterShiftDate">Select Date:</label>
-        <input type="date" id="filterShiftDate">
-        <button onclick="filterShiftByDate()">Apply Filter</button>
-    </div>
+<h3>Filter Farmers by Shift Date</h3>
+<div style="margin-bottom: 10px;">
+    <label for="filterShiftDate">Select Date:</label>
+    <input type="date" id="filterShiftDate">
+    <button onclick="filterShiftByDate()">Apply Filter</button>
+</div>
 
-    <h3>Farmer Contact Info for Selected Date</h3>
-    <table id="farmerInfoTable" border="1">
-        <thead>
-            <tr>
-                <th>Farmer ID</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-
+<h3>Farmer Contact Info for Selected Date</h3>
+<table id="farmerInfoTable" border="1">
+    <thead>
+    <tr>
+        <th>Farmer ID</th>
+        <th>Name</th>
+        <th>Phone Number</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
 
-    <br>
-    <hr><br> <!-- ========================================================================= -->
 
-    <h2>Reset Demotable</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
-        MUST use reset</p>
-    <button id="resetDemotable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
 
-    <h2>Reset Customer Table</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
-        MUST use reset</p>
-    <button id="resetCustomerTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+<br>
+<hr><br> <!-- ========================================================================= -->
 
-    <h2>Reset Farmer Table</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
-        MUST use reset</p>
-    <button id="resetFarmerTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+<h2>Reset Demotable</h2>
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+    MUST use reset</p>
+<button id="resetDemotable"> reset </button> <br>
+<!-- A placeholder to display messages related to the reset operation. -->
+<div id="resetResultMsg"></div>
 
-    <h2>Reset Shift Table</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
-        MUST use reset</p>
-    <button id="resetShiftTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+<h2>Reset Customer Table</h2>
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+    MUST use reset</p>
+<button id="resetCustomerTable"> reset </button> <br>
+<!-- A placeholder to display messages related to the reset operation. -->
+<div id="resetResultMsg"></div>
 
-    <h2>Reset Transactions Table</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
-        MUST use reset</p>
-    <button id="resetTransactionsTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+<h2>Reset Farmer Table</h2>
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+    MUST use reset</p>
+<button id="resetFarmerTable"> reset </button> <br>
+<!-- A placeholder to display messages related to the reset operation. -->
+<div id="resetResultMsg"></div>
 
-    <br>
-    <hr><br> <!-- ========================================================================= -->
+<h2>Reset Shift Table</h2>
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+    MUST use reset</p>
+<button id="resetShiftTable"> reset </button> <br>
+<!-- A placeholder to display messages related to the reset operation. -->
+<div id="resetResultMsg"></div>
 
-    <h2> Insert Values into DemoTable </h2>
-    <form id="insertDemotable">
-        ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
-        Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
+<h2>Reset Transactions Table</h2>
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+    MUST use reset</p>
+<button id="resetTransactionsTable"> reset </button> <br>
+<!-- A placeholder to display messages related to the reset operation. -->
+<div id="resetResultMsg"></div>
 
-        <button type="submit"> insert </button> <br>
-    </form>
-    <div id="insertResultMsg"></div>
+<br>
+<hr><br> <!-- ========================================================================= -->
 
-    <h2> Insert Values into Customer Table</h2>
-    <form id="insertCustomerTable">
-        Email: <input type="text" id="insertCustomerEmail" placeholder="Enter Email" required> <br><br>
-        Name: <input type="text" id="insertCustomerName" placeholder="Enter Name" maxlength="100"> <br><br>
-        Phone Number: <input type="text" id="insertCustomerPhoneNumber" placeholder="Enter Phone Number"
-            maxlength="100">
-        <br><br>
+<h2> Insert Values into DemoTable </h2>
+<form id="insertDemotable">
+    ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
+    Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
 
-        <button type="submit"> insert </button> <br>
-    </form>
-    <div id="insertResultMsg"></div>
+    <button type="submit"> insert </button> <br>
+</form>
+<div id="insertResultMsg"></div>
 
-    <h2> Insert Values into Farmer Table</h2>
-    <form id="insertFarmerTable">
-        ID: <input type="text" id="insertFarmerID" placeholder="Enter ID" required> <br><br>
-        Name: <input type="text" id="insertFarmerName" placeholder="Enter Name" maxlength="100"> <br><br>
-        Phone Number: <input type="text" id="insertFarmerPhoneNumber" placeholder="Enter Phone Number" maxlength="100">
-        <br><br>
+<h2> Insert Values into Customer Table</h2>
+<form id="insertCustomerTable">
+    Email: <input type="text" id="insertCustomerEmail" placeholder="Enter Email" required> <br><br>
+    Name: <input type="text" id="insertCustomerName" placeholder="Enter Name" maxlength="100"> <br><br>
+    Phone Number: <input type="text" id="insertCustomerPhoneNumber" placeholder="Enter Phone Number"
+                         maxlength="100">
+    <br><br>
 
-        <button type="submit"> insert </button> <br>
-    </form>
-    <div id="insertResultMsg"></div>
+    <button type="submit"> insert </button> <br>
+</form>
+<div id="insertResultMsg"></div>
 
-    <h2> Insert Values into Shift Table</h2>
-    <form id="insertShiftTable">
-        FarmerID: <input type="text" id="insertShiftFarmerID" placeholder="Enter FarmerID" required> <br><br>
-        Shift Date: <input type="date" id="insertDate" placeholder="Enter Date" maxlength="100" required> <br><br>
-        <br><br>
+<h2> Insert Values into Farmer Table</h2>
+<form id="insertFarmerTable">
+    ID: <input type="text" id="insertFarmerID" placeholder="Enter ID" required> <br><br>
+    Name: <input type="text" id="insertFarmerName" placeholder="Enter Name" maxlength="100"> <br><br>
+    Phone Number: <input type="text" id="insertFarmerPhoneNumber" placeholder="Enter Phone Number" maxlength="100">
+    <br><br>
 
-        <button type="submit"> insert </button> <br>
-    </form>
-    <div id="insertResultMsg"></div>
+    <button type="submit"> insert </button> <br>
+</form>
+<div id="insertResultMsg"></div>
 
-    <h2> Insert Values into Transactions Table</h2>
-    <form id="insertTransactionsTable">
-        Transaction Number: <input type="text" id="insertTransactionNumber" placeholder="Enter Transaction Number"
-            required> <br><br>
-        Customer Email: <input type="text" id="insertTransactionCustomerEmail" placeholder="Enter Customer Email"
-            maxlength="100" required> <br><br>
-        Date: <input type="date" id="insertTransactionDate" placeholder="Enter Transaction Date" required> <br><br>
-        Total Sale Amount: <input type="text" id="insertTransactionTotal" placeholder="Enter Transaction Total"
-            maxlength="100" required> <br><br>
-        <br><br>
+<h2> Insert Values into Shift Table</h2>
+<form id="insertShiftTable">
+    FarmerID: <input type="text" id="insertShiftFarmerID" placeholder="Enter FarmerID" required> <br><br>
+    Shift Date: <input type="date" id="insertDate" placeholder="Enter Date" maxlength="100" required> <br><br>
+    <br><br>
 
-        <button type="submit"> insert </button> <br>
-    </form>
-    <div id="insertResultMsg"></div>
+    <button type="submit"> insert </button> <br>
+</form>
+<div id="insertResultMsg"></div>
 
-    <br>
-    <hr><br> <!-- ========================================================================= -->
+<h2> Insert Values into Transactions Table</h2>
+<form id="insertTransactionsTable">
+    Transaction Number: <input type="text" id="insertTransactionNumber" placeholder="Enter Transaction Number"
+                               required> <br><br>
+    Customer Email: <input type="text" id="insertTransactionCustomerEmail" placeholder="Enter Customer Email"
+                           maxlength="100" required> <br><br>
+    Date: <input type="date" id="insertTransactionDate" placeholder="Enter Transaction Date" required> <br><br>
+    Total Sale Amount: <input type="text" id="insertTransactionTotal" placeholder="Enter Transaction Total"
+                              maxlength="100" required> <br><br>
+    <br><br>
 
-    <h2>Update Name in DemoTable</h2>
-    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
-    <form id="updataNameDemotable">
-        Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
-        New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20"> <br><br>
+    <button type="submit"> insert </button> <br>
+</form>
+<div id="insertResultMsg"></div>
 
-        <button type="submit"> update </button> <br>
-    </form>
-    <!-- A placeholder to display messages related to the update operation. -->
-    <div id="updateNameResultMsg"></div>
+<br>
+<hr><br> <!-- ========================================================================= -->
 
-    <br>
-    <hr><br> <!-- ========================================================================= -->
+<h2>Update Name in DemoTable</h2>
+<p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+<form id="updataNameDemotable">
+    Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
+    New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20"> <br><br>
 
-    <h2>Count the Tuples in DemoTable</h2>
-    <button id="countDemotable"> count </button> <br><br>
-    <!-- A placeholder to display the count result. -->
-    <div id="countResultMsg"></div> <br>
+    <button type="submit"> update </button> <br>
+</form>
+<!-- A placeholder to display messages related to the update operation. -->
+<div id="updateNameResultMsg"></div>
 
-    <br>
-    <hr><br> <!-- ========================================================================= -->
-    <h3>Hello World!</h3>
+<br>
+<hr><br> <!-- ========================================================================= -->
 
-    <!-- ===================================================================================== -->
-    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
-    <script src="scripts.js"></script>
+<h2>Count the Tuples in DemoTable</h2>
+<button id="countDemotable"> count </button> <br><br>
+<!-- A placeholder to display the count result. -->
+<div id="countResultMsg"></div> <br>
+
+<br>
+<hr><br> <!-- ========================================================================= -->
+<h3>Hello World!</h3>
+
+<!-- ===================================================================================== -->
+<!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+<script src="scripts.js"></script>
 </body>
 
 </html>
