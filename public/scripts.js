@@ -192,6 +192,34 @@ async function insertFarmerTable(event) {
     }
 }
 
+async function updateFarmerName(event) {
+    event.preventDefault();
+
+    const oldFarmerName = document.getElementById('oldFarmerName').value;
+    const newFarmerName = document.getElementById('newFarmerName').value;
+
+    const response = await fetch('/update-farmer-name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            oldName: oldFarmerName,
+            newName: newFarmerName
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('updateFarmerNameResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Farmer name updated successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error updating Farmer name!";
+    }
+}
+
 
 // SHIFTS
 
@@ -731,6 +759,7 @@ window.onload = function () {
 
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
+    document.getElementById("updateFarmerName").addEventListener("submit", updateFarmerName);
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);

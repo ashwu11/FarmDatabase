@@ -228,7 +228,7 @@ async function insertFarmerTable(id, name, phoneNumber) {
 async function updateFarmerName(oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE Farmer SET name=:newName where name=:oldName`,
+            `UPDATE Farmer SET fname=:newName where fname=:oldName`,
             [newName, oldName],
             { autoCommit: true }
         );
