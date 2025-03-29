@@ -14,9 +14,9 @@
 
 <body>
     <!-- ===================================================================================== -->
-    <!-- Display the current status of the database connection. 
-         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
-         -->
+    <!-- Display the current status of the database connection.
+     !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+     -->
     <h1>Database Connection Status:
         <!-- An in-line placeholder to display connection status. -->
         <span id="dbStatus"> </span>
@@ -27,8 +27,8 @@
     <br>
     <hr><br> <!-- ========================================================================= -->
 
-    <!-- Show 'Demotable'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Demotable'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Demotable</h2>
     <table id="demotable" border="1">
         <thead>
@@ -42,8 +42,8 @@
         </tbody>
     </table>
 
-    <!-- Show 'Customer Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Customer Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Customer Table</h2>
     <table id="customerTable" border="1">
         <thead>
@@ -67,8 +67,8 @@
         <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
     </form>
 
-    <!-- Show 'Transaction Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Transaction Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Transaction Table</h2>
     <table id="transactionTable" border="1">
         <thead>
@@ -83,6 +83,7 @@
         <tbody>
         </tbody>
     </table>
+
 
     <h3>Group Transactions by Date Having Total >= minAmount </h3>
 
@@ -103,6 +104,7 @@
 
     <!-- Show 'Farmer Table'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
+
     <h2>Show Farmer Table</h2>
     <table id="farmerTable" border="1">
         <thead>
@@ -117,8 +119,8 @@
         </tbody>
     </table>
 
-    <!-- Show 'Shift Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Shift Table'.
+    Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Shift Table</h2>
     <table id="shiftTable" border="1">
         <thead>
@@ -167,6 +169,7 @@
         </tbody>
     </table>
 
+
     <button id="groupByConditionBtn">Group Machinery by Condition</button>
     <table id="machineryConditionGroupTable">
         <thead>
@@ -177,6 +180,7 @@
         </thead>
         <tbody></tbody>
     </table>
+
 
 
 
@@ -216,6 +220,13 @@
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetTransactionsTable"> reset </button> <br>
+    <!-- A placeholder to display messages related to the reset operation. -->
+    <div id="resetResultMsg"></div>
+
+    <h2>Reset Machinery Table</h2>
+    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+        MUST use reset</p>
+    <button id="resetMachineryTable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetResultMsg"></div>
 
@@ -283,6 +294,7 @@
     <form id="insertMachineryTable">
         Machine ID: <input type="text" id="insertMachineID" placeholder="Enter Machine ID" required> <br><br>
         Machine Type: <input type="text" id="insertMachineType" placeholder="Enter Machine Type" maxlength="100">
+
         Condition:
         <select id="insertMachineCondition">
             <option value="New">New</option>
@@ -292,11 +304,10 @@
             <option value="Poor">Poor</option>
         </select>
 
+
         <button type="submit"> insert </button> <br>
     </form>
     <div id="insertResultMsg"></div>
-
-
 
 
 

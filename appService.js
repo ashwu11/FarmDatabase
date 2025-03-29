@@ -127,10 +127,10 @@ async function initiateCustomerTable() {
         console.log('Now creating Customer table');
         const result = await connection.execute(`
             CREATE TABLE Customer (
-                cEmail VARCHAR(200),
-                cName VARCHAR(200),
-                cPhoneNumber VARCHAR(200),
-                PRIMARY KEY (cEmail)
+                                      cEmail VARCHAR(200),
+                                      cName VARCHAR(200),
+                                      cPhoneNumber VARCHAR(200),
+                                      PRIMARY KEY (cEmail)
             )
         `);
 
@@ -188,10 +188,10 @@ async function initiateFarmerTable() {
         console.log('Now creating Farmer table');
         const result = await connection.execute(`
             CREATE TABLE Farmer (
-                FarmerID INTEGER,
-		        fName VARCHAR(200), 
-		        fPhoneNumber VARCHAR(200),
-		        PRIMARY KEY (FarmerID)
+                                    FarmerID INTEGER,
+                                    fName VARCHAR(200),
+                                    fPhoneNumber VARCHAR(200),
+                                    PRIMARY KEY (FarmerID)
             )
         `);
 
@@ -242,6 +242,7 @@ async function initiateShiftTable() {
 		        PRIMARY KEY (FarmerID, sDate),
 		        FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
                 ON DELETE CASCADE)
+
         `);
         return true;
     }).catch(() => {
@@ -319,6 +320,7 @@ async function initiateTransactionTable() {
 		        PRIMARY KEY (TransactionNumber),
 		        FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
                 ON DELETE CASCADE
+
             )
         `);
         return true;
@@ -417,6 +419,7 @@ async function insertMachineryTable(machineID, type, condition) {
 }
 
 
+
 // GROUP BY
 async function groupMachineryByCondition() {
     return await withOracleDB(async (connection) => {
@@ -428,7 +431,6 @@ async function groupMachineryByCondition() {
         return [];
     });
 }
-
 
 
 
@@ -456,8 +458,8 @@ async function initiateDemotable() {
 
         const result = await connection.execute(`
             CREATE TABLE DEMOTABLE (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
+                                       id NUMBER PRIMARY KEY,
+                                       name VARCHAR2(20)
             )
         `);
         return true;
@@ -526,7 +528,10 @@ module.exports = {
     projectTransactionColumns,
     initiateMachineryTable,
     fetchMachineryTableFromDb,
+
     insertMachineryTable,
     groupMachineryByCondition,
     groupTransactionHavingAmount
 };
+
+
