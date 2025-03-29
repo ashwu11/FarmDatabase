@@ -506,6 +506,14 @@ async function insertStorageBuildingTable(event) {
     const responseData = await response.json();
     const messageElement = document.getElementById('insertStorageBuildingMsg');
 
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
+
 //Machinery
 
 // This function resets or initializes the Machinery table.
@@ -516,7 +524,7 @@ async function resetMachineryTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetMachineryMsg');
         messageElement.textContent = "Machinery table initiated successfully!";
         fetchTableData();
     } else {
@@ -573,7 +581,7 @@ async function insertMachineryTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertMachineryMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -750,4 +758,5 @@ function fetchTableData() {
     fetchAndDisplayTransactions();
     fetchAndDisplayBuildings();
     fetchAndDisplayMachines();
+
 }
