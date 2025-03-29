@@ -2,6 +2,8 @@ const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
 
 const envVariables = loadEnvFile('./.env');
+const fs = require('fs');
+const path = require('path');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
 const dbConfig = {
@@ -24,6 +26,27 @@ async function initializeConnectionPool() {
     }
 }
 
+async function runInitScript() {
+    return await withOracleDB(async (connection) => {
+        const scriptPath = path.join(__dirname, 'scripts', 'initialize.sql');
+        const sqlScript = fs.readFileSync(scriptPath, 'utf-8');
+
+        const statements = sqlScript.split(';').map(stmt => stmt.trim()).filter(stmt => stmt);
+
+        for (const stmt of statements) {
+            try {
+                await connection.execute(stmt);
+            } catch (err) {
+                console.error('Error executing statement:', stmt);
+                console.error(err.message);
+            }
+        }
+
+        await connection.commit();
+        console.log('Initialization script executed.');
+    });
+}
+
 async function closePoolAndExit() {
     console.log('\nTerminating');
     try {
@@ -36,7 +59,9 @@ async function closePoolAndExit() {
     }
 }
 
-initializeConnectionPool();
+initializeConnectionPool().then(async () => {
+    await runInitScript();
+});
 
 process
     .once('SIGTERM', closePoolAndExit)
