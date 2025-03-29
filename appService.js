@@ -84,9 +84,22 @@ async function initiateCustomerTable() {
         try {
             await connection.execute(`DROP TABLE Customer`);
         } catch (err) {
-            console.log('Table might not exist, proceeding to create...');
+
+            if (err.errorNum === 942) {
+                console.log('Table might not exist, proceeding to create...');
+
+            } else if (err.errorNum === 955 || err.errorNum === 2449) {
+                console.log('Transaction table referencing Customer. Must drop Transaction first');
+                await connection.execute(`DROP TABLE Transaction`);
+                console.log('Transaction table droppped');
+                await connection.execute(`DROP TABLE Customer`);
+            } else {
+                console.log('Unexpected error dropping Customer table:', err);
+                throw err;
+            }
         }
 
+        console.log('Now creating Customer table');
         const result = await connection.execute(`
             CREATE TABLE Customer (
                 cEmail VARCHAR(200),
@@ -95,6 +108,8 @@ async function initiateCustomerTable() {
                 PRIMARY KEY (cEmail)
             )
         `);
+
+        console.log('Please reset the Transaction table');
         return true;
     }).catch(() => {
         return false;
@@ -130,9 +145,22 @@ async function initiateFarmerTable() {
         try {
             await connection.execute(`DROP TABLE Farmer`);
         } catch (err) {
-            console.log('Table might not exist, proceeding to create...');
+
+            if (err.errorNum === 942) {
+                console.log('Table might not exist, proceeding to create...');
+
+            } else if (err.errorNum === 955 || err.errorNum === 2449) {
+                console.log('Shift table referencing Farmer. Dropping Shift table.');
+                await connection.execute(`DROP TABLE Shift`);
+                console.log('Shift table droppped');
+                await connection.execute(`DROP TABLE Farmer`);
+            } else {
+                console.log('Unexpected error dropping Farmer table:', err);
+                throw err;
+            }
         }
 
+        console.log('Now creating Farmer table');
         const result = await connection.execute(`
             CREATE TABLE Farmer (
                 FarmerID INTEGER,
@@ -141,6 +169,8 @@ async function initiateFarmerTable() {
 		        PRIMARY KEY (FarmerID)
             )
         `);
+
+        console.log('Please reset the Shift table');
         return true;
     }).catch(() => {
         return false;
@@ -185,8 +215,8 @@ async function initiateShiftTable() {
                 FarmerID INTEGER,
 		        sDate DATE,
 		        PRIMARY KEY (FarmerID, sDate),
-		        FOREIGN KEY (FarmerID) REFERENCES Farmer
-            )
+		        FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
+                ON DELETE CASCADE)
         `);
         return true;
     }).catch(() => {
@@ -249,7 +279,8 @@ async function initiateTransactionTable() {
 		        tDate DATE,
 		        Total DECIMAL(10, 2),
 		        PRIMARY KEY (TransactionNumber),
-		        FOREIGN KEY (cEmail) REFERENCES Customer
+		        FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
+                ON DELETE CASCADE
             )
         `);
         return true;
