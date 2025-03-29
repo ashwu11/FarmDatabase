@@ -13,94 +13,94 @@
 </head>
 
 <body>
-<!-- ===================================================================================== -->
-<!-- Display the current status of the database connection.
+    <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection.
      !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
      -->
-<h1>Database Connection Status:
-    <!-- An in-line placeholder to display connection status. -->
-    <span id="dbStatus"> </span>
-    <!-- A loading GIF, will be hided once get the status. -->
-    <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
-</h1>
+    <h1>Database Connection Status:
+        <!-- An in-line placeholder to display connection status. -->
+        <span id="dbStatus"> </span>
+        <!-- A loading GIF, will be hided once get the status. -->
+        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+    </h1>
 
-<br>
-<hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
-<!-- Show 'Demotable'.
+    <!-- Show 'Demotable'.
     Data will be fetched and inserted here dynamically using JavaScript. -->
-<h2>Show Demotable</h2>
-<table id="demotable" border="1">
-    <thead>
-    <tr>
-        <!--Table head, need to be adjusted accordingly to align with your own.-->
-        <th>ID</th>
-        <th>Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <h2>Show Demotable</h2>
+    <table id="demotable" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-<!-- Show 'Customer Table'.
+    <!-- Show 'Customer Table'.
     Data will be fetched and inserted here dynamically using JavaScript. -->
-<h2>Show Customer Table</h2>
-<table id="customerTable" border="1">
-    <thead>
-    <tr>
-        <!--Table head, need to be adjusted accordingly to align with your own.-->
-        <th>Email</th>
-        <th>Name</th>
-        <th>Phone Number</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <h2>Show Customer Table</h2>
+    <table id="customerTable" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Email</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-<h3>Select Columns to Display in Transaction Table</h3>
-<form id="transactionProjectionForm">
-    <label><input type="checkbox" name="columns" value="TransactionNumber" checked> Transaction Number</label><br>
-    <label><input type="checkbox" name="columns" value="cEmail" checked> Customer Email</label><br>
-    <label><input type="checkbox" name="columns" value="tDate" checked> Date</label><br>
-    <label><input type="checkbox" name="columns" value="Total" checked> Total Sale Amount</label><br><br>
-    <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
-</form>
+    <h3>Select Columns to Display in Transaction Table</h3>
+    <form id="transactionProjectionForm">
+        <label><input type="checkbox" name="columns" value="TransactionNumber" checked> Transaction Number</label><br>
+        <label><input type="checkbox" name="columns" value="cEmail" checked> Customer Email</label><br>
+        <label><input type="checkbox" name="columns" value="tDate" checked> Date</label><br>
+        <label><input type="checkbox" name="columns" value="Total" checked> Total Sale Amount</label><br><br>
+        <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
+    </form>
 
-<!-- Show 'Transaction Table'.
+    <!-- Show 'Transaction Table'.
     Data will be fetched and inserted here dynamically using JavaScript. -->
-<h2>Show Transaction Table</h2>
-<table id="transactionTable" border="1">
-    <thead>
-    <tr>
-        <!--Table head, need to be adjusted accordingly to align with your own.-->
-        <th>Transaction Number</th>
-        <th>Customer Email</th>
-        <th>Date</th>
-        <th>Total Sale Amount</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <h2>Show Transaction Table</h2>
+    <table id="transactionTable" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Transaction Number</th>
+                <th>Customer Email</th>
+                <th>Date</th>
+                <th>Total Sale Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-<!-- Show 'Farmer Table'.
+    <!-- Show 'Farmer Table'.
     Data will be fetched and inserted here dynamically using JavaScript. -->
-<h2>Show Farmer Table</h2>
-<table id="farmerTable" border="1">
-    <thead>
-    <tr>
-        <!--Table head, need to be adjusted accordingly to align with your own.-->
-        <th>Farmer ID</th>
-        <th>Name</th>
-        <th>Phone Number</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <h2>Show Farmer Table</h2>
+    <table id="farmerTable" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Farmer ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-<!-- Show 'Shift Table'.
+    <!-- Show 'Shift Table'.
     Data will be fetched and inserted here dynamically using JavaScript. -->
 <h2>Show Shift Table</h2>
 <table id="shiftTable" border="1">

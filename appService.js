@@ -2,6 +2,8 @@ const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
 
 const envVariables = loadEnvFile('./.env');
+const fs = require('fs');
+const path = require('path');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
 const dbConfig = {
@@ -24,6 +26,27 @@ async function initializeConnectionPool() {
     }
 }
 
+async function runInitScript() {
+    return await withOracleDB(async (connection) => {
+        const scriptPath = path.join(__dirname, 'scripts', 'initialize.sql');
+        const sqlScript = fs.readFileSync(scriptPath, 'utf-8');
+
+        const statements = sqlScript.split(';').map(stmt => stmt.trim()).filter(stmt => stmt);
+
+        for (const stmt of statements) {
+            try {
+                await connection.execute(stmt);
+            } catch (err) {
+                console.error('Error executing statement:', stmt);
+                console.error(err.message);
+            }
+        }
+
+        await connection.commit();
+        console.log('Initialization script executed.');
+    });
+}
+
 async function closePoolAndExit() {
     console.log('\nTerminating');
     try {
@@ -36,7 +59,9 @@ async function closePoolAndExit() {
     }
 }
 
-initializeConnectionPool();
+initializeConnectionPool().then(async () => {
+    await runInitScript();
+});
 
 process
     .once('SIGTERM', closePoolAndExit)
@@ -84,9 +109,22 @@ async function initiateCustomerTable() {
         try {
             await connection.execute(`DROP TABLE Customer`);
         } catch (err) {
-            console.log('Table might not exist, proceeding to create...');
+
+            if (err.errorNum === 942) {
+                console.log('Table might not exist, proceeding to create...');
+
+            } else if (err.errorNum === 955 || err.errorNum === 2449) {
+                console.log('Transaction table referencing Customer. Must drop Transaction first');
+                await connection.execute(`DROP TABLE Transaction`);
+                console.log('Transaction table droppped');
+                await connection.execute(`DROP TABLE Customer`);
+            } else {
+                console.log('Unexpected error dropping Customer table:', err);
+                throw err;
+            }
         }
 
+        console.log('Now creating Customer table');
         const result = await connection.execute(`
             CREATE TABLE Customer (
                                       cEmail VARCHAR2(200),
@@ -95,6 +133,8 @@ async function initiateCustomerTable() {
                                       PRIMARY KEY (cEmail)
             )
         `);
+
+        console.log('Please reset the Transaction table');
         return true;
     }).catch(() => {
         return false;
@@ -130,9 +170,22 @@ async function initiateFarmerTable() {
         try {
             await connection.execute(`DROP TABLE Farmer`);
         } catch (err) {
-            console.log('Table might not exist, proceeding to create...');
+
+            if (err.errorNum === 942) {
+                console.log('Table might not exist, proceeding to create...');
+
+            } else if (err.errorNum === 955 || err.errorNum === 2449) {
+                console.log('Shift table referencing Farmer. Dropping Shift table.');
+                await connection.execute(`DROP TABLE Shift`);
+                console.log('Shift table droppped');
+                await connection.execute(`DROP TABLE Farmer`);
+            } else {
+                console.log('Unexpected error dropping Farmer table:', err);
+                throw err;
+            }
         }
 
+        console.log('Now creating Farmer table');
         const result = await connection.execute(`
             CREATE TABLE Farmer (
                                     FarmerID INTEGER,
@@ -141,6 +194,8 @@ async function initiateFarmerTable() {
                                     PRIMARY KEY (FarmerID)
             )
         `);
+
+        console.log('Please reset the Shift table');
         return true;
     }).catch(() => {
         return false;
@@ -196,12 +251,21 @@ async function initiateShiftTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Shift (
+<<<<<<< HEAD
                                    FarmerID INTEGER,
                                    sDate DATE,
                                    PRIMARY KEY (FarmerID, sDate),
                                    FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
                                    ON DELETE CASCADE
             )
+=======
+                FarmerID INTEGER,
+		        sDate DATE,
+		        PRIMARY KEY (FarmerID, sDate),
+		        FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
+                ON DELETE CASCADE)
+
+>>>>>>> origin/main
         `);
         return true;
     }).catch(() => {
@@ -259,6 +323,7 @@ async function initiateTransactionTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Transaction (
+<<<<<<< HEAD
                                          TransactionNumber INTEGER,
                                          cEmail VARCHAR(200) NOT NULL,
                                          tDate DATE,
@@ -266,6 +331,16 @@ async function initiateTransactionTable() {
                                          PRIMARY KEY (TransactionNumber),
                                          FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
                                          ON DELETE SET NULL
+=======
+                TransactionNumber INTEGER,
+		        cEmail VARCHAR(200) NOT NULL,
+		        tDate DATE,
+		        Total DECIMAL(10, 2),
+		        PRIMARY KEY (TransactionNumber),
+		        FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
+                ON DELETE CASCADE
+
+>>>>>>> origin/main
             )
         `);
         return true;
@@ -374,6 +449,53 @@ async function insertStorageBuilding(id, sbType) {
     });
 }
 
+// Machinery
+async function initiateMachineryTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Machinery`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Machinery (
+                MachineID INTEGER,
+			    mType VARCHAR(200), 
+			    Condition VARCHAR(200),
+		        PRIMARY KEY (MachineID)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchMachineryTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Machinery');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertMachineryTable(machineID, type, condition) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Machinery (MachineID, mType, Condition) VALUES (:machineID, :type, :condition)`,
+            [machineID, type, condition],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -470,5 +592,8 @@ module.exports = {
     sumTransactionsTable,
     initiateStorageBuildingTable,
     fetchStorageBuildingTableFromDb,
-    insertStorageBuilding
+    insertStorageBuilding,
+    initiateMachineryTable,
+    fetchMachineryTableFromDb,
+    insertMachineryTable
 };

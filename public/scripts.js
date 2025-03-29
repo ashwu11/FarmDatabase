@@ -143,14 +143,14 @@ async function fetchAndDisplayFarmers() {
     });
 
     const responseData = await response.json();
-    const customerTableContent = responseData.data;
+    const farmerTableContent = responseData.data;
 
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
 
-    customerTableContent.forEach(user => {
+    farmerTableContent.forEach(user => {
         const row = tableBody.insertRow();
         user.forEach((field, index) => {
             const cell = row.insertCell(index);
@@ -506,6 +506,75 @@ async function insertStorageBuildingTable(event) {
     const responseData = await response.json();
     const messageElement = document.getElementById('insertStorageBuildingMsg');
 
+//Machinery
+
+// This function resets or initializes the Machinery table.
+async function resetMachineryTable() {
+    const response = await fetch("/initiate-machinery-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetResultMsg');
+        messageElement.textContent = "Machinery table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating Machinery table!");
+    }
+}
+
+// Fetches data from the Machinery table and displays it.
+async function fetchAndDisplayMachines() {
+    const tableElement = document.getElementById('machineryTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-machinery-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const machineryTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    machineryTableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// Inserts new records into the Machinery table.
+async function insertMachineryTable(event) {
+    event.preventDefault();
+
+    const idValue = document.getElementById('insertMachineID').value;
+    const typeValue = document.getElementById('insertMachineType').value;
+    const conditionValue = document.getElementById('insertMachineCondition').value;
+
+    console.log("Inserting:", { idValue, typeValue, conditionValue });
+
+    const response = await fetch('/insert-machinery-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            MachineID: idValue,
+            mType: typeValue,
+            Condition: conditionValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
         fetchTableData();
@@ -665,6 +734,10 @@ window.onload = function () {
 
     document.getElementById("resetStorageBuildingTable").addEventListener("click", resetStorageBuildingTable);
     document.getElementById("insertStorageBuilding").addEventListener("submit", insertStorageBuildingTable);
+
+    document.getElementById("resetMachineryTable").addEventListener("click", resetMachineryTable);
+    document.getElementById("insertMachineryTable").addEventListener("submit", insertMachineryTable);
+
 };
 
 // General function to refresh the displayed table data.
@@ -676,4 +749,5 @@ function fetchTableData() {
     fetchAndDisplayShifts();
     fetchAndDisplayTransactions();
     fetchAndDisplayBuildings();
+    fetchAndDisplayMachines();
 }
