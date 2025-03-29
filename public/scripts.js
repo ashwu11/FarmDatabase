@@ -673,6 +673,83 @@ async function fetchGroupedTransactionByAmountWithInput() {
     }
 }
 
+// PRODUCTS
+
+async function fetchAndDisplayEggProducts() {
+    const tableElement = document.getElementById('eggProducts');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-egg-products', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const eggProducts = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    eggProducts.forEach(egg => {
+        const row = tableBody.insertRow();
+        egg.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+async function fetchAndDisplayDairyProducts() {
+    const tableElement = document.getElementById('dairyProducts');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-dairy-products', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const dairyProducts = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    dairyProducts.forEach(dairy => {
+        const row = tableBody.insertRow();
+        dairy.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+async function fetchAndDisplayCropProducts() {
+    const tableElement = document.getElementById('cropProducts');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-crop-products', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const cropProducts = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    cropProducts.forEach(crop => {
+        const row = tableBody.insertRow();
+        crop.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -844,5 +921,8 @@ function fetchTableData() {
     fetchAndDisplayTransactions();
     fetchAndDisplayBuildings();
     fetchAndDisplayMachines();
+    fetchAndDisplayEggProducts();
+    fetchAndDisplayDairyProducts();
+    fetchAndDisplayCropProducts();
 
 }

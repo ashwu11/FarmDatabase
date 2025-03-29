@@ -215,8 +215,8 @@ router.get('/get-egg-products', async (req, res) => {
     res.json({ data: tableContent });
 });
 
-router.get('/get-milk-products', async (req, res) => {
-    const tableContent = await appService.fetchMilkProductsFromDb();
+router.get('/get-dairy-products', async (req, res) => {
+    const tableContent = await appService.fetchDairyProductsFromDb();
     res.json({ data: tableContent });
 });
 

@@ -534,7 +534,7 @@ async function fetchEggProductsFromDb() {
     });
 }
 
-async function fetchMilkProductsFromDb() {
+async function fetchDairyProductsFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT D.BatchID, D.dType, P.Yield, P.CollectionDate, A.aName, B.sbType
@@ -666,7 +666,7 @@ module.exports = {
     groupMachineryByCondition,
     groupTransactionHavingAmount,
     fetchEggProductsFromDb,
-    fetchMilkProductsFromDb,
+    fetchDairyProductsFromDb,
     fetchCropProductsFromDb
 };
 
