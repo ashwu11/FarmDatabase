@@ -84,6 +84,23 @@
         </tbody>
     </table>
 
+    <h3>Group Transactions by Date Having Total >= minAmount </h3>
+
+    <label for="minTotalInput">Minimum Total:</label>
+    <input type="number" id="minTotalInput" placeholder="Enter minimum total" />
+
+    <button id="groupByTransactionAmountBtn">Group by Amount</button>
+
+    <table id="transactionGroupByAmountTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Total Sum</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
     <!-- Show 'Farmer Table'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Farmer Table</h2>
@@ -129,6 +146,33 @@
                 <th>Farmer ID</th>
                 <th>Name</th>
                 <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Show 'Machinery Table'.
+        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <h2>Show Machinery Table</h2>
+    <table id="machineryTable" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Machine ID</th>
+                <th>Type</th>
+                <th>Condition</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button id="groupByConditionBtn">Group Machinery by Condition</button>
+    <table id="machineryConditionGroupTable">
+        <thead>
+            <tr>
+                <th>Condition</th>
+                <th>Count</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -234,6 +278,27 @@
         <button type="submit"> insert </button> <br>
     </form>
     <div id="insertResultMsg"></div>
+
+    <h2> Insert Values into Machinery Table</h2>
+    <form id="insertMachineryTable">
+        Machine ID: <input type="text" id="insertMachineID" placeholder="Enter Machine ID" required> <br><br>
+        Machine Type: <input type="text" id="insertMachineType" placeholder="Enter Machine Type" maxlength="100">
+        Condition:
+        <select id="insertMachineCondition">
+            <option value="New">New</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Needs Repair">Needs Repair</option>
+            <option value="Poor">Poor</option>
+        </select>
+
+        <button type="submit"> insert </button> <br>
+    </form>
+    <div id="insertResultMsg"></div>
+
+
+
+
 
     <br>
     <hr><br> <!-- ========================================================================= -->
