@@ -196,7 +196,6 @@ router.post("/insert-machinery-table", async (req, res) => {
     }
 });
 
-
 router.get("/get-group-machinery-by-condition", async (req, res) => {
     const tableContent = await appService.groupMachineryByCondition();
     res.json({ data: tableContent })
@@ -208,6 +207,23 @@ router.get('/group-transaction-having', async (req, res) => {
     res.json({ data: result });
 });
 
+
+// PRODUCTS
+
+router.get('/get-egg-products', async (req, res) => {
+    const tableContent = await appService.fetchEggProductsFromDb();
+    res.json({ data: tableContent });
+});
+
+router.get('/get-milk-products', async (req, res) => {
+    const tableContent = await appService.fetchMilkProductsFromDb();
+    res.json({ data: tableContent });
+});
+
+router.get('/get-crop-products', async (req, res) => {
+    const tableContent = await appService.fetchCropProductsFromDb();
+    res.json({ data: tableContent });
+});
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
