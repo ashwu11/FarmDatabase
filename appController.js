@@ -77,6 +77,16 @@ router.post("/update-farmer-info", async (req, res) => {
     }
 });
 
+router.post("/delete-farmer-info", async (req, res) => {
+    const { farmerID } = req.body;
+    const updateResult = await appService.deleteFarmerInfo(farmerID);
+    if (updateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 //Shift
 router.post("/initiate-shift-table", async (req, res) => {
     const initiateResult = await appService.initiateShiftTable();

@@ -217,10 +217,37 @@ async function updateFarmerInfo(event) {
     const messageElement = document.getElementById('updateFarmerResultMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Farmer name updated successfully!";
+        messageElement.textContent = "Farmer Info updated successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error updating Farmer name!";
+        messageElement.textContent = "Error updating Farmer Info!";
+    }
+}
+
+async function deleteFarmerInfo(event) {
+    event.preventDefault();
+
+    const farmerID = document.getElementById("deleteFarmerID").value;
+    console.log(`Deleting farmer with id: ${farmerID}`);
+
+    const response = await fetch('/delete-farmer-info', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            farmerID: farmerID
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('deleteFarmerResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Farmer Info deleted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error deleting Farmer!";
     }
 }
 
@@ -891,6 +918,7 @@ window.onload = function () {
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
     document.getElementById("updateFarmerInfo").addEventListener("submit", updateFarmerInfo);
+    // TODO delete farmer here
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);

@@ -256,6 +256,20 @@ async function updateFarmerInfo(farmerID, newName, newNumber) {
     });
 }
 
+async function deleteFarmerInfo(farmerID) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `DELETE FROM Farmer WHERE FarmerID=:farmerID`,
+            [farmerID],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 //Shift
 
 async function initiateShiftTable() {
@@ -648,6 +662,7 @@ module.exports = {
     fetchFarmerTableFromDb,
     insertFarmerTable,
     updateFarmerInfo,
+    deleteFarmerInfo,
     initiateShiftTable,
     fetchShiftTableFromDb,
     insertShiftTable,
