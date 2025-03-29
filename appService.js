@@ -190,7 +190,7 @@ async function initiateFarmerTable() {
             CREATE TABLE Farmer (
                                     FarmerID INTEGER,
                                     fName VARCHAR2(200),
-                                    fPhoneNumber VARCHAR2(200),
+                                    fPhoneNumber VARCHAR2(200) UNIQUE,
                                     PRIMARY KEY (FarmerID)
             )
         `);
@@ -225,11 +225,28 @@ async function insertFarmerTable(id, name, phoneNumber) {
     });
 }
 
-async function updateFarmerName(oldName, newName) {
+async function updateFarmerInfo(farmerID, newName, newNumber) {
+    if (!farmerID) return false;
+
     return await withOracleDB(async (connection) => {
+        let updates = [];
+        let values = [];
+
+        if (newName) {
+            updates.push("fname=:newName");
+            values.push(newName);
+        }
+        if (newNumber) {
+            updates.push("fPhoneNumber=:newNumber");
+            values.push(newNumber);
+        }
+
+        if (updates.length === 0) return false;
+        values.push(farmerID);
+
         const result = await connection.execute(
-            `UPDATE Farmer SET fname=:newName where fname=:oldName`,
-            [newName, oldName],
+            `UPDATE Farmer SET ${updates.join(", ")} WHERE FarmerID=:farmerID`,
+            values,
             { autoCommit: true }
         );
 
@@ -608,7 +625,7 @@ module.exports = {
     initiateFarmerTable,
     fetchFarmerTableFromDb,
     insertFarmerTable,
-    updateFarmerName,
+    updateFarmerInfo,
     initiateShiftTable,
     fetchShiftTableFromDb,
     insertShiftTable,
@@ -623,7 +640,6 @@ module.exports = {
     insertStorageBuilding,
     initiateMachineryTable,
     fetchMachineryTableFromDb,
-
     insertMachineryTable,
     groupMachineryByCondition,
     groupTransactionHavingAmount

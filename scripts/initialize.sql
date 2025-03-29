@@ -58,7 +58,7 @@ CREATE TABLE PurchasedProducts (
 CREATE TABLE Farmer (
 	FarmerID INTEGER,
     fName VARCHAR(200),
-    fPhoneNumber VARCHAR(200),
+    fPhoneNumber VARCHAR(200) UNIQUE,
     PRIMARY KEY (FarmerID)
 );
 

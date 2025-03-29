@@ -192,25 +192,29 @@ async function insertFarmerTable(event) {
     }
 }
 
-async function updateFarmerName(event) {
+async function updateFarmerInfo(event) {
     event.preventDefault();
 
-    const oldFarmerName = document.getElementById('oldFarmerName').value;
-    const newFarmerName = document.getElementById('newFarmerName').value;
+    const farmerID = document.getElementById('farmerID').value;
+    const newFarmerName = document.getElementById('updateFarmerName').value;
+    const newFarmerNumber = document.getElementById('updateFarmerPhoneNumber').value;
 
-    const response = await fetch('/update-farmer-name', {
+    console.log(`Updating farmer info: ${farmerID} -> ${newFarmerName} | ${newFarmerNumber}`);
+
+    const response = await fetch('/update-farmer-info', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            oldName: oldFarmerName,
-            newName: newFarmerName
+            farmerID: farmerID,
+            newName: newFarmerName,
+            newNumber: newFarmerNumber
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('updateFarmerNameResultMsg');
+    const messageElement = document.getElementById('updateFarmerResultMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Farmer name updated successfully!";
@@ -809,7 +813,7 @@ window.onload = function () {
 
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
-    document.getElementById("updateFarmerName").addEventListener("submit", updateFarmerName);
+    document.getElementById("updateFarmerInfo").addEventListener("submit", updateFarmerInfo);
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
