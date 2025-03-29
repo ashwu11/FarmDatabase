@@ -104,7 +104,6 @@
 
     <!-- Show 'Farmer Table'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
-
     <h2>Show Farmer Table</h2>
     <table id="farmerTable" border="1">
         <thead>
@@ -124,11 +123,11 @@
     <h2>Show Shift Table</h2>
     <table id="shiftTable" border="1">
         <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Farmer ID</th>
-                <th>Shift Date</th>
-            </tr>
+        <tr>
+            <!--Table head, need to be adjusted accordingly to align with your own.-->
+            <th>Farmer ID</th>
+            <th>Shift Date</th>
+        </tr>
         </thead>
         <tbody>
         </tbody>
@@ -144,13 +143,27 @@
     <h3>Farmer Contact Info for Selected Date</h3>
     <table id="farmerInfoTable" border="1">
         <thead>
-            <tr>
-                <th>Farmer ID</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-            </tr>
+        <tr>
+            <th>Farmer ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+        </tr>
         </thead>
         <tbody></tbody>
+    </table>
+
+    <!-- Show 'Storage Building Table'.
+        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <h2>Show Storage Building Table</h2>
+    <table id="storageBuildingTable" border="1">
+        <thead>
+        <tr>
+            <th>Building ID</th>
+            <th>Building Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
     </table>
 
     <!-- Show 'Machinery Table'.
@@ -158,17 +171,16 @@
     <h2>Show Machinery Table</h2>
     <table id="machineryTable" border="1">
         <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Machine ID</th>
-                <th>Type</th>
-                <th>Condition</th>
-            </tr>
+        <tr>
+            <!--Table head, need to be adjusted accordingly to align with your own.-->
+            <th>Machine ID</th>
+            <th>Type</th>
+            <th>Condition</th>
+        </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
-
 
     <button id="groupByConditionBtn">Group Machinery by Condition</button>
     <table id="machineryConditionGroupTable">
@@ -180,10 +192,6 @@
         </thead>
         <tbody></tbody>
     </table>
-
-
-
-
 
     <br>
     <hr><br> <!-- ========================================================================= -->
@@ -200,35 +208,42 @@
         MUST use reset</p>
     <button id="resetCustomerTable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+    <div id="resetCustomerMsg"></div>
 
     <h2>Reset Farmer Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetFarmerTable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+    <div id="resetFarmerMsg"></div>
 
     <h2>Reset Shift Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetShiftTable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+    <div id="resetShiftMsg"></div>
 
     <h2>Reset Transactions Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetTransactionsTable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+    <div id="resetTransactionsMsg"></div>
+
+    <h2>Reset Storage Building Table</h2>
+    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
+        MUST use reset</p>
+    <button id="resetStorageBuildingTable"> reset </button> <br>
+    <!-- A placeholder to display messages related to the reset operation. -->
+    <div id="resetStorageBuildingMsg"></div>
 
     <h2>Reset Machinery Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetMachineryTable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+    <div id="resetMachineryMsg"></div>
 
     <br>
     <hr><br> <!-- ========================================================================= -->
@@ -247,12 +262,12 @@
         Email: <input type="text" id="insertCustomerEmail" placeholder="Enter Email" required> <br><br>
         Name: <input type="text" id="insertCustomerName" placeholder="Enter Name" maxlength="100"> <br><br>
         Phone Number: <input type="text" id="insertCustomerPhoneNumber" placeholder="Enter Phone Number"
-            maxlength="100">
+                             maxlength="100">
         <br><br>
 
         <button type="submit"> insert </button> <br>
     </form>
-    <div id="insertResultMsg"></div>
+    <div id="insertCustomerMsg"></div>
 
     <h2> Insert Values into Farmer Table</h2>
     <form id="insertFarmerTable">
@@ -263,7 +278,7 @@
 
         <button type="submit"> insert </button> <br>
     </form>
-    <div id="insertResultMsg"></div>
+    <div id="insertFarmerMsg"></div>
 
     <h2> Insert Values into Shift Table</h2>
     <form id="insertShiftTable">
@@ -273,22 +288,31 @@
 
         <button type="submit"> insert </button> <br>
     </form>
-    <div id="insertResultMsg"></div>
+    <div id="insertShiftMsg"></div>
 
     <h2> Insert Values into Transactions Table</h2>
     <form id="insertTransactionsTable">
         Transaction Number: <input type="text" id="insertTransactionNumber" placeholder="Enter Transaction Number"
-            required> <br><br>
+                                   required> <br><br>
         Customer Email: <input type="text" id="insertTransactionCustomerEmail" placeholder="Enter Customer Email"
-            maxlength="100" required> <br><br>
+                               maxlength="100" required> <br><br>
         Date: <input type="date" id="insertTransactionDate" placeholder="Enter Transaction Date" required> <br><br>
         Total Sale Amount: <input type="text" id="insertTransactionTotal" placeholder="Enter Transaction Total"
-            maxlength="100" required> <br><br>
+                                  maxlength="100" required> <br><br>
         <br><br>
 
         <button type="submit"> insert </button> <br>
     </form>
-    <div id="insertResultMsg"></div>
+    <div id="insertTransactionMsg"></div>
+
+    <h2> Insert values into Storage Building Table</h2>
+    <form id="insertStorageBuilding">
+        Building ID: <input type="number" id="insertBuildingID" placeholder="Enter ID" required> <br><br>
+        Building Type: <input type="text" id="insertBuildingType" placeholder="Enter Type" maxlength="20"> <br><br>
+
+        <button type="submit"> insert </button> <br>
+    </form>
+    <div id="insertStorageBuildingMsg"></div>
 
     <h2> Insert Values into Machinery Table</h2>
     <form id="insertMachineryTable">
@@ -307,8 +331,7 @@
 
         <button type="submit"> insert </button> <br>
     </form>
-    <div id="insertResultMsg"></div>
-
+    <div id="insertMachineryMsg"></div>
 
 
     <br>
@@ -325,6 +348,17 @@
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="updateNameResultMsg"></div>
 
+    <h2>Update Name in Farmer Table</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="updateFarmerName">
+        Old Name: <input type="text" id="oldFarmerName" placeholder="Enter Old Name" required> <br><br>
+        New Name: <input type="text" id="newFarmerName" placeholder="Enter New Name" maxlength="20"> <br><br>
+
+        <button type="submit"> update </button> <br>
+    </form>
+    <!-- A placeholder to display messages related to the update operation. -->
+    <div id="updateFarmerNameResultMsg"></div>
+
     <br>
     <hr><br> <!-- ========================================================================= -->
 
@@ -332,10 +366,6 @@
     <button id="countDemotable"> count </button> <br><br>
     <!-- A placeholder to display the count result. -->
     <div id="countResultMsg"></div> <br>
-
-    <br>
-    <hr><br> <!-- ========================================================================= -->
-    <h3>Hello World!</h3>
 
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->

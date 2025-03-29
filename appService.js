@@ -127,9 +127,9 @@ async function initiateCustomerTable() {
         console.log('Now creating Customer table');
         const result = await connection.execute(`
             CREATE TABLE Customer (
-                                      cEmail VARCHAR(200),
-                                      cName VARCHAR(200),
-                                      cPhoneNumber VARCHAR(200),
+                                      cEmail VARCHAR2(200),
+                                      cName VARCHAR2(200),
+                                      cPhoneNumber VARCHAR2(200),
                                       PRIMARY KEY (cEmail)
             )
         `);
@@ -189,8 +189,8 @@ async function initiateFarmerTable() {
         const result = await connection.execute(`
             CREATE TABLE Farmer (
                                     FarmerID INTEGER,
-                                    fName VARCHAR(200),
-                                    fPhoneNumber VARCHAR(200),
+                                    fName VARCHAR2(200),
+                                    fPhoneNumber VARCHAR2(200),
                                     PRIMARY KEY (FarmerID)
             )
         `);
@@ -225,6 +225,20 @@ async function insertFarmerTable(id, name, phoneNumber) {
     });
 }
 
+async function updateFarmerName(oldName, newName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE Farmer SET fname=:newName where fname=:oldName`,
+            [newName, oldName],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 //Shift
 
 async function initiateShiftTable() {
@@ -237,12 +251,21 @@ async function initiateShiftTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Shift (
+<<<<<<< HEAD
+                                   FarmerID INTEGER,
+                                   sDate DATE,
+                                   PRIMARY KEY (FarmerID, sDate),
+                                   FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
+                                   ON DELETE CASCADE
+            )
+=======
                 FarmerID INTEGER,
 		        sDate DATE,
 		        PRIMARY KEY (FarmerID, sDate),
 		        FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
                 ON DELETE CASCADE)
 
+>>>>>>> origin/main
         `);
         return true;
     }).catch(() => {
@@ -313,6 +336,15 @@ async function initiateTransactionTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Transaction (
+<<<<<<< HEAD
+                                         TransactionNumber INTEGER,
+                                         cEmail VARCHAR(200) NOT NULL,
+                                         tDate DATE,
+                                         Total DECIMAL(10, 2),
+                                         PRIMARY KEY (TransactionNumber),
+                                         FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
+                                         ON DELETE SET NULL
+=======
                 TransactionNumber INTEGER,
 		        cEmail VARCHAR(200) NOT NULL,
 		        tDate DATE,
@@ -321,6 +353,7 @@ async function initiateTransactionTable() {
 		        FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
                 ON DELETE CASCADE
 
+>>>>>>> origin/main
             )
         `);
         return true;
@@ -371,6 +404,63 @@ async function projectTransactionColumns(columns) {
     });
 }
 
+// REQUIREMENT: Aggregation with Group By
+async function sumTransactionsTable() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT SUM(Total) FROM Transaction GROUP BY cEmail'
+        );
+        return result.rows;
+    }).catch(() => {
+        return -1;
+    });
+}
+
+
+// STORAGE BUILDING
+
+async function fetchStorageBuildingTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM StorageBuilding');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function initiateStorageBuildingTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE StorageBuilding`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        await connection.execute(`
+            CREATE TABLE StorageBuilding (
+                                       id NUMBER PRIMARY KEY,
+                                       sbType VARCHAR2(20)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function insertStorageBuilding(id, sbType) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO StorageBuilding (id, sbType) VALUES (:id, :sbType)`,
+            [id, sbType],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
 
 // Machinery
 async function initiateMachineryTable() {
@@ -518,6 +608,7 @@ module.exports = {
     initiateFarmerTable,
     fetchFarmerTableFromDb,
     insertFarmerTable,
+    updateFarmerName,
     initiateShiftTable,
     fetchShiftTableFromDb,
     insertShiftTable,
@@ -526,6 +617,10 @@ module.exports = {
     fetchTransactionTableFromDb,
     insertTransactionTable,
     projectTransactionColumns,
+    sumTransactionsTable,
+    initiateStorageBuildingTable,
+    fetchStorageBuildingTableFromDb,
+    insertStorageBuilding,
     initiateMachineryTable,
     fetchMachineryTableFromDb,
 

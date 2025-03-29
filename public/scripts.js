@@ -48,7 +48,7 @@ async function resetCustomerTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetCustomerMsg');
         messageElement.textContent = "Customer table initiated successfully!";
         fetchTableData();
     } else {
@@ -105,7 +105,7 @@ async function insertCustomerTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertCustomerMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -125,7 +125,7 @@ async function resetFarmerTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetFarmerMsg');
         messageElement.textContent = "Farmer table initiated successfully!";
         fetchTableData();
     } else {
@@ -182,13 +182,41 @@ async function insertFarmerTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertFarmerMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
         fetchTableData();
     } else {
         messageElement.textContent = "Error inserting data!";
+    }
+}
+
+async function updateFarmerName(event) {
+    event.preventDefault();
+
+    const oldFarmerName = document.getElementById('oldFarmerName').value;
+    const newFarmerName = document.getElementById('newFarmerName').value;
+
+    const response = await fetch('/update-farmer-name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            oldName: oldFarmerName,
+            newName: newFarmerName
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('updateFarmerNameResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Farmer name updated successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error updating Farmer name!";
     }
 }
 
@@ -203,7 +231,7 @@ async function resetShiftTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetShiftMsg');
         messageElement.textContent = "Shift table initiated successfully!";
         fetchTableData();
     } else {
@@ -266,7 +294,7 @@ async function insertShiftTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertShiftMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -317,7 +345,7 @@ async function resetTransactionsTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetTransactionsMsg');
         messageElement.textContent = "Transactions table initiated successfully!";
         fetchTableData();
     } else {
@@ -383,7 +411,7 @@ async function insertTransactionsTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertTransactionMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -442,6 +470,77 @@ async function fetchAndDisplayProjectedTransactions() {
     });
 }
 
+// STORAGE BUILDING
+
+// Fetches data from the StorageBuilding table and displays it
+async function fetchAndDisplayBuildings() {
+    const tableElement = document.getElementById('storageBuildingTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/storage-building-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const storageBuildingTableContent = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    storageBuildingTableContent.forEach(building => {
+        const row = tableBody.insertRow();
+        building.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// This function resets or initializes the StorageBuilding table
+async function resetStorageBuildingTable() {
+    const response = await fetch("/initiate-storage-building-table", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('resetStorageBuildingMsg');
+        messageElement.textContent = "Storage Building table initiated successfully!";
+        fetchTableData();
+    } else {
+        alert("Error initiating table!");
+    }
+}
+
+// Inserts new records into the StorageBuilding table
+async function insertStorageBuildingTable(event) {
+    event.preventDefault();
+
+    const buildingID = document.getElementById('insertBuildingID').value;
+    const buildingType = document.getElementById('insertBuildingType').value;
+
+    const response = await fetch('/insert-storage-building', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            buildingID: buildingID,
+            buildingType: buildingType
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertStorageBuildingMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
 
 //Machinery
 
@@ -453,7 +552,7 @@ async function resetMachineryTable() {
     const responseData = await response.json();
 
     if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
+        const messageElement = document.getElementById('resetMachineryMsg');
         messageElement.textContent = "Machinery table initiated successfully!";
         fetchTableData();
     } else {
@@ -510,7 +609,7 @@ async function insertMachineryTable(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertMachineryMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -569,6 +668,7 @@ async function fetchGroupedTransactionByAmountWithInput() {
         console.error("Error fetching grouped transaction data:", err);
     }
 }
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -709,6 +809,7 @@ window.onload = function () {
 
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
+    document.getElementById("updateFarmerName").addEventListener("submit", updateFarmerName);
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
@@ -717,6 +818,9 @@ window.onload = function () {
 
     document.getElementById("resetTransactionsTable").addEventListener("click", resetTransactionsTable);
     document.getElementById("insertTransactionsTable").addEventListener("submit", insertTransactionsTable);
+
+    document.getElementById("resetStorageBuildingTable").addEventListener("click", resetStorageBuildingTable);
+    document.getElementById("insertStorageBuilding").addEventListener("submit", insertStorageBuildingTable);
 
     document.getElementById("resetMachineryTable").addEventListener("click", resetMachineryTable);
     document.getElementById("insertMachineryTable").addEventListener("submit", insertMachineryTable);
@@ -734,6 +838,7 @@ function fetchTableData() {
     fetchAndDisplayFarmers();
     fetchAndDisplayShifts();
     fetchAndDisplayTransactions();
+    fetchAndDisplayBuildings();
     fetchAndDisplayMachines();
 
 }
