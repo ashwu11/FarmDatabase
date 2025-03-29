@@ -42,13 +42,11 @@
         </tbody>
     </table>
 
-    <!-- Show 'Customer Table'.
-    Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Customer Table' -->
     <h2>Show Customer Table</h2>
     <table id="customerTable" border="1">
         <thead>
             <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
                 <th>Email</th>
                 <th>Name</th>
                 <th>Phone Number</th>
@@ -67,13 +65,11 @@
         <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
     </form>
 
-    <!-- Show 'Transaction Table'.
-    Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Transaction Table' -->
     <h2>Show Transaction Table</h2>
     <table id="transactionTable" border="1">
         <thead>
             <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
                 <th>Transaction Number</th>
                 <th>Customer Email</th>
                 <th>Date</th>
@@ -102,13 +98,11 @@
         <tbody></tbody>
     </table>
 
-    <!-- Show 'Farmer Table'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Farmer Table' -->
     <h2>Show Farmer Table</h2>
     <table id="farmerTable" border="1">
         <thead>
             <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
                 <th>Farmer ID</th>
                 <th>Name</th>
                 <th>Phone Number</th>
@@ -118,13 +112,11 @@
         </tbody>
     </table>
 
-    <!-- Show 'Shift Table'.
-    Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Shift Table' -->
     <h2>Show Shift Table</h2>
     <table id="shiftTable" border="1">
         <thead>
         <tr>
-            <!--Table head, need to be adjusted accordingly to align with your own.-->
             <th>Farmer ID</th>
             <th>Shift Date</th>
         </tr>
@@ -152,8 +144,7 @@
         <tbody></tbody>
     </table>
 
-    <!-- Show 'Storage Building Table'.
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Storage Building Table' -->
     <h2>Show Storage Building Table</h2>
     <table id="storageBuildingTable" border="1">
         <thead>
@@ -166,13 +157,11 @@
         </tbody>
     </table>
 
-    <!-- Show 'Machinery Table'.
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <!-- Show 'Machinery Table' -->
     <h2>Show Machinery Table</h2>
     <table id="machineryTable" border="1">
         <thead>
         <tr>
-            <!--Table head, need to be adjusted accordingly to align with your own.-->
             <th>Machine ID</th>
             <th>Type</th>
             <th>Condition</th>
@@ -248,49 +237,42 @@
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetDemotable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetResultMsg"></div>
 
     <h2>Reset Customer Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetCustomerTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetCustomerMsg"></div>
 
     <h2>Reset Farmer Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetFarmerTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetFarmerMsg"></div>
 
     <h2>Reset Shift Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetShiftTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetShiftMsg"></div>
 
     <h2>Reset Transactions Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetTransactionsTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetTransactionsMsg"></div>
 
     <h2>Reset Storage Building Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetStorageBuildingTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetStorageBuildingMsg"></div>
 
     <h2>Reset Machinery Table</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you
         MUST use reset</p>
     <button id="resetMachineryTable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
     <div id="resetMachineryMsg"></div>
 
     <br>
@@ -403,16 +385,15 @@
         Update Name: <input type="text" id="updateFarmerName" placeholder="Enter New Name" required> <br><br>
         Update Phone Number: <input type="text" id="updateFarmerPhoneNumber" placeholder="Enter New Phone Number" maxlength="100"> <br><br>
 
-        <button type="submit"> update </button> <br>
+        <button type="submit"> Update </button> <br>
     </form>
-    <!-- A placeholder to display messages related to the update operation. -->
     <div id="updateFarmerResultMsg"></div>
 
     <h2>Delete Farmer Information in Farmer Table</h2>
     <p>Please provide the FarmerID in order to delete the Farmer's info</p>
     <form id="deleteFarmerInfo">
         Farmer ID: <input type="number" id="deleteFarmerID" placeholder="Enter Farmer ID" required> <br><br>
-        <button type="submit"> update </button> <br>
+        <button type="submit"> Delete </button> <br>
     </form>
     <div id="deleteFarmerResultMsg"></div>
 

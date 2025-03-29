@@ -918,7 +918,7 @@ window.onload = function () {
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
     document.getElementById("updateFarmerInfo").addEventListener("submit", updateFarmerInfo);
-    // TODO delete farmer here
+    document.getElementById("deleteFarmerInfo").addEventListener("submit", deleteFarmerInfo);
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
