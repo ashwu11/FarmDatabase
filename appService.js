@@ -334,6 +334,53 @@ async function projectTransactionColumns(columns) {
 }
 
 
+// Machinery
+async function initiateMachineryTable() {
+    return await withOracleDB(async (connection) => {
+        try {
+            await connection.execute(`DROP TABLE Machinery`);
+        } catch (err) {
+            console.log('Table might not exist, proceeding to create...');
+        }
+
+        const result = await connection.execute(`
+            CREATE TABLE Machinery (
+                MachineID INTEGER,
+			    mType VARCHAR(200), 
+			    Condition VARCHAR(200),
+		        PRIMARY KEY (MachineID)
+            )
+        `);
+        return true;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function fetchMachineryTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM Machinery');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function insertMachineryTable(machineID, type, condition) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Machinery (MachineID, mType, Condition) VALUES (:machineID, :type, :condition)`,
+            [machineID, type, condition],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -425,5 +472,8 @@ module.exports = {
     initiateTransactionTable,
     fetchTransactionTableFromDb,
     insertTransactionTable,
-    projectTransactionColumns
+    projectTransactionColumns,
+    initiateMachineryTable,
+    fetchMachineryTableFromDb,
+    insertMachineryTable
 };
