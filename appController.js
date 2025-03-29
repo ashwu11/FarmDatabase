@@ -196,6 +196,19 @@ router.post("/insert-machinery-table", async (req, res) => {
     }
 });
 
+
+router.get("/get-group-machinery-by-condition", async (req, res) => {
+    const tableContent = await appService.groupMachineryByCondition();
+    res.json({ data: tableContent })
+});
+
+router.get('/group-transaction-having', async (req, res) => {
+    const minTotal = parseFloat(req.query.minTotal || '0');
+    const result = await appService.groupTransactionHavingAmount(minTotal);
+    res.json({ data: result });
+});
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 

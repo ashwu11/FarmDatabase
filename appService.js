@@ -312,6 +312,19 @@ async function findShiftFarmerInformation(sDate) {
     });
 }
 
+// GROUP BY + Having
+async function groupTransactionHavingAmount(minTotal) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT tDate, sum(Total) AS TotalSum FROM Transaction GROUP BY tDate HAVING sum(Total) >= :minTotal `,
+            [minTotal]
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 // Transaction
 async function initiateTransactionTable() {
     return await withOracleDB(async (connection) => {
@@ -497,6 +510,21 @@ async function insertMachineryTable(machineID, type, condition) {
 
 
 
+// GROUP BY
+async function groupMachineryByCondition() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT Condition, Count(*) AS Count FROM Machinery GROUP BY Condition'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -595,5 +623,10 @@ module.exports = {
     insertStorageBuilding,
     initiateMachineryTable,
     fetchMachineryTableFromDb,
-    insertMachineryTable
+
+    insertMachineryTable,
+    groupMachineryByCondition,
+    groupTransactionHavingAmount
 };
+
+

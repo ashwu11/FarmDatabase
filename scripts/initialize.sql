@@ -179,9 +179,6 @@ CREATE TABLE EggRecords (
         ON DELETE SET NULL
 );
 
-
-
-
 ---------Parent tables----------
 
 INSERT INTO Farmer VALUES (100, 'Jerry Jam', '778-333-9898');
@@ -213,11 +210,11 @@ INSERT INTO StorageBuilding VALUES (102, 'Butter Place');
 INSERT INTO StorageBuilding VALUES (103, 'Feed Shed');
 INSERT INTO StorageBuilding VALUES (104, 'Crop Silo');
 
-INSERT INTO Machinery VALUES (1, 'Tractor', 'Fair. Replaced front right wheel');
+INSERT INTO Machinery VALUES (1, 'Tractor', 'Fair');
 INSERT INTO Machinery VALUES (2, 'Planter','Good');
 INSERT INTO Machinery VALUES (3, 'Solar Panel','New');
-INSERT INTO Machinery VALUES (4, 'Weeding Machine', 'Good, cleaned exterior');
-INSERT INTO Machinery VALUES (5, 'Compost Machine','Fair. Replaced and maintenance on left compartment');
+INSERT INTO Machinery VALUES (4, 'Weeding Machine', 'Needs Repair');
+INSERT INTO Machinery VALUES (5, 'Compost Machine','Poor');
 
 -------------------------- END parent tables
 
@@ -245,14 +242,11 @@ INSERT INTO Cow VALUES (304);
 INSERT INTO Cow VALUES (306);
 INSERT INTO Cow VALUES (309);
 
-
 INSERT INTO AnimalFeedingLog VALUES (100, 300, TO_DATE('2024-05-12', 'YYYY-MM-DD'));
 INSERT INTO AnimalFeedingLog VALUES (101, 301, TO_DATE('2025-01-22', 'YYYY-MM-DD'));
 INSERT INTO AnimalFeedingLog VALUES (102, 302, TO_DATE('2025-01-23', 'YYYY-MM-DD'));
 INSERT INTO AnimalFeedingLog VALUES (100, 303, TO_DATE('2025-01-24', 'YYYY-MM-DD'));
 INSERT INTO AnimalFeedingLog VALUES (103, 304, TO_DATE('2025-01-24', 'YYYY-MM-DD'));
- 
-
 
 INSERT INTO Products VALUES (101, 150, TO_DATE('2025-01-15', 'YYYY-MM-DD'));
 INSERT INTO Products VALUES (102, 60, TO_DATE('2025-02-03', 'YYYY-MM-DD'));
@@ -294,7 +288,6 @@ INSERT INTO CropMaintenance VALUES ('Spraying pesticides and thinning', 100, TO_
 INSERT INTO CropMaintenance VALUES ('Harvesting', 102, TO_DATE('2025-01-23', 'YYYY-MM-DD'), 114);
 INSERT INTO CropMaintenance VALUES ('Planting', 103, TO_DATE('2025-01-24', 'YYYY-MM-DD'), 115);
 
-
 INSERT INTO Transaction VALUES (1, 'janesmith93@gmail.com', TO_DATE('2025-01-15', 'YYYY-MM-DD'), 1366.00);
 INSERT INTO Transaction VALUES (2, 'masonyurb03@gmail.com', TO_DATE('2025-02-03', 'YYYY-MM-DD'), 289.99);
 INSERT INTO Transaction VALUES (3, 'romantaurk87@gmail.com', TO_DATE('2025-02-10', 'YYYY-MM-DD'), 534.50);
@@ -306,8 +299,6 @@ INSERT INTO PurchasedProducts VALUES (112, 2);
 INSERT INTO PurchasedProducts VALUES (113, 3);
 INSERT INTO PurchasedProducts VALUES (114, 4);
 INSERT INTO PurchasedProducts VALUES (115, 5);
-
-
 
 COMMIT;
 

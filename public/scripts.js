@@ -620,6 +620,56 @@ async function insertMachineryTable(event) {
 }
 
 
+async function fetchGroupedMachineryByCondition() {
+    const tableBody = document.querySelector('#machineryConditionGroupTable tbody');
+
+    try {
+        const response = await fetch("/get-group-machinery-by-condition");
+        const data = await response.json();
+
+        if (!data.data) throw new Error("Fetch failed");
+
+        tableBody.innerHTML = '';
+
+        data.data.forEach(([condition, count]) => {
+            const row = tableBody.insertRow();
+            const conditionCell = row.insertCell();
+            const countCell = row.insertCell();
+
+            conditionCell.textContent = condition;
+            countCell.textContent = count;
+        });
+    } catch (error) {
+        console.error("Error fetching grouped machinery data:", error);
+    }
+}
+
+
+async function fetchGroupedTransactionByAmountWithInput() {
+    const minTotalInput = document.getElementById("minTotalInput").value;
+
+    try {
+        const response = await fetch(`/group-transaction-having?minTotal=${minTotalInput}`);
+        const data = await response.json();
+
+        const tableBody = document.getElementById('transactionGroupByAmountTable').querySelector('tbody');
+        tableBody.innerHTML = '';
+
+        data.data.forEach(([tDate, totalSum]) => {
+            const row = tableBody.insertRow();
+            const dateCell = row.insertCell();
+            const totalCell = row.insertCell();
+
+            const formattedDate = new Date(tDate).toISOString().split('T')[0];
+            dateCell.textContent = formattedDate;
+            totalCell.textContent = totalSum;
+        });
+    } catch (err) {
+        console.error("Error fetching grouped transaction data:", err);
+    }
+}
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -775,6 +825,9 @@ window.onload = function () {
     document.getElementById("resetMachineryTable").addEventListener("click", resetMachineryTable);
     document.getElementById("insertMachineryTable").addEventListener("submit", insertMachineryTable);
 
+    document.getElementById("groupByConditionBtn").addEventListener("click", fetchGroupedMachineryByCondition);
+
+    document.getElementById("groupByTransactionAmountBtn").addEventListener("click", fetchGroupedTransactionByAmountWithInput);
 };
 
 // General function to refresh the displayed table data.
