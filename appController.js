@@ -129,6 +129,31 @@ router.post('/project-transactions', async (req, res) => {
     res.json({ data: projected });
 });
 
+// Machinery
+router.post("/initiate-machinery-table", async (req, res) => {
+    const initiateResult = await appService.initiateMachineryTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/get-machinery-table', async (req, res) => {
+    const tableContent = await appService.fetchMachineryTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.post("/insert-machinery-table", async (req, res) => {
+    const { MachineID, mType, Condition } = req.body;
+    const insertResult = await appService.insertMachineryTable(MachineID, mType, Condition);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 
