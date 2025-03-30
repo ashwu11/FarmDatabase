@@ -67,9 +67,19 @@ router.post("/insert-farmer-table", async (req, res) => {
     }
 });
 
-router.post("/update-farmer-name", async (req, res) => {
-    const { oldName, newName } = req.body;
-    const updateResult = await appService.updateFarmerName(oldName, newName);
+router.post("/update-farmer-info", async (req, res) => {
+    const { farmerID, newName, newNumber } = req.body;
+    const updateResult = await appService.updateFarmerInfo(farmerID, newName, newNumber);
+    if (updateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post("/delete-farmer-info", async (req, res) => {
+    const { farmerID } = req.body;
+    const updateResult = await appService.deleteFarmerInfo(farmerID);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -196,7 +206,6 @@ router.post("/insert-machinery-table", async (req, res) => {
     }
 });
 
-
 router.get("/get-group-machinery-by-condition", async (req, res) => {
     const tableContent = await appService.groupMachineryByCondition();
     res.json({ data: tableContent })
@@ -208,6 +217,23 @@ router.get('/group-transaction-having', async (req, res) => {
     res.json({ data: result });
 });
 
+
+// PRODUCTS
+
+router.get('/get-egg-products', async (req, res) => {
+    const tableContent = await appService.fetchEggProductsFromDb();
+    res.json({ data: tableContent });
+});
+
+router.get('/get-dairy-products', async (req, res) => {
+    const tableContent = await appService.fetchDairyProductsFromDb();
+    res.json({ data: tableContent });
+});
+
+router.get('/get-crop-products', async (req, res) => {
+    const tableContent = await appService.fetchCropProductsFromDb();
+    res.json({ data: tableContent });
+});
 
 // FARM MANAGEMENT END **********************************************************************************************************
 

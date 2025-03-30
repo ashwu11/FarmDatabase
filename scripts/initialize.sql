@@ -35,7 +35,7 @@ CREATE TABLE Transaction (
 	Total DECIMAL(10, 2),
 	PRIMARY KEY (TransactionNumber),
 	FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
 );
 
 CREATE TABLE Products (
@@ -58,7 +58,7 @@ CREATE TABLE PurchasedProducts (
 CREATE TABLE Farmer (
 	FarmerID INTEGER,
     fName VARCHAR(200),
-    fPhoneNumber VARCHAR(200),
+    fPhoneNumber VARCHAR(200) UNIQUE,
     PRIMARY KEY (FarmerID)
 );
 
@@ -113,7 +113,7 @@ CREATE TABLE MachineryUsage (
 	sDate DATE,
 	PRIMARY KEY (FarmerID, sDate, MachineID),
 	FOREIGN KEY (FarmerID, sDate) REFERENCES Shift(FarmerID, sDate)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 	FOREIGN KEY (MachineID) REFERENCES Machinery(MachineID)
         ON DELETE CASCADE
 );
@@ -133,7 +133,7 @@ CREATE TABLE AnimalFeedingLog (
 	sDate DATE,
 	PRIMARY KEY (FarmerID, sDate, AnimalID),
 	FOREIGN KEY (FarmerID, sDate) REFERENCES Shift(FarmerID, sDate)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 	FOREIGN KEY (AnimalID) REFERENCES Animal(AnimalID)
         ON DELETE CASCADE
 );

@@ -190,7 +190,7 @@ async function initiateFarmerTable() {
             CREATE TABLE Farmer (
                                     FarmerID INTEGER,
                                     fName VARCHAR2(200),
-                                    fPhoneNumber VARCHAR2(200),
+                                    fPhoneNumber VARCHAR2(200) UNIQUE,
                                     PRIMARY KEY (FarmerID)
             )
         `);
@@ -225,11 +225,42 @@ async function insertFarmerTable(id, name, phoneNumber) {
     });
 }
 
-async function updateFarmerName(oldName, newName) {
+async function updateFarmerInfo(farmerID, newName, newNumber) {
+    if (!farmerID) return false;
+
+    return await withOracleDB(async (connection) => {
+        let updates = [];
+        let values = [];
+
+        if (newName) {
+            updates.push("fname=:newName");
+            values.push(newName);
+        }
+        if (newNumber) {
+            updates.push("fPhoneNumber=:newNumber");
+            values.push(newNumber);
+        }
+
+        if (updates.length === 0) return false;
+        values.push(farmerID);
+
+        const result = await connection.execute(
+            `UPDATE Farmer SET ${updates.join(", ")} WHERE FarmerID=:farmerID`,
+            values,
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function deleteFarmerInfo(farmerID) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE Farmer SET fname=:newName where fname=:oldName`,
-            [newName, oldName],
+            `DELETE FROM Farmer WHERE FarmerID=:farmerID`,
+            [farmerID],
             { autoCommit: true }
         );
 
@@ -251,21 +282,11 @@ async function initiateShiftTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Shift (
-<<<<<<< HEAD
-                                   FarmerID INTEGER,
-                                   sDate DATE,
-                                   PRIMARY KEY (FarmerID, sDate),
-                                   FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
-                                   ON DELETE CASCADE
-            )
-=======
                 FarmerID INTEGER,
 		        sDate DATE,
 		        PRIMARY KEY (FarmerID, sDate),
 		        FOREIGN KEY (FarmerID) REFERENCES Farmer(FarmerID)
                 ON DELETE CASCADE)
-
->>>>>>> origin/main
         `);
         return true;
     }).catch(() => {
@@ -336,24 +357,13 @@ async function initiateTransactionTable() {
 
         const result = await connection.execute(`
             CREATE TABLE Transaction (
-<<<<<<< HEAD
-                                         TransactionNumber INTEGER,
-                                         cEmail VARCHAR(200) NOT NULL,
-                                         tDate DATE,
-                                         Total DECIMAL(10, 2),
-                                         PRIMARY KEY (TransactionNumber),
-                                         FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
-                                         ON DELETE SET NULL
-=======
                 TransactionNumber INTEGER,
 		        cEmail VARCHAR(200) NOT NULL,
 		        tDate DATE,
 		        Total DECIMAL(10, 2),
 		        PRIMARY KEY (TransactionNumber),
 		        FOREIGN KEY (cEmail) REFERENCES Customer(cEmail)
-                ON DELETE CASCADE
-
->>>>>>> origin/main
+                ON DELETE SET NULL
             )
         `);
         return true;
@@ -508,8 +518,6 @@ async function insertMachineryTable(machineID, type, condition) {
     });
 }
 
-
-
 // GROUP BY
 async function groupMachineryByCondition() {
     return await withOracleDB(async (connection) => {
@@ -523,6 +531,51 @@ async function groupMachineryByCondition() {
 }
 
 
+// PRODUCTS
+
+async function fetchEggProductsFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT E.BatchID, P.Yield, P.CollectionDate, A.aName, B.sbType
+             FROM EggRecords E, Products P, Animal A, StorageBuilding B
+             WHERE E.BatchID = P.BatchID
+             AND E.AnimalID = A.AnimalID
+             AND E.BuildingID = B.BuildingID`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchDairyProductsFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT D.BatchID, D.dType, P.Yield, P.CollectionDate, A.aName, B.sbType
+             FROM DairyRecords D, Products P, Animal A, StorageBuilding B
+             WHERE D.BatchID = P.BatchID
+             AND D.AnimalID = A.AnimalID
+             AND D.BuildingID = B.BuildingID`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchCropProductsFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT C.BatchID, C.crType, P.Yield, C.PlantDate, P.CollectionDate, B.sbType
+             FROM Crop C, Products P, StorageBuilding B
+             WHERE C.BatchID = P.BatchID
+             AND C.BuildingID = B.BuildingID`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 
 // FARM MANAGEMENT END **********************************************************************************************************
@@ -608,7 +661,8 @@ module.exports = {
     initiateFarmerTable,
     fetchFarmerTableFromDb,
     insertFarmerTable,
-    updateFarmerName,
+    updateFarmerInfo,
+    deleteFarmerInfo,
     initiateShiftTable,
     fetchShiftTableFromDb,
     insertShiftTable,
@@ -623,10 +677,12 @@ module.exports = {
     insertStorageBuilding,
     initiateMachineryTable,
     fetchMachineryTableFromDb,
-
     insertMachineryTable,
     groupMachineryByCondition,
-    groupTransactionHavingAmount
+    groupTransactionHavingAmount,
+    fetchEggProductsFromDb,
+    fetchDairyProductsFromDb,
+    fetchCropProductsFromDb
 };
 
 

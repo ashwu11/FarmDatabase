@@ -192,31 +192,62 @@ async function insertFarmerTable(event) {
     }
 }
 
-async function updateFarmerName(event) {
+async function updateFarmerInfo(event) {
     event.preventDefault();
 
-    const oldFarmerName = document.getElementById('oldFarmerName').value;
-    const newFarmerName = document.getElementById('newFarmerName').value;
+    const farmerID = document.getElementById('farmerID').value;
+    const newFarmerName = document.getElementById('updateFarmerName').value;
+    const newFarmerNumber = document.getElementById('updateFarmerPhoneNumber').value;
 
-    const response = await fetch('/update-farmer-name', {
+    console.log(`Updating farmer info: ${farmerID} -> ${newFarmerName} | ${newFarmerNumber}`);
+
+    const response = await fetch('/update-farmer-info', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            oldName: oldFarmerName,
-            newName: newFarmerName
+            farmerID: farmerID,
+            newName: newFarmerName,
+            newNumber: newFarmerNumber
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('updateFarmerNameResultMsg');
+    const messageElement = document.getElementById('updateFarmerResultMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Farmer name updated successfully!";
+        messageElement.textContent = "Farmer Info updated successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error updating Farmer name!";
+        messageElement.textContent = "Error updating Farmer Info!";
+    }
+}
+
+async function deleteFarmerInfo(event) {
+    event.preventDefault();
+
+    const farmerID = document.getElementById("deleteFarmerID").value;
+    console.log(`Deleting farmer with id: ${farmerID}`);
+
+    const response = await fetch('/delete-farmer-info', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            farmerID: farmerID
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('deleteFarmerResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Farmer Info deleted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error deleting Farmer!";
     }
 }
 
@@ -669,6 +700,83 @@ async function fetchGroupedTransactionByAmountWithInput() {
     }
 }
 
+// PRODUCTS
+
+async function fetchAndDisplayEggProducts() {
+    const tableElement = document.getElementById('eggProducts');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-egg-products', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const eggProducts = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    eggProducts.forEach(egg => {
+        const row = tableBody.insertRow();
+        egg.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+async function fetchAndDisplayDairyProducts() {
+    const tableElement = document.getElementById('dairyProducts');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-dairy-products', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const dairyProducts = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    dairyProducts.forEach(dairy => {
+        const row = tableBody.insertRow();
+        dairy.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+async function fetchAndDisplayCropProducts() {
+    const tableElement = document.getElementById('cropProducts');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-crop-products', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const cropProducts = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    cropProducts.forEach(crop => {
+        const row = tableBody.insertRow();
+        crop.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -809,7 +917,8 @@ window.onload = function () {
 
     document.getElementById("resetFarmerTable").addEventListener("click", resetFarmerTable);
     document.getElementById("insertFarmerTable").addEventListener("submit", insertFarmerTable);
-    document.getElementById("updateFarmerName").addEventListener("submit", updateFarmerName);
+    document.getElementById("updateFarmerInfo").addEventListener("submit", updateFarmerInfo);
+    document.getElementById("deleteFarmerInfo").addEventListener("submit", deleteFarmerInfo);
 
     document.getElementById("resetShiftTable").addEventListener("click", resetShiftTable);
     document.getElementById("insertShiftTable").addEventListener("submit", insertShiftTable);
@@ -840,5 +949,8 @@ function fetchTableData() {
     fetchAndDisplayTransactions();
     fetchAndDisplayBuildings();
     fetchAndDisplayMachines();
+    fetchAndDisplayEggProducts();
+    fetchAndDisplayDairyProducts();
+    fetchAndDisplayCropProducts();
 
 }
