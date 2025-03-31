@@ -908,15 +908,22 @@ async function selectAnimals(event) {
 
     const queryClause = conditions.join(" ");
     console.log(queryClause);
+    let response;
 
     try {
-        const response = await fetch("/select-animals", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                clauses: queryClause
-            })
-        });
+        if (!queryClause) {
+            response = await fetch('/get-animal-table', {
+                method: 'GET'
+            });
+        } else {
+            response = await fetch("/select-animals", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clauses: queryClause
+                })
+            });
+        }
 
         console.log(response);
         const responseData = await response.json();
