@@ -776,33 +776,6 @@ async function fetchAndDisplayCropProducts() {
     });
 }
 
-// Fetches data from the Animal table and displays it.
-async function fetchAndDisplayAnimals() {
-    const tableElement = document.getElementById('animalTable');
-    const tableBody = tableElement.querySelector('tbody');
-
-    const response = await fetch('/get-animal-table', {
-        method: 'GET'
-    });
-
-    const responseData = await response.json();
-    const animalTableContent = responseData.data;
-
-    // Always clear old, already fetched data before new fetching process.
-    if (tableBody) {
-        tableBody.innerHTML = '';
-    }
-
-    animalTableContent.forEach(animal => {
-        const row = tableBody.insertRow();
-        animal.forEach((field, index) => {
-            const cell = row.insertCell(index);
-            cell.textContent = field;
-        });
-    });
-}
-
-
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -977,6 +950,5 @@ function fetchTableData() {
     fetchAndDisplayEggProducts();
     fetchAndDisplayDairyProducts();
     fetchAndDisplayCropProducts();
-    fetchAndDisplayAnimals();
 
 }
