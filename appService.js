@@ -577,6 +577,44 @@ async function fetchCropProductsFromDb() {
     });
 }
 
+// ANIMALS
+
+async function selectionOnAnimals(clauses) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`SELECT * FROM Animal WHERE ${clauses}`);
+        return result.rows;
+    }).catch((err) => {
+        console.log(err);
+        return [];
+    });
+}
+
+async function fetchCowTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT C.AnimalID, A.aName, A.Age, A.PenNumber, A.Weight
+             FROM Animal A, Cow C
+             WHERE A.AnimalID = C.AnimalID`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    })
+}
+
+async function fetchChickenTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT C.AnimalID, A.aName, A.Age, A.PenNumber, A.Weight
+             FROM Animal A, Chicken C
+             WHERE A.AnimalID = C.AnimalID`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    })
+}
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -682,6 +720,9 @@ module.exports = {
     fetchEggProductsFromDb,
     fetchDairyProductsFromDb,
     fetchCropProductsFromDb,
+    selectionOnAnimals,
+    fetchCowTableFromDb,
+    fetchChickenTableFromDb
 };
 
 
