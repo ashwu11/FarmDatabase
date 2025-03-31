@@ -974,8 +974,6 @@ async function insertAnimalTable(event) {
     const type = document.getElementById('insertAnimalType').value;
 
     console.log("Adding animal ", type);
-    let childResponse;
-
     const response = await fetch('/insert-animal-table', {
         method: 'POST',
         headers: {
@@ -990,42 +988,52 @@ async function insertAnimalTable(event) {
         })
     });
 
-    if (type === "Cow") {
-        console.log("Adding a cow")
-        childResponse = await fetch('/insert-cow-table', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id
-            })
-        });
-    }
-
-    if (type === "Chicken") {
-        console.log("Adding a chicken")
-        childResponse = await fetch('/insert-chicken-table', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id
-            })
-        });
-    }
-
+    let childResponse;
     const animalResponse = await response.json();
+    if (animalResponse.success && type === "Cow") {
+        console.log("Adding a cow")
+        childResponse = await insertCow(id);
+    }
+
+    if (animalResponse.success && type === "Chicken") {
+        console.log("Adding a chicken")
+        childResponse = await insertChicken(id);
+    }
+
     const subAnimalResponse = await childResponse.json();
     const messageElement = document.getElementById('insertAnimalMsg');
-
     if (animalResponse.success && subAnimalResponse.success) {
         messageElement.textContent = "Animal added successfully!";
         fetchTableData();
     } else {
         messageElement.textContent = "Error adding Animal!";
     }
+}
+
+async function insertCow(id) {
+    console.log("Adding a cow")
+    return await fetch('/insert-cow-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
+}
+
+async function insertChicken(id) {
+    console.log("Adding a chicken")
+    return await fetch('/insert-chicken-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
 }
 
 async function fetchAndDisplayCows() {
