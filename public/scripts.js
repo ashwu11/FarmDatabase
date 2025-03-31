@@ -358,7 +358,6 @@ async function fetchAndDisplayShiftAndFarmerInfoByDate(date) {
     });
 }
 
-
 function filterShiftByDate() {
     const date = document.getElementById('filterShiftDate').value;
     if (date) {
@@ -777,7 +776,6 @@ async function fetchAndDisplayCropProducts() {
     });
 }
 
-
 // ANIMAL
 
 function addCondition() {
@@ -917,7 +915,6 @@ async function fetchAndDisplayChickens() {
         });
     });
 }
-
 
 // FARM MANAGEMENT END **********************************************************************************************************
 

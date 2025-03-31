@@ -577,7 +577,6 @@ async function fetchCropProductsFromDb() {
     });
 }
 
-
 // ANIMALS
 
 async function selectionOnAnimals(clauses) {
