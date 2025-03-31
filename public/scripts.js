@@ -1349,4 +1349,4 @@ function fetchTableData() {
     fetchAndDisplayAnimalFeedingLogTable();
     fetchAndDisplayPurchasedProductsTable();
     fetchAndDisplayMachineryUsage();
-}
+}}
