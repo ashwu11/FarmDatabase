@@ -607,7 +607,7 @@ async function fetchUnderweightCowsFromDb() {
     return await withOracleDB(async (connection) => {
         await connection.execute(
             `CREATE OR REPLACE VIEW MatureCow AS
-            SELECT * FROM Cow WHERE Age >= 3`
+            SELECT * FROM Animal WHERE Age >= 3 AND AnimalID IN (SELECT AnimalID From Cow)`
         );
         await connection.commit();
 
