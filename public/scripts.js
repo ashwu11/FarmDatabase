@@ -1107,17 +1107,20 @@ async function fetchAndDisplayPurchasedProductsTable() {
 
 async function findSuperFarmers() {
     try {
-        // Fetch the data from the backend endpoint
-        const response = await fetch("/find-super-farmers"); // Use the appropriate endpoint
+        const tableElement = document.getElementById('farmerDivisionTable');
+        const tableBody = tableElement.querySelector('tbody');
+
+        const response = await fetch("/find-super-farmers", {
+            method: 'GET',
+        });
+
         const data = await response.json();
 
-        // Get the table body element
-        const tableBody = document.querySelector('#farmerDivisionTable tbody');
+        // Always clear old, already fetched data before new fetching process.
+        if (tableBody) {
+            tableBody.innerHTML = '';
+        }
 
-        // Clear the existing rows (if any)
-        tableBody.innerHTML = '';
-
-        // If no farmers are found, display a message
         if (data.length === 0) {
             const row = tableBody.insertRow();
             const cell = row.insertCell();
@@ -1126,14 +1129,13 @@ async function findSuperFarmers() {
             return;
         }
 
-        // Populate the table with the fetched farmer data
         data.forEach(farmer => {
             const row = tableBody.insertRow();
             const farmerIdCell = row.insertCell();
             const farmerNameCell = row.insertCell();
 
-            farmerIdCell.textContent = farmer.FarmerID;  // Assuming `farmerId` is part of the response
-            farmerNameCell.textContent = farmer.fName;  // Assuming `farmerName` is part of the response
+            farmerIdCell.textContent = farmer.FarmerID;
+            farmerNameCell.textContent = farmer.fName;
         });
 
     } catch (error) {
