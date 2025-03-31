@@ -1227,7 +1227,7 @@ async function countDemotable() {
 window.onload = function () {
     checkDbConnection();
     fetchTableData();
-    showSection('farmerSection');
+    showSection('animalSection');
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);

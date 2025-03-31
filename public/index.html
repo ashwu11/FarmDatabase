@@ -153,6 +153,7 @@
 
 
         </div>
+    </div>
 
 
 
@@ -264,6 +265,67 @@
         </div>
 
     </div>
+    <!-- ===================================================================================== -->
+    <!-- **********************************   MACHINERY SECTION   ************************************** -->
+
+    <hr class="section-divider">
+    <div id="machinerySection" class="content-section">
+
+        <div class="table-wrapper">
+
+            <!-- Show 'Machinery Table' -->
+            <h2>Show Machinery Table</h2>
+            <table id="machineryTable" border="1">
+                <thead>
+                    <tr>
+                        <th>Machine ID</th>
+                        <th>Type</th>
+                        <th>Condition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <button id="groupByConditionBtn">Group Machinery by Condition</button>
+            <table id="machineryConditionGroupTable">
+                <thead>
+                    <tr>
+                        <th>Condition</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <h2> Insert Values into Machinery Table</h2>
+            <form id="insertMachineryTable">
+                Machine ID: <input type="text" id="insertMachineID" placeholder="Enter Machine ID" required> <br><br>
+                Machine Type: <input type="text" id="insertMachineType" placeholder="Enter Machine Type"
+                    maxlength="100">
+                <br><br>
+
+                Condition:
+                <select id="insertMachineCondition">
+                    <option value="New">New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                    <option value="Needs Repair">Needs Repair</option>
+                    <option value="Poor">Poor</option>
+                </select> <br><br>
+
+
+                <button type="submit"> insert </button> <br>
+            </form>
+            <div id="insertMachineryMsg"></div>
+
+        </div>
+
+    </div>
 
 
     <!-- ===================================================================================== -->
@@ -313,7 +375,8 @@
                     Number</label><br>
                 <label><input type="checkbox" name="columns" value="cEmail" checked> Customer Email</label><br>
                 <label><input type="checkbox" name="columns" value="tDate" checked> Date</label><br>
-                <label><input type="checkbox" name="columns" value="Total" checked> Total Sale Amount</label><br><br>
+                <label><input type="checkbox" name="columns" value="Total" checked> Total Sale
+                    Amount</label><br><br>
                 <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
             </form>
 
@@ -541,7 +604,8 @@
 
 
         <h2>Update Name in DemoTable</h2>
-        <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.
+        <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do
+            anything.
         </p>
         <form id="updataNameDemotable">
             Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
@@ -558,49 +622,56 @@
         <div id="countResultMsg"></div> <br>
 
         <h2>Reset Demotable</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetDemotable"> reset </button> <br>
         <div id="resetResultMsg"></div>
 
         <h2>Reset Customer Table</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetCustomerTable"> reset </button> <br>
         <div id="resetCustomerMsg"></div>
 
         <h2>Reset Farmer Table</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetFarmerTable"> reset </button> <br>
         <div id="resetFarmerMsg"></div>
 
         <h2>Reset Shift Table</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetShiftTable"> reset </button> <br>
         <div id="resetShiftMsg"></div>
 
         <h2>Reset Transactions Table</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetTransactionsTable"> reset </button> <br>
         <div id="resetTransactionsMsg"></div>
 
         <h2>Reset Storage Building Table</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetStorageBuildingTable"> reset </button> <br>
         <div id="resetStorageBuildingMsg"></div>
 
         <h2>Reset Machinery Table</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page,
+        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this
+            page,
             you
             MUST use reset</p>
         <button id="resetMachineryTable"> reset </button> <br>
