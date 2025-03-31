@@ -1094,9 +1094,6 @@ async function fetchAndDisplayAnimalFeedingLogTable() {
 }
 
 
-
-
-
 async function fetchAndDisplayPurchasedProductsTable() {
     const tableElement = document.getElementById('purchasedProductsTable');
     const tableBody = tableElement.querySelector('tbody');
@@ -1129,6 +1126,8 @@ function showSection(sectionId) {
     const selected = document.getElementById(sectionId);
     if (selected) {
         selected.style.display = 'block';
+    }
+}
       
 async function findSuperFarmers() {
     const tableBody = document.querySelector('#farmerDivisionTable tbody');
@@ -1349,4 +1348,4 @@ function fetchTableData() {
     fetchAndDisplayAnimalFeedingLogTable();
     fetchAndDisplayPurchasedProductsTable();
     fetchAndDisplayMachineryUsage();
-}}
+}
