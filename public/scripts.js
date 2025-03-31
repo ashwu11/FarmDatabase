@@ -1073,6 +1073,43 @@ async function fetchAndDisplayPurchasedProductsTable() {
     });
 }
 
+async function findSuperFarmers() {
+    try {
+        // Fetch the data from the backend endpoint
+        const response = await fetch("/find-super-farmers"); // Use the appropriate endpoint
+        const data = await response.json();
+
+        // Get the table body element
+        const tableBody = document.querySelector('#farmerDivisionTable tbody');
+
+        // Clear the existing rows (if any)
+        tableBody.innerHTML = '';
+
+        // If no farmers are found, display a message
+        if (data.length === 0) {
+            const row = tableBody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 2;
+            cell.textContent = "No super qualified farmers found.";
+            return;
+        }
+
+        // Populate the table with the fetched farmer data
+        data.forEach(farmer => {
+            const row = tableBody.insertRow();
+            const farmerIdCell = row.insertCell();
+            const farmerNameCell = row.insertCell();
+
+            farmerIdCell.textContent = farmer.FarmerID;  // Assuming `farmerId` is part of the response
+            farmerNameCell.textContent = farmer.fName;  // Assuming `farmerName` is part of the response
+        });
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('farmerDivision').textContent = "Error fetching data :(";
+    }
+}
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -1235,7 +1272,9 @@ window.onload = function () {
 
     document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
 
-    document.getElementById('countUnderweightCowsBtn').addEventListener("click", findUnderweightCows);
+    document.getElementById("countUnderweightCowsBtn").addEventListener("click", findUnderweightCows);
+
+    document.getElementById("farmerDivisionBtn").addEventListener("click", findSuperFarmers);
 
 };
 

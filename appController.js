@@ -87,6 +87,15 @@ router.post("/delete-farmer-info", async (req, res) => {
     }
 });
 
+router.post("/find-super-farmers", async(req, res) => {
+   const superFarmerResult = await appService.findSuperFarmers();
+   if (superFarmerResult && superFarmerResult.length > 0) {
+       res.json(superFarmerResult);
+   } else {
+       res.status(200).json([]);
+   }
+});
+
 //Shift
 router.post("/initiate-shift-table", async (req, res) => {
     const initiateResult = await appService.initiateShiftTable();
