@@ -649,7 +649,6 @@ async function insertMachineryTable(event) {
     }
 }
 
-
 async function fetchGroupedMachineryByCondition() {
     const tableBody = document.querySelector('#machineryConditionGroupTable tbody');
 
@@ -672,6 +671,39 @@ async function fetchGroupedMachineryByCondition() {
     } catch (error) {
         console.error("Error fetching grouped machinery data:", error);
     }
+}
+
+async function fetchAndDisplayMachineryUsage() {
+    const tableElement = document.getElementById('machineryUsageTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-machinery-usage-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const machineryUsageTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    machineryUsageTableContent.forEach(mu => {
+        const row = tableBody.insertRow();
+        mu.forEach((field, index) => {
+            const cell = row.insertCell(index);
+
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+
+        });
+    });
 }
 
 async function fetchGroupedTransactionByAmountWithInput() {
@@ -1297,4 +1329,5 @@ function fetchTableData() {
     fetchAndDisplayCropMaintenanceTable();
     fetchAndDisplayAnimalFeedingLogTable();
     fetchAndDisplayPurchasedProductsTable();
+    fetchAndDisplayMachineryUsage();
 }

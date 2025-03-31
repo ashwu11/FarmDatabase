@@ -546,6 +546,14 @@ async function groupMachineryByCondition() {
     });
 }
 
+async function fetchMachineryUsageTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM MachineryUsage');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 // PRODUCTS
 
@@ -813,7 +821,8 @@ module.exports = {
     fetchAnimalFeedingLogTableFromDb,
     fetchPurchasedProductsTableFromDb,
     fetchUnderweightCowsFromDb,
-    findSuperFarmers
+    findSuperFarmers,
+    fetchMachineryUsageTableFromDb
 };
 
 

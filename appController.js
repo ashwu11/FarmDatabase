@@ -220,6 +220,11 @@ router.get("/get-group-machinery-by-condition", async (req, res) => {
     res.json({ data: tableContent })
 });
 
+router.get("/get-machinery-usage-table", async(req, res) => {
+    const tableContent = await appService.fetchMachineryUsageTableFromDb();
+    res.json({ data: tableContent });
+})
+
 router.get('/group-transaction-having', async (req, res) => {
     const minTotal = parseFloat(req.query.minTotal || '0');
     const result = await appService.groupTransactionHavingAmount(minTotal);
