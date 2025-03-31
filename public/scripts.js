@@ -777,6 +777,55 @@ async function fetchAndDisplayCropProducts() {
     });
 }
 
+// ANIMAL
+
+async function fetchAndDisplayCows() {
+    const tableElement = document.getElementById('cowAnimals');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-cow-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const cows = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    cows.forEach(cow => {
+        const row = tableBody.insertRow();
+        cow.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+async function fetchAndDisplayChickens() {
+    const tableElement = document.getElementById('chickenAnimals');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-chicken-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const chickens = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    chickens.forEach(chicken => {
+        const row = tableBody.insertRow();
+        chicken.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -952,5 +1001,7 @@ function fetchTableData() {
     fetchAndDisplayEggProducts();
     fetchAndDisplayDairyProducts();
     fetchAndDisplayCropProducts();
+    fetchAndDisplayCows();
+    fetchAndDisplayChickens();
 
 }
