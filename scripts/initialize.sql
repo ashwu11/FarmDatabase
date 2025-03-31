@@ -203,6 +203,11 @@ INSERT INTO Animal VALUES (306, 'Mooana', 12, 128, ROUND(468.32, 2));
 INSERT INTO Animal VALUES (307, 'Feathers', 8, 125, ROUND(1.81, 2));
 INSERT INTO Animal VALUES (308, 'Clucks', 6, 130, ROUND(3.05, 2));
 INSERT INTO Animal VALUES (309, 'Milkshake', 11, 133, ROUND(625.75, 2));
+INSERT INTO Animal VALUES (310, 'Ground Beef', 9, 133, ROUND(250, 2));
+INSERT INTO Animal VALUES (311, 'Alexander', 18, 133, ROUND(974.21, 2));
+INSERT INTO Animal VALUES (312, 'Bill Burger', 7, 133, ROUND(889.89, 2));
+INSERT INTO Animal VALUES (313, 'Alexander', 1, 133, ROUND(150.64, 2));
+INSERT INTO Animal VALUES (314, 'Bill Burger', 11, 133, ROUND(765.43, 2));
 
 INSERT INTO StorageBuilding VALUES (100, 'Egg Cellar');
 INSERT INTO StorageBuilding VALUES (101, 'Milk House');
