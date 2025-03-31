@@ -270,6 +270,22 @@ async function deleteFarmerInfo(farmerID) {
     });
 }
 
+async function findSuperFarmers() {
+    return await withOracleDB(async (connection) => {
+       const superFarmers = await connection.execute(
+           `SELECT f.FarmerID, f.fName
+            FROM Farmer f, Machinery M, MachineryUsage MU
+            WHERE F.FarmerID = MU.FarmerID AND M.MachineID = MU.MachineID
+            GROUP BY f.FarmerID, f.fName
+            HAVING COUNT(DISTINCT m.mType) = (SELECT COUNT(DISTINCT mType) FROM Machinery)`
+       );
+
+       return superFarmers.rows;
+    }).catch(() => {
+       return [];
+    });
+}
+
 //Shift
 
 async function initiateShiftTable() {
@@ -530,6 +546,14 @@ async function groupMachineryByCondition() {
     });
 }
 
+async function fetchMachineryUsageTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM MachineryUsage');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 // PRODUCTS
 
@@ -796,7 +820,9 @@ module.exports = {
     fetchCropMaintenanceTableFromDb,
     fetchAnimalFeedingLogTableFromDb,
     fetchPurchasedProductsTableFromDb,
-    fetchUnderweightCowsFromDb
+    fetchUnderweightCowsFromDb,
+    findSuperFarmers,
+    fetchMachineryUsageTableFromDb
 };
 
 

@@ -87,6 +87,15 @@ router.post("/delete-farmer-info", async (req, res) => {
     }
 });
 
+router.post("/find-super-farmers", async(req, res) => {
+   const superFarmerResult = await appService.findSuperFarmers();
+   if (superFarmerResult && superFarmerResult.length > 0) {
+       res.json(superFarmerResult);
+   } else {
+       res.status(200).json([]);
+   }
+});
+
 //Shift
 router.post("/initiate-shift-table", async (req, res) => {
     const initiateResult = await appService.initiateShiftTable();
@@ -210,6 +219,11 @@ router.get("/get-group-machinery-by-condition", async (req, res) => {
     const tableContent = await appService.groupMachineryByCondition();
     res.json({ data: tableContent })
 });
+
+router.get("/get-machinery-usage-table", async(req, res) => {
+    const tableContent = await appService.fetchMachineryUsageTableFromDb();
+    res.json({ data: tableContent });
+})
 
 router.get('/group-transaction-having', async (req, res) => {
     const minTotal = parseFloat(req.query.minTotal || '0');
