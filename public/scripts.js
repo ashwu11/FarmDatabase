@@ -847,17 +847,16 @@ async function selectAnimals(event) {
 
 function displayAnimalResults(data) {
     const messageElement = document.getElementById('animalResults');
-
-    if (data.length === 0) {
-        messageElement.textContent = "No Results Found :(";
-        return;
-    }
-
     const tableElement = document.getElementById('animals');
     const tableBody = tableElement.querySelector('tbody');
 
     if (tableBody) {
         tableBody.innerHTML = '';
+    }
+
+    if (data.length === 0) {
+        messageElement.textContent = "No Results Found :(";
+        return;
     }
 
     data.forEach(animal => {
