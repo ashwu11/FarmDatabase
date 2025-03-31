@@ -577,6 +577,17 @@ async function fetchCropProductsFromDb() {
     });
 }
 
+async function fetchAnimalsFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT A.AnimalID, A.aName, A.Age, A.PenNumber, A.Weight
+             FROM Animal A`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
@@ -682,7 +693,8 @@ module.exports = {
     groupTransactionHavingAmount,
     fetchEggProductsFromDb,
     fetchDairyProductsFromDb,
-    fetchCropProductsFromDb
+    fetchCropProductsFromDb,
+    fetchAnimalsFromDb
 };
 
 

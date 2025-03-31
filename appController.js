@@ -235,6 +235,11 @@ router.get('/get-crop-products', async (req, res) => {
     res.json({ data: tableContent });
 });
 
+router.get('/get-animal-table', async(req, res) => {
+   const tableContent = await appService.fetchAnimalsFromDb();
+   res.json({ data: tableContent });
+});
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 
