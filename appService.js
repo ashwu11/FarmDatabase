@@ -614,7 +614,7 @@ async function fetchUnderweightCowsFromDb() {
         const result = await connection.execute(
             `SELECT COUNT(C1.AnimalID)
             FROM MatureCow C1
-            WHERE C1.Weight < ALL(SELECT AVG(C2.Weight)
+            WHERE C1.Weight <= ALL(SELECT AVG(C2.Weight)
                                   FROM MatureCow C2
                                   GROUP BY Age)`
         );
