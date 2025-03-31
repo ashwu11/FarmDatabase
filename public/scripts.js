@@ -358,7 +358,6 @@ async function fetchAndDisplayShiftAndFarmerInfoByDate(date) {
     });
 }
 
-
 function filterShiftByDate() {
     const date = document.getElementById('filterShiftDate').value;
     if (date) {
@@ -675,7 +674,6 @@ async function fetchGroupedMachineryByCondition() {
     }
 }
 
-
 async function fetchGroupedTransactionByAmountWithInput() {
     const minTotalInput = document.getElementById("minTotalInput").value;
 
@@ -799,9 +797,6 @@ async function fetchAndDisplayCropProducts() {
         });
     });
 }
-
-
-
 
 // ANIMAL
 
@@ -953,6 +948,18 @@ async function fetchAndDisplayCows() {
     });
 }
 
+async function findUnderweightCows() {
+    try {
+        const response = await fetch("/count-underweight-cows");
+        const data = await response.json();
+
+        document.getElementById('underWeightCows').textContent = `Underweight cows count: ${data.count}`;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('underWeightCows').textContent = "Error fetching data :(";
+    }
+}
+
 async function fetchAndDisplayChickens() {
     const tableElement = document.getElementById('chickenAnimals');
     const tableBody = tableElement.querySelector('tbody');
@@ -1079,6 +1086,7 @@ async function fetchAndDisplayPurchasedProductsTable() {
     });
 }
 
+
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(sec => sec.style.display = 'none');
@@ -1088,7 +1096,6 @@ function showSection(sectionId) {
         selected.style.display = 'block';
     }
 }
-
 
 
 // FARM MANAGEMENT END **********************************************************************************************************
@@ -1253,6 +1260,8 @@ window.onload = function () {
     document.getElementById("groupByTransactionAmountBtn").addEventListener("click", fetchGroupedTransactionByAmountWithInput);
 
     document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
+
+    document.getElementById('countUnderweightCowsBtn').addEventListener("click", findUnderweightCows);
 
 };
 

@@ -577,7 +577,6 @@ async function fetchCropProductsFromDb() {
     });
 }
 
-
 // ANIMALS
 
 async function fetchAnimalTableFromDb() {
@@ -612,6 +611,29 @@ async function fetchCowTableFromDb() {
     }).catch(() => {
         return [];
     })
+}
+
+// Nested aggregation with GROUP BY
+async function fetchUnderweightCowsFromDb() {
+    return await withOracleDB(async (connection) => {
+        await connection.execute(
+            `CREATE OR REPLACE VIEW MatureCow AS
+            SELECT * FROM Animal WHERE Age >= 3 AND AnimalID IN (SELECT AnimalID From Cow)`
+        );
+        await connection.commit();
+
+        const result = await connection.execute(
+            `SELECT COUNT(C1.AnimalID)
+            FROM MatureCow C1
+            WHERE C1.Weight <= ALL(SELECT AVG(C2.Weight)
+                                  FROM MatureCow C2
+                                  GROUP BY Age)`
+        );
+
+        return result.rows.length > 0 ? result.rows[0][0] : 0;
+    }).catch(() => {
+        return 0;
+    });
 }
 
 async function fetchChickenTableFromDb() {
@@ -773,7 +795,8 @@ module.exports = {
     fetchChickenTableFromDb,
     fetchCropMaintenanceTableFromDb,
     fetchAnimalFeedingLogTableFromDb,
-    fetchPurchasedProductsTableFromDb
+    fetchPurchasedProductsTableFromDb,
+    fetchUnderweightCowsFromDb
 };
 
 
