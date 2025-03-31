@@ -98,6 +98,18 @@
         <tbody></tbody>
     </table>
 
+    <h2>Show Purchased Products Table</h2>
+    <table id="purchasedProductsTable" border="1">
+        <thead>
+            <tr>
+                <th>Batch ID</th>
+                <th>Transaction Number</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
     <!-- Show 'Farmer Table' -->
     <h2>Show Farmer Table</h2>
     <table id="farmerTable" border="1">
@@ -116,10 +128,10 @@
     <h2>Show Shift Table</h2>
     <table id="shiftTable" border="1">
         <thead>
-        <tr>
-            <th>Farmer ID</th>
-            <th>Shift Date</th>
-        </tr>
+            <tr>
+                <th>Farmer ID</th>
+                <th>Shift Date</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -135,11 +147,11 @@
     <h3>Farmer Contact Info for Selected Date</h3>
     <table id="farmerInfoTable" border="1">
         <thead>
-        <tr>
-            <th>Farmer ID</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-        </tr>
+            <tr>
+                <th>Farmer ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+            </tr>
         </thead>
         <tbody></tbody>
     </table>
@@ -148,10 +160,10 @@
     <h2>Show Storage Building Table</h2>
     <table id="storageBuildingTable" border="1">
         <thead>
-        <tr>
-            <th>Building ID</th>
-            <th>Building Type</th>
-        </tr>
+            <tr>
+                <th>Building ID</th>
+                <th>Building Type</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -161,11 +173,11 @@
     <h2>Show Machinery Table</h2>
     <table id="machineryTable" border="1">
         <thead>
-        <tr>
-            <th>Machine ID</th>
-            <th>Type</th>
-            <th>Condition</th>
-        </tr>
+            <tr>
+                <th>Machine ID</th>
+                <th>Type</th>
+                <th>Condition</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -186,13 +198,13 @@
     <h2>Show Egg Products</h2>
     <table id="eggProducts" border="1">
         <thead>
-        <tr>
-            <th>Batch ID</th>
-            <th>Yield</th>
-            <th>Collection Date</th>
-            <th>Chicken Name</th>
-            <th>Stored In Building</th>
-        </tr>
+            <tr>
+                <th>Batch ID</th>
+                <th>Yield</th>
+                <th>Collection Date</th>
+                <th>Chicken Name</th>
+                <th>Stored In Building</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -201,14 +213,14 @@
     <h2>Show Dairy Products</h2>
     <table id="dairyProducts" border="1">
         <thead>
-        <tr>
-            <th>Batch ID</th>
-            <th>Type</th>
-            <th>Yield</th>
-            <th>Collection Date</th>
-            <th>Cow Name</th>
-            <th>Stored In Building</th>
-        </tr>
+            <tr>
+                <th>Batch ID</th>
+                <th>Type</th>
+                <th>Yield</th>
+                <th>Collection Date</th>
+                <th>Cow Name</th>
+                <th>Stored In Building</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -217,20 +229,49 @@
     <h2>Show Crop Products</h2>
     <table id="cropProducts" border="1">
         <thead>
-        <tr>
-            <th>Batch ID</th>
-            <th>Type</th>
-            <th>Yield</th>
-            <th>Plant Date</th>
-            <th>Collection Date</th>
-            <th>Stored In Building</th>
-        </tr>
+            <tr>
+                <th>Batch ID</th>
+                <th>Type</th>
+                <th>Yield</th>
+                <th>Plant Date</th>
+                <th>Collection Date</th>
+                <th>Stored In Building</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <h2>Show Crop Maintenance Log Table</h2>
+    <table id="cropMaintenanceTable" border="1">
+        <thead>
+            <tr>
+                <th>Tasks Completed</th>
+                <th>Farmer ID</th>
+                <th>Date</th>
+                <th>Batch ID</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
 
     <!--  Show Animal Tables -->
+
+    <h2>Show Animal Table</h2>
+    <table id="animalTable" border="1">
+        <thead>
+            <tr>
+                <th>Animal ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Pen Number</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
     <h2>Search For Animals</h2>
     <form id="animalSearchForm">
@@ -241,13 +282,13 @@
     </form> <br><br>
     <table id="animals" border="1">
         <thead>
-        <tr>
-            <th>Animal ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Pen Number</th>
-            <th>Weight</th>
-        </tr>
+            <tr>
+                <th>Animal ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Pen Number</th>
+                <th>Weight</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -257,13 +298,13 @@
     <h2>Show Cow Table</h2>
     <table id="cowAnimals" border="1">
         <thead>
-        <tr>
-            <th>Animal ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Pen Number</th>
-            <th>Weight</th>
-        </tr>
+            <tr>
+                <th>Animal ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Pen Number</th>
+                <th>Weight</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -272,13 +313,26 @@
     <h2>Show Chicken Table</h2>
     <table id="chickenAnimals" border="1">
         <thead>
-        <tr>
-            <th>Animal ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Pen Number</th>
-            <th>Weight</th>
-        </tr>
+            <tr>
+                <th>Animal ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Pen Number</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <h2>Show Animal Feeding Log Table</h2>
+    <table id="feedingLogTable" border="1">
+        <thead>
+            <tr>
+                <th>Farmer ID</th>
+                <th>Animal ID</th>
+                <th>Feeding Date</th>
+            </tr>
         </thead>
         <tbody>
         </tbody>
@@ -301,7 +355,7 @@
         Email: <input type="text" id="insertCustomerEmail" placeholder="Enter Email" required> <br><br>
         Name: <input type="text" id="insertCustomerName" placeholder="Enter Name" maxlength="100"> <br><br>
         Phone Number: <input type="text" id="insertCustomerPhoneNumber" placeholder="Enter Phone Number"
-                             maxlength="100">
+            maxlength="100">
         <br><br>
 
         <button type="submit"> insert </button> <br>
@@ -332,12 +386,12 @@
     <h2> Insert Values into Transactions Table</h2>
     <form id="insertTransactionsTable">
         Transaction Number: <input type="text" id="insertTransactionNumber" placeholder="Enter Transaction Number"
-                                   required> <br><br>
+            required> <br><br>
         Customer Email: <input type="text" id="insertTransactionCustomerEmail" placeholder="Enter Customer Email"
-                               maxlength="100" required> <br><br>
+            maxlength="100" required> <br><br>
         Date: <input type="date" id="insertTransactionDate" placeholder="Enter Transaction Date" required> <br><br>
         Total Sale Amount: <input type="text" id="insertTransactionTotal" placeholder="Enter Transaction Total"
-                                  maxlength="100" required> <br><br>
+            maxlength="100" required> <br><br>
         <br><br>
 
         <button type="submit"> insert </button> <br>
@@ -356,7 +410,8 @@
     <h2> Insert Values into Machinery Table</h2>
     <form id="insertMachineryTable">
         Machine ID: <input type="text" id="insertMachineID" placeholder="Enter Machine ID" required> <br><br>
-        Machine Type: <input type="text" id="insertMachineType" placeholder="Enter Machine Type" maxlength="100"> <br><br>
+        Machine Type: <input type="text" id="insertMachineType" placeholder="Enter Machine Type" maxlength="100">
+        <br><br>
 
         Condition:
         <select id="insertMachineCondition">
@@ -392,7 +447,8 @@
     <form id="updateFarmerInfo">
         Farmer ID: <input type="number" id="farmerID" placeholder="Enter Farmer ID" required> <br><br>
         Update Name: <input type="text" id="updateFarmerName" placeholder="Enter New Name"> <br><br>
-        Update Phone Number: <input type="text" id="updateFarmerPhoneNumber" placeholder="Enter New Phone Number" maxlength="100"> <br><br>
+        Update Phone Number: <input type="text" id="updateFarmerPhoneNumber" placeholder="Enter New Phone Number"
+            maxlength="100"> <br><br>
 
         <button type="submit"> Update </button> <br>
     </form>

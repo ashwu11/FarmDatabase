@@ -580,6 +580,17 @@ async function fetchCropProductsFromDb() {
 
 // ANIMALS
 
+async function fetchAnimalTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT * FROM Animal`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    })
+}
+
 async function selectionOnAnimals(clauses) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`SELECT * FROM Animal WHERE ${clauses}`);
@@ -609,6 +620,41 @@ async function fetchChickenTableFromDb() {
             `SELECT C.AnimalID, A.aName, A.Age, A.PenNumber, A.Weight
              FROM Animal A, Chicken C
              WHERE A.AnimalID = C.AnimalID`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    })
+}
+
+// Show rest of tables
+
+async function fetchCropMaintenanceTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT * FROM CropMaintenance`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    })
+}
+
+async function fetchAnimalFeedingLogTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT * FROM AnimalFeedingLog`
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    })
+}
+
+async function fetchPurchasedProductsTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT * FROM PurchasedProducts`
         );
         return result.rows;
     }).catch(() => {
@@ -721,9 +767,13 @@ module.exports = {
     fetchEggProductsFromDb,
     fetchDairyProductsFromDb,
     fetchCropProductsFromDb,
+    fetchAnimalTableFromDb,
     selectionOnAnimals,
     fetchCowTableFromDb,
-    fetchChickenTableFromDb
+    fetchChickenTableFromDb,
+    fetchCropMaintenanceTableFromDb,
+    fetchAnimalFeedingLogTableFromDb,
+    fetchPurchasedProductsTableFromDb
 };
 
 
