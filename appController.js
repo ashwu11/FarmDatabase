@@ -88,10 +88,14 @@ router.post("/delete-farmer-info", async (req, res) => {
 });
 
 router.post("/find-super-farmers", async(req, res) => {
+   console.log("division4");
    const superFarmerResult = await appService.findSuperFarmers();
+   console.log("division5");
    if (superFarmerResult && superFarmerResult.length > 0) {
+       console.log("division6");
        res.json(superFarmerResult);
    } else {
+       console.log("division7");
        res.status(200).json([]);
    }
 });

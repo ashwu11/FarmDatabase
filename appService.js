@@ -271,6 +271,7 @@ async function deleteFarmerInfo(farmerID) {
 }
 
 async function findSuperFarmers() {
+    console.log("division1");
     return await withOracleDB(async (connection) => {
        const superFarmers = await connection.execute(
            `SELECT f.FarmerID, f.fName
@@ -279,9 +280,11 @@ async function findSuperFarmers() {
             GROUP BY f.FarmerID, f.fName
             HAVING COUNT(DISTINCT m.mType) = (SELECT COUNT(DISTINCT mType) FROM Machinery)`
        );
+       console.log("division2");
 
        return superFarmers.rows;
     }).catch(() => {
+        console.log("division3");
        return [];
     });
 }

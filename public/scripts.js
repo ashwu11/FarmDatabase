@@ -1110,9 +1110,13 @@ async function findSuperFarmers() {
         const tableElement = document.getElementById('farmerDivisionTable');
         const tableBody = tableElement.querySelector('tbody');
 
+        console.log("division8");
+
         const response = await fetch("/find-super-farmers", {
             method: 'GET',
         });
+
+        console.log("division8");
 
         const data = await response.json();
 
@@ -1120,8 +1124,10 @@ async function findSuperFarmers() {
         if (tableBody) {
             tableBody.innerHTML = '';
         }
+        console.log("division9");
 
         if (data.length === 0) {
+            console.log("division10");
             const row = tableBody.insertRow();
             const cell = row.insertCell();
             cell.colSpan = 2;
@@ -1129,6 +1135,7 @@ async function findSuperFarmers() {
             return;
         }
 
+        console.log("division11");
         data.forEach(farmer => {
             const row = tableBody.insertRow();
             const farmerIdCell = row.insertCell();
@@ -1139,6 +1146,7 @@ async function findSuperFarmers() {
         });
 
     } catch (error) {
+        console.log("division12");
         console.error('Error fetching data:', error);
         document.getElementById('farmerDivision').textContent = "Error fetching data :(";
     }
