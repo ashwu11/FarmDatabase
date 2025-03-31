@@ -1109,14 +1109,20 @@ async function findSuperFarmers() {
     const tableBody = document.querySelector('#farmerDivisionTable tbody');
 
     try {
-        const response = await fetch("/find-super-farmers");
+        const response = await fetch("/find-super-farmers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
         const data = await response.json();
 
-        if (!data.data) throw new Error("Fetch failed");
+        if (!Array.isArray(data)) throw new Error("Fetch failed");
 
         tableBody.innerHTML = '';
 
-        data.data.forEach(([farmerID, farmerName]) => {
+        data.forEach(([farmerID, farmerName]) => {
             const row = tableBody.insertRow();
             const farmerIDCell = row.insertCell();
             const farmerNameCell = row.insertCell();
@@ -1128,6 +1134,7 @@ async function findSuperFarmers() {
         console.error("Error fetching super farmer data:", error);
     }
 }
+
 
 // FARM MANAGEMENT END **********************************************************************************************************
 
