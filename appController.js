@@ -238,6 +238,11 @@ router.get('/get-crop-products', async (req, res) => {
 
 // ANIMALS
 
+router.get('/get-animal-table', async (req, res) => {
+    const tableContent = await appService.fetchAnimalTableFromDb();
+    res.json({ data: tableContent });
+});
+
 router.post('/select-animals', async (req, res) => {
     const { clauses } = req.body;
     const selection = await appService.selectionOnAnimals(clauses);
@@ -251,6 +256,22 @@ router.get('/get-cow-table', async (req, res) => {
 
 router.get('/get-chicken-table', async (req, res) => {
     const tableContent = await appService.fetchChickenTableFromDb();
+    res.json({ data: tableContent });
+});
+
+//rest of tables
+router.get('/get-crop-maintenance-table', async (req, res) => {
+    const tableContent = await appService.fetchCropMaintenanceTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.get('/get-animal-feeding-table', async (req, res) => {
+    const tableContent = await appService.fetchAnimalFeedingLogTableFromDb();
+    res.json({ data: tableContent });
+});
+
+router.get('/get-purchased-products-table', async (req, res) => {
+    const tableContent = await appService.fetchPurchasedProductsTableFromDb();
     res.json({ data: tableContent });
 });
 

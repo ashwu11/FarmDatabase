@@ -722,10 +722,19 @@ async function fetchAndDisplayEggProducts() {
         const row = tableBody.insertRow();
         egg.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = field;
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 }
+
+
+
 
 async function fetchAndDisplayDairyProducts() {
     const tableElement = document.getElementById('dairyProducts');
@@ -747,10 +756,18 @@ async function fetchAndDisplayDairyProducts() {
         const row = tableBody.insertRow();
         dairy.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = field;
+            if (index === 3) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 }
+
+
 
 async function fetchAndDisplayCropProducts() {
     const tableElement = document.getElementById('cropProducts');
@@ -772,13 +789,46 @@ async function fetchAndDisplayCropProducts() {
         const row = tableBody.insertRow();
         crop.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = field;
+            if (index === 3 || index === 4) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 }
 
 
+
+
 // ANIMAL
+
+async function fetchAndDisplayAnimalTable() {
+    const tableElement = document.getElementById('animalTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-animal-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const animalTable = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    animalTable.forEach(animal => {
+        const row = tableBody.insertRow();
+        animal.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+        });
+    });
+}
 
 function addCondition() {
     const attributes = ["AnimalID", "aName", "Age", "PenNumber", "Weight"];
@@ -863,7 +913,7 @@ function displayAnimalResults(data) {
         const row = tableBody.insertRow();
         animal.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = field;
+            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
         });
     });
 
@@ -889,7 +939,7 @@ async function fetchAndDisplayCows() {
         const row = tableBody.insertRow();
         cow.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = field;
+            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
         });
     });
 }
@@ -913,10 +963,109 @@ async function fetchAndDisplayChickens() {
         const row = tableBody.insertRow();
         chicken.forEach((field, index) => {
             const cell = row.insertCell(index);
+            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+        });
+    });
+}
+
+
+// rest of tables 
+
+
+async function fetchAndDisplayCropMaintenanceTable() {
+    const tableElement = document.getElementById('cropMaintenanceTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-crop-maintenance-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const cropMaintenanceTable = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    cropMaintenanceTable.forEach(log => {
+        const row = tableBody.insertRow();
+        log.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+        });
+    });
+}
+
+
+
+
+async function fetchAndDisplayAnimalFeedingLogTable() {
+    const tableElement = document.getElementById('feedingLogTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-animal-feeding-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const feedingLogTable = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    feedingLogTable.forEach(log => {
+        const row = tableBody.insertRow();
+        log.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+        });
+    });
+}
+
+
+
+
+
+async function fetchAndDisplayPurchasedProductsTable() {
+    const tableElement = document.getElementById('purchasedProductsTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-purchased-products-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const purchasedProductsTable = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    purchasedProductsTable.forEach(purchasedProduct => {
+        const row = tableBody.insertRow();
+        purchasedProduct.forEach((field, index) => {
+            const cell = row.insertCell(index);
             cell.textContent = field;
         });
     });
 }
+
 
 
 // FARM MANAGEMENT END **********************************************************************************************************
@@ -1098,5 +1247,8 @@ function fetchTableData() {
     fetchAndDisplayCropProducts();
     fetchAndDisplayCows();
     fetchAndDisplayChickens();
-
+    fetchAndDisplayAnimalTable();
+    fetchAndDisplayCropMaintenanceTable();
+    fetchAndDisplayAnimalFeedingLogTable();
+    fetchAndDisplayPurchasedProductsTable();
 }
