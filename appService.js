@@ -673,6 +673,48 @@ async function fetchChickenTableFromDb() {
     })
 }
 
+async function insertAnimal(id, name, age, penNumber, weight) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Animal VALUES (:id, :name, :age, :penNumber, :weight)`,
+            [id, name, age, penNumber, weight],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function insertCow(id) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Cow VALUES (:id)`,
+            [id],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function insertChicken(id) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Chicken VALUES (:id)`,
+            [id],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 // Show rest of tables
 
 async function fetchCropMaintenanceTableFromDb() {
@@ -817,6 +859,9 @@ module.exports = {
     selectionOnAnimals,
     fetchCowTableFromDb,
     fetchChickenTableFromDb,
+    insertAnimal,
+    insertCow,
+    insertChicken,
     fetchCropMaintenanceTableFromDb,
     fetchAnimalFeedingLogTableFromDb,
     fetchPurchasedProductsTableFromDb,

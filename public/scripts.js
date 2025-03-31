@@ -108,10 +108,10 @@ async function insertCustomerTable(event) {
     const messageElement = document.getElementById('insertCustomerMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
+        messageElement.textContent = "Customer added successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error adding Customer!";
     }
 }
 
@@ -185,10 +185,10 @@ async function insertFarmerTable(event) {
     const messageElement = document.getElementById('insertFarmerMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
+        messageElement.textContent = "Farmer added successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error adding Farmer!";
     }
 }
 
@@ -328,10 +328,10 @@ async function insertShiftTable(event) {
     const messageElement = document.getElementById('insertShiftMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
+        messageElement.textContent = "Shift added successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error adding shift!";
     }
 }
 
@@ -444,10 +444,10 @@ async function insertTransactionsTable(event) {
     const messageElement = document.getElementById('insertTransactionMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
+        messageElement.textContent = "Transaction added successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error adding Transaction!";
     }
 }
 
@@ -565,10 +565,10 @@ async function insertStorageBuildingTable(event) {
     const messageElement = document.getElementById('insertStorageBuildingMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
+        messageElement.textContent = "Storage Building added successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error adding Storage Building!";
     }
 }
 
@@ -642,10 +642,10 @@ async function insertMachineryTable(event) {
     const messageElement = document.getElementById('insertMachineryMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
+        messageElement.textContent = "Machinery added successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error adding Machinery!";
     }
 }
 
@@ -908,15 +908,22 @@ async function selectAnimals(event) {
 
     const queryClause = conditions.join(" ");
     console.log(queryClause);
+    let response;
 
     try {
-        const response = await fetch("/select-animals", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                clauses: queryClause
-            })
-        });
+        if (!queryClause) {
+            response = await fetch('/get-animal-table', {
+                method: 'GET'
+            });
+        } else {
+            response = await fetch("/select-animals", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clauses: queryClause
+                })
+            });
+        }
 
         console.log(response);
         const responseData = await response.json();
@@ -937,7 +944,7 @@ function displayAnimalResults(data) {
     }
 
     if (data.length === 0) {
-        messageElement.textContent = "No Results Found :(";
+        messageElement.textContent = "No Animals Found :(";
         return;
     }
 
@@ -954,6 +961,79 @@ function displayAnimalResults(data) {
     });
 
     messageElement.textContent = "Search Successful!";
+}
+
+async function insertAnimalTable(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('insertAnimalID').value;
+    const name = document.getElementById('insertAnimalName').value;
+    const age = document.getElementById('insertAnimalAge').value;
+    const penNumber = document.getElementById('insertAnimalPenNumber').value;
+    const weight = document.getElementById('insertAnimalWeight').value;
+    const type = document.getElementById('insertAnimalType').value;
+
+    console.log("Adding animal ", type);
+    const response = await fetch('/insert-animal-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            name: name,
+            age: age,
+            penNumber: penNumber,
+            weight: weight,
+        })
+    });
+
+    let childResponse;
+    const animalResponse = await response.json();
+    if (animalResponse.success && type === "Cow") {
+        console.log("Adding a cow")
+        childResponse = await insertCow(id);
+    }
+
+    if (animalResponse.success && type === "Chicken") {
+        console.log("Adding a chicken")
+        childResponse = await insertChicken(id);
+    }
+
+    const subAnimalResponse = await childResponse.json();
+    const messageElement = document.getElementById('insertAnimalMsg');
+    if (animalResponse.success && subAnimalResponse.success) {
+        messageElement.textContent = "Animal added successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error adding Animal!";
+    }
+}
+
+async function insertCow(id) {
+    console.log("Adding a cow")
+    return await fetch('/insert-cow-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
+}
+
+async function insertChicken(id) {
+    console.log("Adding a chicken")
+    return await fetch('/insert-chicken-table', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
 }
 
 async function fetchAndDisplayCows() {
@@ -1322,6 +1402,7 @@ window.onload = function () {
     document.getElementById("groupByTransactionAmountBtn").addEventListener("click", fetchGroupedTransactionByAmountWithInput);
 
     document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
+    document.getElementById("insertAnimalTable").addEventListener("submit", insertAnimalTable);
 
     document.getElementById("countUnderweightCowsBtn").addEventListener("click", findUnderweightCows);
 
@@ -1341,9 +1422,9 @@ function fetchTableData() {
     fetchAndDisplayEggProducts();
     fetchAndDisplayDairyProducts();
     fetchAndDisplayCropProducts();
+    fetchAndDisplayAnimalTable();
     fetchAndDisplayCows();
     fetchAndDisplayChickens();
-    fetchAndDisplayAnimalTable();
     fetchAndDisplayCropMaintenanceTable();
     fetchAndDisplayAnimalFeedingLogTable();
     fetchAndDisplayPurchasedProductsTable();

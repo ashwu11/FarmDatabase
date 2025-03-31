@@ -114,7 +114,7 @@
         </div>
 
         <div class="table-wrapper">
-            <h2> Insert Values into Farmer Table</h2>
+            <h2> Add New Farmer</h2>
             <form id="insertFarmerTable">
                 ID: <input type="text" id="insertFarmerID" placeholder="Enter ID" required> <br><br>
                 Name: <input type="text" id="insertFarmerName" placeholder="Enter Name" maxlength="100"> <br><br>
@@ -122,20 +122,20 @@
                     maxlength="100">
                 <br><br>
 
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Add </button> <br>
             </form>
             <div id="insertFarmerMsg"></div>
         </div>
 
         <div class="table-wrapper">
-            <h2> Insert Values into Shift Table</h2>
+            <h2> Add New Shift</h2>
             <form id="insertShiftTable">
                 FarmerID: <input type="text" id="insertShiftFarmerID" placeholder="Enter FarmerID" required> <br><br>
                 Shift Date: <input type="date" id="insertDate" placeholder="Enter Date" maxlength="100" required>
                 <br><br>
                 <br><br>
 
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Add </button> <br>
             </form>
             <div id="insertShiftMsg"></div>
         </div>
@@ -143,7 +143,7 @@
 
         <div class="table-wrapper">
 
-            <h2>Update Farmer Information in Farmer Table</h2>
+            <h2>Update Farmer Information</h2>
             <p>Please provide the FarmerID in order to update the Farmer's info</p>
             <form id="updateFarmerInfo">
                 Farmer ID: <input type="number" id="farmerID" placeholder="Enter Farmer ID" required> <br><br>
@@ -160,8 +160,8 @@
 
         <div class="table-wrapper">
 
-            <h2>Delete Farmer Information in Farmer Table</h2>
-            <p>Please provide the FarmerID in order to delete the Farmer's info</p>
+            <h2>Delete Farmer Information</h2>
+            <p>Please provide the FarmerID in order to delete the Farmer's information</p>
             <form id="deleteFarmerInfo">
                 Farmer ID: <input type="number" id="deleteFarmerID" placeholder="Enter Farmer ID" required> <br><br>
                 <button type="submit"> Delete </button> <br>
@@ -183,7 +183,7 @@
 
         <div class="table-wrapper">
 
-            <h2>Show Animal Table</h2>
+            <h2>Animal Table</h2>
             <table id="animalTable" border="1">
                 <thead>
                     <tr>
@@ -224,7 +224,7 @@
         </div>
 
         <div class="table-wrapper">
-            <h2>Show Cow Table</h2>
+            <h2>Cow Table</h2>
             <table id="cowAnimals" border="1">
                 <thead>
                     <tr>
@@ -246,7 +246,7 @@
 
         <div class="table-wrapper">
 
-            <h2>Show Chicken Table</h2>
+            <h2>Chicken Table</h2>
             <table id="chickenAnimals" border="1">
                 <thead>
                     <tr>
@@ -264,12 +264,29 @@
         </div>
 
 
+        <div class="table-wrapper">
+            <h2> Add New Animal</h2>
+            <form id="insertAnimalTable">
+                Animal ID: <input type="number" id="insertAnimalID" placeholder="Enter ID" required> <br><br>
+                Name: <input type="text" id="insertAnimalName" placeholder="Enter Name" maxlength="100"> <br><br>
+                Age: <input type="number" id="insertAnimalAge" placeholder="Enter Age"> <br><br>
+                Pen Number: <input type="number" id="insertAnimalPenNumber" placeholder="Enter Pen Number"> <br><br>
+                Weight: <input id="insertAnimalWeight" placeholder="Enter Animal Weight">
+                Type of Animal:
+                <select id="insertAnimalType">
+                    <option value="Cow">Cow</option>
+                    <option value="Chicken">Chicken</option>
+                </select> <br><br>
 
+                <button type="submit"> Add </button> <br>
+            </form>
+            <div id="insertAnimalMsg"></div>
+        </div>
 
 
         <div class="table-wrapper">
 
-            <h2>Show Animal Feeding Log Table</h2>
+            <h2>Animal Feeding Log</h2>
             <table id="feedingLogTable" border="1">
                 <thead>
                     <tr>
@@ -294,7 +311,7 @@
         <div class="table-wrapper">
 
             <!-- Show 'Machinery Table' -->
-            <h2>Show Machinery Table</h2>
+            <h2>Machinery Table</h2>
             <table id="machineryTable" border="1">
                 <thead>
                     <tr>
@@ -336,7 +353,7 @@
 
         <div class="table-wrapper">
 
-            <h2> Insert Values into Machinery Table</h2>
+            <h2> Add New Machinery</h2>
             <form id="insertMachineryTable">
                 Machine ID: <input type="text" id="insertMachineID" placeholder="Enter Machine ID" required> <br><br>
                 Machine Type: <input type="text" id="insertMachineType" placeholder="Enter Machine Type"
@@ -353,7 +370,7 @@
                 </select> <br><br>
 
 
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Add </button> <br>
             </form>
             <div id="insertMachineryMsg"></div>
 
@@ -369,7 +386,7 @@
 
         <div class="table-wrapper">
             <!-- Show 'Customer Table' -->
-            <h2>Show Customer Table</h2>
+            <h2>Customer Table</h2>
             <table id="customerTable" border="1">
                 <thead>
                     <tr>
@@ -385,7 +402,7 @@
 
         <div class="table-wrapper">
 
-            <h2> Insert Values into Customer Table</h2>
+            <h2> Add New Customer</h2>
             <form id="insertCustomerTable">
                 Email: <input type="text" id="insertCustomerEmail" placeholder="Enter Email" required> <br><br>
                 Name: <input type="text" id="insertCustomerName" placeholder="Enter Name" maxlength="100"> <br><br>
@@ -393,7 +410,7 @@
                     maxlength="100">
                 <br><br>
 
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Add </button> <br>
             </form>
             <div id="insertCustomerMsg"></div>
         </div>
@@ -404,17 +421,20 @@
 
             <h3>Select Columns to Display in Transaction Table</h3>
             <form id="transactionProjectionForm">
-                <label><input type="checkbox" name="columns" value="TransactionNumber" checked> Transaction
-                    Number</label><br>
-                <label><input type="checkbox" name="columns" value="cEmail" checked> Customer Email</label><br>
-                <label><input type="checkbox" name="columns" value="tDate" checked> Date</label><br>
-                <label><input type="checkbox" name="columns" value="Total" checked> Total Sale
-                    Amount</label><br><br>
+                <label class="checkbox">
+                    <input type="checkbox" name="columns" value="TransactionNumber" checked>
+                    <span class="checkmark"></span> Transaction Number</label><br>
+                <label class="checkbox"><input type="checkbox" name="columns" value="cEmail" checked>
+                    <span class="checkmark"></span> Customer Email</label><br>
+                <label class="checkbox"><input type="checkbox" name="columns" value="tDate" checked>
+                    <span class="checkmark"></span> Date</label><br>
+                <label class="checkbox"><input type="checkbox" name="columns" value="Total" checked>
+                    <span class="checkmark"></span> Total Sale Amount</label><br><br>
                 <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
             </form>
 
             <!-- Show 'Transaction Table' -->
-            <h2>Show Transaction Table</h2>
+            <h2>Transaction Table</h2>
             <table id="transactionTable" border="1">
                 <thead>
                     <tr>
@@ -433,7 +453,7 @@
 
 
 
-            <h2> Insert Values into Transactions Table</h2>
+            <h2>Add New Transaction</h2>
             <form id="insertTransactionsTable">
                 Transaction Number: <input type="text" id="insertTransactionNumber"
                     placeholder="Enter Transaction Number" required> <br><br>
@@ -445,7 +465,7 @@
                     maxlength="100" required> <br><br>
                 <br><br>
 
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Add </button> <br>
             </form>
             <div id="insertTransactionMsg"></div>
 
@@ -472,7 +492,7 @@
         </div>
 
         <div class="table-wrapper">
-            <h2>Show Purchased Products Table</h2>
+            <h2>Purchased Products Table</h2>
             <table id="purchasedProductsTable" border="1">
                 <thead>
                     <tr>
@@ -495,7 +515,7 @@
     <div id="storageSection" class="content-section">
 
         <div class="table-wrapper">
-            <h2>Show Storage Building Table</h2>
+            <h2>Storage Building Table</h2>
             <table id="storageBuildingTable" border="1">
                 <thead>
                     <tr>
@@ -511,20 +531,20 @@
 
         <div class="table-wrapper">
 
-            <h2> Insert values into Storage Building Table</h2>
+            <h2>Add New Storage Building</h2>
             <form id="insertStorageBuilding">
                 Building ID: <input type="number" id="insertBuildingID" placeholder="Enter ID" required> <br><br>
                 Building Type: <input type="text" id="insertBuildingType" placeholder="Enter Type" maxlength="20">
                 <br><br>
 
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Add </button> <br>
             </form>
             <div id="insertStorageBuildingMsg"></div>
 
         </div>
 
         <div class="table-wrapper">
-            <h2>Show Egg Products</h2>
+            <h2>Egg Products</h2>
             <table id="eggProducts" border="1">
                 <thead>
                     <tr>
@@ -543,7 +563,7 @@
 
 
         <div class="table-wrapper">
-            <h2>Show Dairy Products</h2>
+            <h2>Dairy Products</h2>
             <table id="dairyProducts" border="1">
                 <thead>
                     <tr>
@@ -562,7 +582,7 @@
         </div>
 
         <div class="table-wrapper">
-            <h2>Show Crop Products</h2>
+            <h2>Crop Products</h2>
             <table id="cropProducts" border="1">
                 <thead>
                     <tr>
@@ -583,7 +603,7 @@
         </div>
 
         <div class="table-wrapper">
-            <h2>Show Crop Maintenance Log Table</h2>
+            <h2>Crop Maintenance Log</h2>
             <table id="cropMaintenanceTable" border="1">
                 <thead>
                     <tr>

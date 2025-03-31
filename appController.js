@@ -278,6 +278,36 @@ router.get('/get-chicken-table', async (req, res) => {
     res.json({ data: tableContent });
 });
 
+router.post("/insert-animal-table", async (req, res) => {
+    const { id, name, age, penNumber, weight } = req.body;
+    const insertResult = await appService.insertAnimal(id, name, age, penNumber, weight);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post("/insert-cow-table", async (req, res) => {
+    const { id } = req.body;
+    const insertResult = await appService.insertCow(id);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post("/insert-chicken-table", async (req, res) => {
+    const { id } = req.body;
+    const insertResult = await appService.insertChicken(id);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 //rest of tables
 router.get('/get-crop-maintenance-table', async (req, res) => {
     const tableContent = await appService.fetchCropMaintenanceTableFromDb();
