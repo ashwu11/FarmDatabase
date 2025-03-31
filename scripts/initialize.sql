@@ -193,16 +193,16 @@ INSERT INTO Customer VALUES ('romantaurk87@gmail.com', 'Roman Taurk', '778-981-6
 INSERT INTO Customer VALUES ('rbauli22@gmail.com', 'Raiya Bauli', '604-261-0184');
 INSERT INTO Customer VALUES ('parmkarla84@gmail.com', 'Karla Parm', '604-918-3651');
 
-INSERT INTO Animal VALUES (300, 'Pecky', 8, 121, 2.42);
-INSERT INTO Animal VALUES (301, 'Snoopy', 4, 123, 505.45);
-INSERT INTO Animal VALUES (302, 'Woodstock', 4, 123, 2.75);
-INSERT INTO Animal VALUES (303, 'Mooshu', 10, 124, 484.84);
-INSERT INTO Animal VALUES (304, 'Sir Loin', 15, 125, 575.25);
-INSERT INTO Animal VALUES (305, 'Yolks', 3, 127, 1.66);
-INSERT INTO Animal VALUES (306, 'Mooana', 12, 128, 468.32);
-INSERT INTO Animal VALUES (307, 'Feathers', 8, 125, 1.81);
-INSERT INTO Animal VALUES (308, 'Clucks', 6, 130, 3.03);
-INSERT INTO Animal VALUES (309, 'Milkshake', 11, 133, 625.75);
+INSERT INTO Animal VALUES (300, 'Pecky', 8, 121, ROUND(2.42, 2));
+INSERT INTO Animal VALUES (301, 'Snoopy', 4, 123, ROUND(505.45, 2));
+INSERT INTO Animal VALUES (302, 'Woodstock', 4, 123, ROUND(2.75, 2));
+INSERT INTO Animal VALUES (303, 'Mooshu', 10, 124, ROUND(484.84, 2));
+INSERT INTO Animal VALUES (304, 'Sir Loin', 15, 125, ROUND(575.25, 2));
+INSERT INTO Animal VALUES (305, 'Yolks', 3, 127, ROUND(1.66, 2));
+INSERT INTO Animal VALUES (306, 'Mooana', 12, 128, ROUND(468.32, 2));
+INSERT INTO Animal VALUES (307, 'Feathers', 8, 125, ROUND(1.81, 2));
+INSERT INTO Animal VALUES (308, 'Clucks', 6, 130, ROUND(3.03, 2));
+INSERT INTO Animal VALUES (309, 'Milkshake', 11, 133, ROUND(625.75, 2));
 
 INSERT INTO StorageBuilding VALUES (100, 'Egg Cellar');
 INSERT INTO StorageBuilding VALUES (101, 'Milk House');
