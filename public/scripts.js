@@ -852,7 +852,12 @@ async function fetchAndDisplayAnimalTable() {
         const row = tableBody.insertRow();
         animal.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+            if (index === 4) {
+                cell.textContent = parseFloat(field).toFixed(2);
+            } else {
+                cell.textContent = field;
+            }
+
         });
     });
 }
@@ -940,7 +945,11 @@ function displayAnimalResults(data) {
         const row = tableBody.insertRow();
         animal.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+            if (index === 4) {
+                cell.textContent = parseFloat(field).toFixed(2);
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 
@@ -966,7 +975,11 @@ async function fetchAndDisplayCows() {
         const row = tableBody.insertRow();
         cow.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+            if (index === 4) {
+                cell.textContent = parseFloat(field).toFixed(2);
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 }
@@ -1002,7 +1015,11 @@ async function fetchAndDisplayChickens() {
         const row = tableBody.insertRow();
         chicken.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+            if (index === 4) {
+                cell.textContent = parseFloat(field).toFixed(2);
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 }
@@ -1105,6 +1122,14 @@ async function fetchAndDisplayPurchasedProductsTable() {
     });
 }
 
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(sec => sec.style.display = 'none');
+
+    const selected = document.getElementById(sectionId);
+    if (selected) {
+        selected.style.display = 'block';
+      
 async function findSuperFarmers() {
     const tableBody = document.querySelector('#farmerDivisionTable tbody');
 
@@ -1265,6 +1290,7 @@ async function countDemotable() {
 window.onload = function () {
     checkDbConnection();
     fetchTableData();
+    showSection('animalSection');
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
@@ -1301,7 +1327,6 @@ window.onload = function () {
     document.getElementById("countUnderweightCowsBtn").addEventListener("click", findUnderweightCows);
 
     document.getElementById("farmerDivisionBtn").addEventListener("click", findSuperFarmers);
-
 };
 
 // General function to refresh the displayed table data.
