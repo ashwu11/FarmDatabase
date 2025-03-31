@@ -674,7 +674,6 @@ async function fetchGroupedMachineryByCondition() {
     }
 }
 
-
 async function fetchGroupedTransactionByAmountWithInput() {
     const minTotalInput = document.getElementById("minTotalInput").value;
 
@@ -892,6 +891,18 @@ async function fetchAndDisplayCows() {
     });
 }
 
+async function findUnderweightCows() {
+    try {
+        const response = await fetch("/count-underweight-cows");
+        const data = await response.json();
+
+        document.getElementById('underWeightCows').textContent = `Underweight cows count: ${data.count}`;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('underWeightCows').textContent = "Error fetching data :(";
+    }
+}
+
 async function fetchAndDisplayChickens() {
     const tableElement = document.getElementById('chickenAnimals');
     const tableBody = tableElement.querySelector('tbody');
@@ -1077,6 +1088,8 @@ window.onload = function () {
     document.getElementById("groupByTransactionAmountBtn").addEventListener("click", fetchGroupedTransactionByAmountWithInput);
 
     document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
+
+    document.getElementById('countUnderweightCowsBtn').addEventListener("click", findUnderweightCows);
 
 };
 

@@ -249,6 +249,11 @@ router.get('/get-cow-table', async (req, res) => {
     res.json({ data: tableContent });
 });
 
+router.get('/count-underweight-cows', async (req, res) => {
+   const result = await appService.fetchUnderweightCowsFromDb();
+   res.json({ count: result});
+});
+
 router.get('/get-chicken-table', async (req, res) => {
     const tableContent = await appService.fetchChickenTableFromDb();
     res.json({ data: tableContent });
