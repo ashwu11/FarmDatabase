@@ -778,6 +778,147 @@ async function fetchAndDisplayCropProducts() {
 }
 
 
+// ANIMAL
+
+function addCondition() {
+    const attributes = ["AnimalID", "aName", "Age", "PenNumber", "Weight"];
+    const operators = ["=", ">", "<", ">=", "<=", "LIKE"];
+
+    let conditionHTML = `
+        <div class="condition">
+            <select class="logic">
+                <option value="AND">AND</option>
+                <option value="OR">OR</option>
+            </select>
+            
+            <select class="attribute">
+                ${attributes.map(attr => `<option value="${attr}">${attr}</option>`).join("")}
+            </select>
+
+            <select class="operator">
+                ${operators.map(op => `<option value="${op}">${op}</option>`).join("")}
+            </select>
+
+            <input type="text" class="value" placeholder="Enter value">
+            <button type="button" onclick="removeCondition(this)">Remove</button>
+        </div>
+    `;
+    document.getElementById("animalSearchConditions").insertAdjacentHTML("beforeend", conditionHTML);
+}
+
+function removeCondition(button) {
+    button.parentElement.remove();
+}
+
+async function selectAnimals(event) {
+    event.preventDefault();
+
+    const conditions = [];
+    document.querySelectorAll(".condition").forEach((condition, index) => {
+        const attr = condition.querySelector(".attribute").value;
+        const op = condition.querySelector(".operator").value;
+        const val = condition.querySelector(".value").value;
+        const logic = index === 0 ? "" : condition.querySelector(".logic").value;
+        const formattedVal = isNaN(val) ? `'${val}'` : val;
+
+        conditions.push(`${logic} ${attr} ${op} ${formattedVal}`);
+    });
+
+    const queryClause = conditions.join(" ");
+    console.log(queryClause);
+
+    try {
+        const response = await fetch("/select-animals", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                clauses: queryClause
+            })
+        });
+
+        console.log(response);
+        const responseData = await response.json();
+        displayAnimalResults(responseData.data);
+    } catch (err) {
+        console.error(err);
+        document.getElementById('animalResults').textContent = "Error fetching data :(";
+    }
+}
+
+function displayAnimalResults(data) {
+    const messageElement = document.getElementById('animalResults');
+    const tableElement = document.getElementById('animals');
+    const tableBody = tableElement.querySelector('tbody');
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    if (data.length === 0) {
+        messageElement.textContent = "No Results Found :(";
+        return;
+    }
+
+    data.forEach(animal => {
+        const row = tableBody.insertRow();
+        animal.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+
+    messageElement.textContent = "Search Successful!";
+}
+
+async function fetchAndDisplayCows() {
+    const tableElement = document.getElementById('cowAnimals');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-cow-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const cows = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    cows.forEach(cow => {
+        const row = tableBody.insertRow();
+        cow.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+async function fetchAndDisplayChickens() {
+    const tableElement = document.getElementById('chickenAnimals');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-chicken-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const chickens = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    chickens.forEach(chicken => {
+        const row = tableBody.insertRow();
+        chicken.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+
 // FARM MANAGEMENT END **********************************************************************************************************
 
 // SAMPLE PROJECT STARTS HERE
@@ -937,6 +1078,9 @@ window.onload = function () {
     document.getElementById("groupByConditionBtn").addEventListener("click", fetchGroupedMachineryByCondition);
 
     document.getElementById("groupByTransactionAmountBtn").addEventListener("click", fetchGroupedTransactionByAmountWithInput);
+
+    document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
+
 };
 
 // General function to refresh the displayed table data.
@@ -952,5 +1096,7 @@ function fetchTableData() {
     fetchAndDisplayEggProducts();
     fetchAndDisplayDairyProducts();
     fetchAndDisplayCropProducts();
+    fetchAndDisplayCows();
+    fetchAndDisplayChickens();
 
 }
