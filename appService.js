@@ -795,7 +795,7 @@ module.exports = {
     fetchChickenTableFromDb,
     fetchCropMaintenanceTableFromDb,
     fetchAnimalFeedingLogTableFromDb,
-    fetchPurchasedProductsTableFromDb
+    fetchPurchasedProductsTableFromDb,
     fetchUnderweightCowsFromDb
 };
 
