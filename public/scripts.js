@@ -358,7 +358,6 @@ async function fetchAndDisplayShiftAndFarmerInfoByDate(date) {
     });
 }
 
-
 function filterShiftByDate() {
     const date = document.getElementById('filterShiftDate').value;
     if (date) {
