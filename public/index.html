@@ -112,6 +112,19 @@
         </tbody>
     </table>
 
+    <!-- Find most qualified farmers (Division) -->
+    <h2>Find Most Qualified Farmers</h2>
+    <button id="farmerDivision">Find most qualified farmers</button>
+    <table id="farmerDivisionTable">
+        <thead>
+        <tr>
+            <th>Farmer ID</th>
+            <th>Farmer Name</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
     <!-- Show 'Shift Table' -->
     <h2>Show Shift Table</h2>
     <table id="shiftTable" border="1">
@@ -177,29 +190,6 @@
             <tr>
                 <th>Condition</th>
                 <th>Count</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <button id="countUnderweightCows">Count underweight cows</button>
-    <table id="countUnderweightCowsTable">
-        <thead>
-            <tr>
-                <th>Potentially sick cows</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <!-- Find most qualified farmers (Division) -->
-    <h2>Find Most Qualified Farmers</h2>
-    <button id="farmerDivision">Find most qualified farmers</button>
-    <table id="farmerDivisionTable">
-        <thead>
-            <tr>
-                <th>Farmer ID</th>
-                <th>Farmer Name</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -290,6 +280,17 @@
         </thead>
         <tbody>
         </tbody>
+    </table>
+
+    <!-- Count sick cows (nested agg with group by) -->
+    <button id="countUnderweightCows">Count underweight cows</button>
+    <table id="countUnderweightCowsTable">
+        <thead>
+        <tr>
+            <th>Potentially sick cows</th>
+        </tr>
+        </thead>
+        <tbody></tbody>g
     </table>
 
     <h2>Show Chicken Table</h2>
