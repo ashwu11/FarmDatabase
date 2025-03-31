@@ -59,7 +59,7 @@
         <div class="table-wrapper">
             <!-- Find most qualified farmers (Division) -->
             <h2>Find Most Qualified Farmers</h2>
-            <button id="farmerDivision">Find most qualified farmers</button>
+            <button id="farmerDivisionBtn">Find most qualified farmers</button>
             <table id="farmerDivisionTable">
                 <thead>
                     <tr>
@@ -112,7 +112,6 @@
                 <tbody></tbody>
             </table>
         </div>
-
 
         <div class="table-wrapper">
             <h2> Add New Farmer</h2>
@@ -225,18 +224,6 @@
         </div>
 
         <div class="table-wrapper">
-            <button id="countUnderweightCows">Count underweight cows</button>
-            <table id="countUnderweightCowsTable">
-                <thead>
-                    <tr>
-                        <th>Potentially sick cows</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="table-wrapper">
             <h2>Cow Table</h2>
             <table id="cowAnimals" border="1">
                 <thead>
@@ -251,7 +238,10 @@
                 <tbody>
                 </tbody>
             </table>
-
+            
+            <!-- Count sick cows (nested agg with group by) -->
+            <button id="countUnderweightCowsBtn">Count underweight cows</button>
+            <div id="underWeightCows"></div>
         </div>
 
         <div class="table-wrapper">
@@ -328,6 +318,20 @@
                 <tbody></tbody>
             </table>
 
+          <!-- Show MachineryUsage Table -->
+    <h2>Show Machinery Usage Records</h2>
+    <table id="machineryUsageTable" border="1">
+        <thead>
+            <tr>
+                <th>Farmer ID</th>
+                <th>Machine ID</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+          
         </div>
 
         <div class="table-wrapper">
@@ -354,9 +358,8 @@
             <div id="insertMachineryMsg"></div>
 
         </div>
-
+      
     </div>
-
 
     <!-- ===================================================================================== -->
     <!-- **********************************   CUSTOMER SECTION   ************************************** -->
