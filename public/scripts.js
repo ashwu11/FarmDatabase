@@ -913,7 +913,11 @@ function displayAnimalResults(data) {
         const row = tableBody.insertRow();
         animal.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = typeof field === 'number' ? parseFloat(field).toFixed(2) : field;
+            if (index === 4) {
+                cell.textContent = parseFloat(field).toFixed(2);
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 
@@ -1261,7 +1265,7 @@ window.onload = function () {
 
     document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
 
-    document.getElementById('countUnderweightCowsBtn').addEventListener("click", findUnderweightCows);
+    //document.getElementById('countUnderweightCowsBtn').addEventListener("click", findUnderweightCows);
 
 };
 
