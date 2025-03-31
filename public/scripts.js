@@ -1208,7 +1208,7 @@ function showSection(sectionId) {
         selected.style.display = 'block';
     }
 }
-      
+
 async function findSuperFarmers() {
     const tableBody = document.querySelector('#farmerDivisionTable tbody');
 
@@ -1369,7 +1369,7 @@ async function countDemotable() {
 window.onload = function () {
     checkDbConnection();
     fetchTableData();
-    showSection('animalSection');
+    showSection('farmerSection');
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
