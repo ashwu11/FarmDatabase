@@ -1106,49 +1106,26 @@ async function fetchAndDisplayPurchasedProductsTable() {
 }
 
 async function findSuperFarmers() {
+    const tableBody = document.querySelector('#farmerDivisionTable tbody');
+
     try {
-        const tableElement = document.getElementById('farmerDivisionTable');
-        const tableBody = tableElement.querySelector('tbody');
-
-        console.log("division8");
-
-        const response = await fetch("/find-super-farmers", {
-            method: 'GET',
-        });
-
-        console.log("division8");
-
+        const response = await fetch("/find-super-farmers");
         const data = await response.json();
 
-        // Always clear old, already fetched data before new fetching process.
-        if (tableBody) {
-            tableBody.innerHTML = '';
-        }
-        console.log("division9");
+        if (!data.data) throw new Error("Fetch failed");
 
-        if (data.length === 0) {
-            console.log("division10");
-            const row = tableBody.insertRow();
-            const cell = row.insertCell();
-            cell.colSpan = 2;
-            cell.textContent = "No super qualified farmers found.";
-            return;
-        }
+        tableBody.innerHTML = '';
 
-        console.log("division11");
-        data.forEach(farmer => {
+        data.data.forEach(([farmerID, farmerName]) => {
             const row = tableBody.insertRow();
-            const farmerIdCell = row.insertCell();
+            const farmerIDCell = row.insertCell();
             const farmerNameCell = row.insertCell();
 
-            farmerIdCell.textContent = farmer.FarmerID;
-            farmerNameCell.textContent = farmer.fName;
+            farmerIDCell.textContent = farmerID;
+            farmerNameCell.textContent = farmerName;
         });
-
     } catch (error) {
-        console.log("division12");
-        console.error('Error fetching data:', error);
-        document.getElementById('farmerDivision').textContent = "Error fetching data :(";
+        console.error("Error fetching super farmer data:", error);
     }
 }
 
