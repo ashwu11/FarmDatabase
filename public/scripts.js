@@ -649,7 +649,6 @@ async function insertMachineryTable(event) {
     }
 }
 
-
 async function fetchGroupedMachineryByCondition() {
     const tableBody = document.querySelector('#machineryConditionGroupTable tbody');
 
@@ -672,6 +671,39 @@ async function fetchGroupedMachineryByCondition() {
     } catch (error) {
         console.error("Error fetching grouped machinery data:", error);
     }
+}
+
+async function fetchAndDisplayMachineryUsage() {
+    const tableElement = document.getElementById('machineryUsageTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-machinery-usage-table', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const machineryUsageTableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    machineryUsageTableContent.forEach(mu => {
+        const row = tableBody.insertRow();
+        mu.forEach((field, index) => {
+            const cell = row.insertCell(index);
+
+            if (index === 2) {
+                const rawDate = new Date(field);
+                const formattedDate = rawDate.toISOString().split('T')[0];
+                cell.textContent = formattedDate;
+            } else {
+                cell.textContent = field;
+            }
+
+        });
+    });
 }
 
 async function fetchGroupedTransactionByAmountWithInput() {
@@ -1090,7 +1122,6 @@ async function fetchAndDisplayPurchasedProductsTable() {
     });
 }
 
-
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(sec => sec.style.display = 'none');
@@ -1098,6 +1129,34 @@ function showSection(sectionId) {
     const selected = document.getElementById(sectionId);
     if (selected) {
         selected.style.display = 'block';
+      
+async function findSuperFarmers() {
+    const tableBody = document.querySelector('#farmerDivisionTable tbody');
+
+    try {
+        const response = await fetch("/find-super-farmers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) throw new Error("Fetch failed");
+
+        tableBody.innerHTML = '';
+
+        data.forEach(([farmerID, farmerName]) => {
+            const row = tableBody.insertRow();
+            const farmerIDCell = row.insertCell();
+            const farmerNameCell = row.insertCell();
+
+            farmerIDCell.textContent = farmerID;
+            farmerNameCell.textContent = farmerName;
+        });
+    } catch (error) {
+        console.error("Error fetching super farmer data:", error);
     }
 }
 
@@ -1265,8 +1324,9 @@ window.onload = function () {
 
     document.getElementById("animalSearchForm").addEventListener("submit", selectAnimals);
 
-    //document.getElementById('countUnderweightCowsBtn').addEventListener("click", findUnderweightCows);
+    document.getElementById("countUnderweightCowsBtn").addEventListener("click", findUnderweightCows);
 
+    document.getElementById("farmerDivisionBtn").addEventListener("click", findSuperFarmers);
 };
 
 // General function to refresh the displayed table data.
@@ -1288,4 +1348,5 @@ function fetchTableData() {
     fetchAndDisplayCropMaintenanceTable();
     fetchAndDisplayAnimalFeedingLogTable();
     fetchAndDisplayPurchasedProductsTable();
+    fetchAndDisplayMachineryUsage();
 }

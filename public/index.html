@@ -113,6 +113,22 @@
             </table>
         </div>
 
+        <div class="table-wrapper">
+      
+          <!-- Find super qualified farmers (Division) -->
+          <h2>Super Qualified Farmers</h2>
+          <button id="farmerDivisionBtn">Find farmers who use all machines</button>
+          <table id="farmerDivisionTable">
+            <thead>
+              <tr>
+                <th>Farmer ID</th>
+                <th>Farmer Name</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>  
+        
+      </div>
 
         <div class="table-wrapper">
             <h2> Insert Values into Farmer Table</h2>
@@ -251,7 +267,10 @@
                 <tbody>
                 </tbody>
             </table>
-
+            
+            <!-- Count sick cows (nested agg with group by) -->
+            <button id="countUnderweightCowsBtn">Count underweight cows</button>
+            <div id="underWeightCows"></div>
         </div>
 
         <div class="table-wrapper">
@@ -328,6 +347,20 @@
                 <tbody></tbody>
             </table>
 
+          <!-- Show MachineryUsage Table -->
+    <h2>Show Machinery Usage Records</h2>
+    <table id="machineryUsageTable" border="1">
+        <thead>
+            <tr>
+                <th>Farmer ID</th>
+                <th>Machine ID</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+          
         </div>
 
         <div class="table-wrapper">
@@ -354,9 +387,8 @@
             <div id="insertMachineryMsg"></div>
 
         </div>
-
+      
     </div>
-
 
     <!-- ===================================================================================== -->
     <!-- **********************************   CUSTOMER SECTION   ************************************** -->
