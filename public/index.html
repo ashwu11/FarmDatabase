@@ -34,7 +34,7 @@
     <div id="sidebar">
         <button onclick="showSection('animalSection')">Animals</button>
         <button onclick="showSection('farmerSection')">Farmers</button>
-        <button onclick="showSection('storageSection')">Storage</button>
+        <button onclick="showSection('storageSection')">Inventory</button>
         <button onclick="showSection('customerSection')">Customer</button>
         <button onclick="showSection('machinerySection')">Machinery</button>
     </div>
@@ -206,7 +206,7 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Pen Number</th>
-                        <th>Weight</th>
+                        <th>Weight (lbs)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -228,7 +228,7 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Pen Number</th>
-                        <th>Weight</th>
+                        <th>Weight (lbs)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -247,7 +247,7 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Pen Number</th>
-                        <th>Weight</th>
+                        <th>Weight (lbs)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -269,7 +269,7 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Pen Number</th>
-                        <th>Weight</th>
+                        <th>Weight (lbs)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -286,7 +286,7 @@
                 Name: <input type="text" id="insertAnimalName" placeholder="Enter Name" maxlength="100"> <br><br>
                 Age: <input type="number" id="insertAnimalAge" placeholder="Enter Age"> <br><br>
                 Pen Number: <input type="number" id="insertAnimalPenNumber" placeholder="Enter Pen Number"> <br><br>
-                Weight: <input id="insertAnimalWeight" placeholder="Enter Animal Weight">
+                Weight (lbs): <input id="insertAnimalWeight" placeholder="Enter Animal Weight in lbs"><br><br>
                 Type of Animal:
                 <select id="insertAnimalType">
                     <option value="Cow">Cow</option>
@@ -452,7 +452,7 @@
                 <label class="checkbox"><input type="checkbox" name="columns" value="tDate" checked>
                     <span class="checkmark"></span> Date</label><br>
                 <label class="checkbox"><input type="checkbox" name="columns" value="Total" checked>
-                    <span class="checkmark"></span> Total Sale Amount</label><br><br>
+                    <span class="checkmark"></span> Total Sale Amount (CAD)</label><br><br>
                 <button type="button" onclick="fetchAndDisplayProjectedTransactions()">Apply Projection</button>
             </form>
 
@@ -464,7 +464,7 @@
                         <th>Transaction Number</th>
                         <th>Customer Email</th>
                         <th>Date</th>
-                        <th>Total Sale Amount</th>
+                        <th>Total Sale Amount (CAD)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -484,10 +484,9 @@
                     placeholder="Enter Customer Email" maxlength="100" required> <br><br>
                 Date: <input type="date" id="insertTransactionDate" placeholder="Enter Transaction Date" required>
                 <br><br>
-                Total Sale Amount: <input type="text" id="insertTransactionTotal" placeholder="Enter Transaction Total"
-                    maxlength="100" required> <br><br>
-                <br><br>
-
+                Total Sale Amount (CAD): <input type="text" id="insertTransactionTotal (CAD)"
+                    placeholder="Enter Transaction Total" maxlength="100" required> 
+            
                 <button type="submit"> Add </button> <br>
             </form>
             <div id="insertTransactionMsg"></div>
@@ -507,7 +506,7 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Total Sum</th>
+                        <th>Total Sum (CAD)</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -532,17 +531,17 @@
 
 
     <!-- ===================================================================================== -->
-    <!-- **********************************   STORAGE SECTION   ************************************** -->
+    <!-- **********************************   INVENTORY SECTION   ************************************** -->
 
     <hr class="section-divider">
     <div id="storageSection" class="content-section">
         <h2
             style="font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 2em; color: #3b6e22; text-align: center; margin-top: 40px;">
-            🏠 Product Storage Buildings
+            🏠 Product Inventory Buildings
         </h2>
 
         <div class="table-wrapper">
-            <h2>Storage Building Table</h2>
+            <h2>Inventory Building Table</h2>
             <table id="storageBuildingTable" border="1">
                 <thead>
                     <tr>
@@ -558,7 +557,7 @@
 
         <div class="table-wrapper">
 
-            <h2>Add New Storage Building</h2>
+            <h2>Add New Inventory Building</h2>
             <form id="insertStorageBuilding">
                 Building ID: <input type="number" id="insertBuildingID" placeholder="Enter ID" required> <br><br>
                 Building Type: <input type="text" id="insertBuildingType" placeholder="Enter Type" maxlength="20">
@@ -576,7 +575,7 @@
                 <thead>
                     <tr>
                         <th>Batch ID</th>
-                        <th>Yield</th>
+                        <th>Yield (eggs)</th>
                         <th>Collection Date</th>
                         <th>Chicken Name</th>
                         <th>Stored In Building</th>
@@ -596,7 +595,7 @@
                     <tr>
                         <th>Batch ID</th>
                         <th>Type</th>
-                        <th>Yield</th>
+                        <th>Yield (L)</th>
                         <th>Collection Date</th>
                         <th>Cow Name</th>
                         <th>Stored In Building</th>
@@ -615,7 +614,7 @@
                     <tr>
                         <th>Batch ID</th>
                         <th>Type</th>
-                        <th>Yield</th>
+                        <th>Yield (kg)</th>
                         <th>Plant Date</th>
                         <th>Collection Date</th>
                         <th>Stored In Building</th>
